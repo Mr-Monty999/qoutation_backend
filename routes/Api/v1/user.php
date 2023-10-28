@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\SupplierController;
 use Illuminate\Http\Request;
@@ -16,19 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(["prefix" => "v1"], function () {
+Route::group(["prefix" => "v1/user"], function () {
     // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     //     return $request->user();
     // });
 
-    //////// Buyers Routes /////////
-    Route::apiResource("buyers", BuyerController::class, [
-        "as" => "user"
-    ]);
-
-
-    //////// Buyers Routes /////////
-    Route::apiResource("suppliers", SupplierController::class, [
-        "as" => "user"
-    ]);
 });

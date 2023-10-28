@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSettingRequest;
-use App\Http\Requests\UpdateSettingRequest;
-use App\Models\Setting;
+use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\UpdateAdminRequest;
+use App\Models\Admin;
 
-class SettingController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSettingRequest  $request
+     * @param  \App\Http\Requests\StoreAdminRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSettingRequest $request)
+    public function store(StoreAdminRequest $request)
     {
         //
     }
@@ -43,10 +43,10 @@ class SettingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Setting  $setting
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(Setting $setting)
+    public function show(Admin $admin)
     {
         //
     }
@@ -54,10 +54,10 @@ class SettingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Setting  $setting
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(Setting $setting)
+    public function edit(Admin $admin)
     {
         //
     }
@@ -65,11 +65,11 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSettingRequest  $request
-     * @param  \App\Models\Setting  $setting
+     * @param  \App\Http\Requests\UpdateAdminRequest  $request
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSettingRequest $request, Setting $setting)
+    public function update(UpdateAdminRequest $request, Admin $admin)
     {
         //
     }
@@ -77,10 +77,10 @@ class SettingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Setting  $setting
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Setting $setting)
+    public function destroy(Admin $admin)
     {
         //
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreServiceTypeRequest;
-use App\Http\Requests\UpdateServiceTypeRequest;
-use App\Models\ServiceType;
+use App\Http\Requests\StoreSettingRequest;
+use App\Http\Requests\UpdateSettingRequest;
+use App\Models\Setting;
 
-class ServiceTypeController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class ServiceTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceTypeRequest  $request
+     * @param  \App\Http\Requests\StoreSettingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceTypeRequest $request)
+    public function store(StoreSettingRequest $request)
     {
         //
     }
@@ -43,10 +43,10 @@ class ServiceTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(ServiceType $serviceType)
+    public function show(Setting $setting)
     {
         //
     }
@@ -54,10 +54,10 @@ class ServiceTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function edit(ServiceType $serviceType)
+    public function edit(Setting $setting)
     {
         //
     }
@@ -65,11 +65,11 @@ class ServiceTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceTypeRequest  $request
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Http\Requests\UpdateSettingRequest  $request
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceTypeRequest $request, ServiceType $serviceType)
+    public function update(UpdateSettingRequest $request, Setting $setting)
     {
         //
     }
@@ -77,10 +77,10 @@ class ServiceTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServiceType $serviceType)
+    public function destroy(Setting $setting)
     {
         //
     }

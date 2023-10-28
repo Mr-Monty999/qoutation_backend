@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSupplierRequest;
-use App\Http\Requests\UpdateSupplierRequest;
-use App\Models\Supplier;
+use App\Http\Requests\StoreWalletRequest;
+use App\Http\Requests\UpdateWalletRequest;
+use App\Models\Wallet;
 
-class SupplierController extends Controller
+class WalletController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSupplierRequest  $request
+     * @param  \App\Http\Requests\StoreWalletRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreWalletRequest $request)
     {
         //
     }
@@ -43,10 +43,10 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show(Wallet $wallet)
     {
         //
     }
@@ -54,10 +54,10 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Wallet $wallet)
     {
         //
     }
@@ -65,11 +65,11 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSupplierRequest  $request
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Http\Requests\UpdateWalletRequest  $request
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
         //
     }
@@ -77,10 +77,10 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Wallet $wallet)
     {
         //
     }
