@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBuyerRequest;
 use App\Http\Requests\UpdateBuyerRequest;
 use App\Models\Buyer;
+use App\Models\Service;
 
 class BuyerController extends Controller
 {
@@ -16,7 +17,9 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
+        $buyers = Service::getAllPaginated();
+
+        return response()->json($buyers);
     }
 
     /**
