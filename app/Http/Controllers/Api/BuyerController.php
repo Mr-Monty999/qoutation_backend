@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
-use App\Models\Admin;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBuyerRequest;
+use App\Http\Requests\UpdateBuyerRequest;
+use App\Models\Buyer;
 
-class AdminController extends Controller
+class BuyerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAdminRequest  $request
+     * @param  \App\Http\Requests\StoreBuyerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAdminRequest $request)
+    public function store(StoreBuyerRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function show(Admin $admin)
+    public function show(Buyer $buyer)
     {
         //
     }
@@ -53,10 +54,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Admin $admin)
+    public function edit(Buyer $buyer)
     {
         //
     }
@@ -64,11 +65,11 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAdminRequest  $request
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Http\Requests\UpdateBuyerRequest  $request
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAdminRequest $request, Admin $admin)
+    public function update(UpdateBuyerRequest $request, Buyer $buyer)
     {
         //
     }
@@ -76,10 +77,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy(Buyer $buyer)
     {
         //
     }

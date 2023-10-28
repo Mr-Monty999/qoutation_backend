@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreServiceRequest;
-use App\Http\Requests\UpdateServiceRequest;
-use App\Models\Service;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserOtpRequest;
+use App\Http\Requests\UpdateUserOtpRequest;
+use App\Models\UserOtp;
 
-class ServiceController extends Controller
+class UserOtpController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceRequest  $request
+     * @param  \App\Http\Requests\StoreUserOtpRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceRequest $request)
+    public function store(StoreUserOtpRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\UserOtp  $userOtp
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show(UserOtp $userOtp)
     {
         //
     }
@@ -53,10 +54,10 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\UserOtp  $userOtp
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit(UserOtp $userOtp)
     {
         //
     }
@@ -64,11 +65,11 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceRequest  $request
-     * @param  \App\Models\Service  $service
+     * @param  \App\Http\Requests\UpdateUserOtpRequest  $request
+     * @param  \App\Models\UserOtp  $userOtp
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceRequest $request, Service $service)
+    public function update(UpdateUserOtpRequest $request, UserOtp $userOtp)
     {
         //
     }
@@ -76,10 +77,10 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\UserOtp  $userOtp
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(UserOtp $userOtp)
     {
         //
     }

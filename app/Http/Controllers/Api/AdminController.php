@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreServiceTypeRequest;
-use App\Http\Requests\UpdateServiceTypeRequest;
-use App\Models\ServiceType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\UpdateAdminRequest;
+use App\Models\Admin;
 
-class ServiceTypeController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ServiceTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceTypeRequest  $request
+     * @param  \App\Http\Requests\StoreAdminRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceTypeRequest $request)
+    public function store(StoreAdminRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class ServiceTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(ServiceType $serviceType)
+    public function show(Admin $admin)
     {
         //
     }
@@ -53,10 +54,10 @@ class ServiceTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(ServiceType $serviceType)
+    public function edit(Admin $admin)
     {
         //
     }
@@ -64,11 +65,11 @@ class ServiceTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceTypeRequest  $request
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Http\Requests\UpdateAdminRequest  $request
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceTypeRequest $request, ServiceType $serviceType)
+    public function update(UpdateAdminRequest $request, Admin $admin)
     {
         //
     }
@@ -76,10 +77,10 @@ class ServiceTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServiceType  $serviceType
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServiceType $serviceType)
+    public function destroy(Admin $admin)
     {
         //
     }

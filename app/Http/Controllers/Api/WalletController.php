@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreBuyerRequest;
-use App\Http\Requests\UpdateBuyerRequest;
-use App\Models\Buyer;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreWalletRequest;
+use App\Http\Requests\UpdateWalletRequest;
+use App\Models\Wallet;
 
-class BuyerController extends Controller
+class WalletController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class BuyerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBuyerRequest  $request
+     * @param  \App\Http\Requests\StoreWalletRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBuyerRequest $request)
+    public function store(StoreWalletRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class BuyerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Buyer  $buyer
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function show(Buyer $buyer)
+    public function show(Wallet $wallet)
     {
         //
     }
@@ -53,10 +54,10 @@ class BuyerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Buyer  $buyer
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function edit(Buyer $buyer)
+    public function edit(Wallet $wallet)
     {
         //
     }
@@ -64,11 +65,11 @@ class BuyerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateBuyerRequest  $request
-     * @param  \App\Models\Buyer  $buyer
+     * @param  \App\Http\Requests\UpdateWalletRequest  $request
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBuyerRequest $request, Buyer $buyer)
+    public function update(UpdateWalletRequest $request, Wallet $wallet)
     {
         //
     }
@@ -76,10 +77,10 @@ class BuyerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Buyer  $buyer
+     * @param  \App\Models\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Buyer $buyer)
+    public function destroy(Wallet $wallet)
     {
         //
     }

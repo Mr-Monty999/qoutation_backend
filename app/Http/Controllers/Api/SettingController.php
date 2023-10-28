@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreSupplierRequest;
-use App\Http\Requests\UpdateSupplierRequest;
-use App\Models\Supplier;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSettingRequest;
+use App\Http\Requests\UpdateSettingRequest;
+use App\Models\Setting;
 
-class SupplierController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSupplierRequest  $request
+     * @param  \App\Http\Requests\StoreSettingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreSettingRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show(Setting $setting)
     {
         //
     }
@@ -53,10 +54,10 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Setting $setting)
     {
         //
     }
@@ -64,11 +65,11 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSupplierRequest  $request
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Http\Requests\UpdateSettingRequest  $request
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateSettingRequest $request, Setting $setting)
     {
         //
     }
@@ -76,10 +77,10 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Setting $setting)
     {
         //
     }

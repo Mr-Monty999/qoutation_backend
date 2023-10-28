@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreUserOtpRequest;
-use App\Http\Requests\UpdateUserOtpRequest;
-use App\Models\UserOtp;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Supplier;
 
-class UserOtpController extends Controller
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class UserOtpController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreUserOtpRequest  $request
+     * @param  \App\Http\Requests\StoreSupplierRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserOtpRequest $request)
+    public function store(StoreSupplierRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class UserOtpController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\UserOtp  $userOtp
+     * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function show(UserOtp $userOtp)
+    public function show(Supplier $supplier)
     {
         //
     }
@@ -53,10 +54,10 @@ class UserOtpController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\UserOtp  $userOtp
+     * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserOtp $userOtp)
+    public function edit(Supplier $supplier)
     {
         //
     }
@@ -64,11 +65,11 @@ class UserOtpController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateUserOtpRequest  $request
-     * @param  \App\Models\UserOtp  $userOtp
+     * @param  \App\Http\Requests\UpdateSupplierRequest  $request
+     * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserOtpRequest $request, UserOtp $userOtp)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
         //
     }
@@ -76,10 +77,10 @@ class UserOtpController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\UserOtp  $userOtp
+     * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserOtp $userOtp)
+    public function destroy(Supplier $supplier)
     {
         //
     }

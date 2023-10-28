@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreServiceQoutationRequest;
-use App\Http\Requests\UpdateServiceQoutationRequest;
-use App\Models\ServiceQoutation;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreServiceTypeRequest;
+use App\Http\Requests\UpdateServiceTypeRequest;
+use App\Models\ServiceType;
 
-class ServiceQoutationController extends Controller
+class ServiceTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ServiceQoutationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceQoutationRequest  $request
+     * @param  \App\Http\Requests\StoreServiceTypeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceQoutationRequest $request)
+    public function store(StoreServiceTypeRequest $request)
     {
         //
     }
@@ -42,10 +43,10 @@ class ServiceQoutationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceType  $serviceType
      * @return \Illuminate\Http\Response
      */
-    public function show(ServiceQoutation $serviceQoutation)
+    public function show(ServiceType $serviceType)
     {
         //
     }
@@ -53,10 +54,10 @@ class ServiceQoutationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceType  $serviceType
      * @return \Illuminate\Http\Response
      */
-    public function edit(ServiceQoutation $serviceQoutation)
+    public function edit(ServiceType $serviceType)
     {
         //
     }
@@ -64,11 +65,11 @@ class ServiceQoutationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceQoutationRequest  $request
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Http\Requests\UpdateServiceTypeRequest  $request
+     * @param  \App\Models\ServiceType  $serviceType
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceQoutationRequest $request, ServiceQoutation $serviceQoutation)
+    public function update(UpdateServiceTypeRequest $request, ServiceType $serviceType)
     {
         //
     }
@@ -76,10 +77,10 @@ class ServiceQoutationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceType  $serviceType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServiceQoutation $serviceQoutation)
+    public function destroy(ServiceType $serviceType)
     {
         //
     }
