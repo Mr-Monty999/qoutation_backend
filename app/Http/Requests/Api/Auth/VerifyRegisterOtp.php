@@ -25,7 +25,8 @@ class VerifyRegisterOtp extends FormRequest
     {
         return [
             "user_id" => "required|string",
-            "otp_code" => "required|string"
+            "otp_code" => "required|string",
+            "type" => "required|string|in:forget_password,phone_confirmation,email_confirmation"
         ];
     }
 }

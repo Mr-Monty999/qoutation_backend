@@ -17,6 +17,8 @@ class UserService
         $data = $request->validated();
 
         $data["password"] = Hash::make($data["password"]);
+        $data["phone"]  = $data["country_code"] . $data["phone"];
+
         $user = User::create($data);
         $data = $user;
         $data["token"] = $user->createToken(uniqid())->plainTextToken;

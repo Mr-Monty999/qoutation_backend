@@ -26,12 +26,14 @@ Route::group(["prefix" => "v1/auth"], function () {
 
     ///// Forget Password routes ////
     Route::post("forget-password/change-password", [ForgetPasswordController::class, "changePassword"]);
-    Route::post("forget-password/send-otp", [OtpController::class, "sendForgetPasswordOtp"]);
-    Route::post("forget-password/verify-otp", [OtpController::class, "verifyForgetPasswordOtp"]);
+    // Route::post("forget-password/send-otp", [OtpController::class, "sendForgetPasswordOtp"]);
+    // Route::post("forget-password/verify-otp", [OtpController::class, "verifyForgetPasswordOtp"]);
 
     ///// Register Routes /////
     Route::post("register/buyer", [RegisterController::class, "registerBuyer"]);
     Route::post("register/supplier", [RegisterController::class, "registerSupplier"]);
-    Route::post("register/send-otp", [OtpController::class, "sendRegisterOtp"]);
-    Route::post("register/verify-otp", [OtpController::class, "verifyRegisterOtp"]);
+
+    ////////////// Otp Routes ////////
+    Route::post("send-otp", [OtpController::class, "sendOtp"]);
+    Route::post("verify-otp", [OtpController::class, "verifyOtp"]);
 });
