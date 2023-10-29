@@ -25,11 +25,12 @@ class RegisterBuyerRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "email" => "required|email",
-            "phone" => "required|numeric",
+            "email" => "required|email|unique:users,email",
+            "phone" => "required|numeric|unique:users,phone",
             "password" => "required|string|min:8",
+            "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",
-            "photo" => "nullable|image"
+            "image" => "nullable|image"
         ];
     }
 }

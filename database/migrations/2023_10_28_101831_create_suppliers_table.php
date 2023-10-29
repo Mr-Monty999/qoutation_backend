@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->string("photo")->nullable();
+            $table->string("image")->nullable();
             $table->date("birthdate")->nullable();
             $table->timestamps();
             $table->softDeletes();

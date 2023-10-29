@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Buyer;
 use App\Models\Supplier;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -20,22 +21,20 @@ class BuyerService
         return $suppliers;
     }
 
-    public static function store($request)
+    public static function store($request, $userId)
     {
 
         $data = $request->validated();
 
-        $user = User::ceate($data);
-        $data["user_id"] = $user->id;
+        $data["user_id"] = $userId;
 
-        if ($request->hasFile("photo")) {
-            $fileName = time() . '.' . $request->file("photo")->getClientOriginalExtension();
+        if ($request->hasFile("image")) {
+            $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
 
-            $data["photo"] = $request->file("photo")->storeAs("public/buyers", $fileName);
+            $data["image"] = $request->file("image")->storeAs("images/buyers", $fileName, "public");
         }
         $buyer = Buyer::create($data);
 
-        UserOtpService::sendEmailOtp($user);
 
         return $buyer;
     }

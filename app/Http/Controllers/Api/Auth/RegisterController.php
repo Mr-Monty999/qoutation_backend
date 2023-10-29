@@ -10,20 +10,31 @@ use App\Models\Supplier;
 use App\Models\User;
 use App\Services\BuyerService;
 use App\Services\SupplierService;
+use App\Services\UserOtpService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class RegisterController extends Controller
 {
     public  function registerBuyer(RegisterBuyerRequest $request)
     {
-        $buyer = BuyerService::store($request);
+        $user = UserService::store($request);
+        $buyer = BuyerService::store($request, $user->id);
+        $otp = UserOtpService::sendEmailOtp($user);
 
-        return response()->json($buyer);
+        $data = array_merge($user->toArray(), $buyer->toArray());
+
+        return response()->json($data);
     }
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
-        $buyer = SupplierService::store($request);
+        $user = UserService::store($request);
+        $supplier = SupplierService::store($request, $user->id);
+        $otp = UserOtpService::sendEmailOtp($user);
 
-        return response()->json($buyer);
+        $data = array_merge($user->toArray(), $supplier->toArray());
+
+        return response()->json($data);
     }
 }

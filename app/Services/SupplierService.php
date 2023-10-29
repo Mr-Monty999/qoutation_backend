@@ -11,23 +11,23 @@ use App\Models\User;
 class SupplierService
 {
 
-    public static function store($request)
+
+    public static function store($request, $userId)
     {
 
         $data = $request->validated();
 
-        $user = User::ceate($data);
-        $data["user_id"] = $user->id;
+        $data["user_id"] = $userId;
 
-        if ($request->hasFile("photo")) {
-            $fileName = time() . '.' . $request->file("photo")->getClientOriginalExtension();
 
-            $data["photo"] = $request->file("photo")->storeAs("public/suppliers", $fileName);
+        if ($request->hasFile("image")) {
+            $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
+
+            $data["image"] = $request->file("image")->storeAs("images/suppliers", $fileName, "public");
         }
-        $supplier = Supplier::create($data);
+        $buyer = Supplier::create($data);
 
-        UserOtpService::sendEmailOtp($user);
 
-        return $supplier;
+        return $buyer;
     }
 }
