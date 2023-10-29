@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 
 class OtpController extends Controller
 {
-    public function sendOtp()
+    public function sendRegisterOtp()
     {
     }
 
-    public function verifyOtp()
+    public function verifyRegisterOtp()
+    {
+    }
+
+    public function sendForgetPasswordOtp()
+    {
+    }
+
+    public function verifyForgetPasswordOtp()
     {
     }
 }
