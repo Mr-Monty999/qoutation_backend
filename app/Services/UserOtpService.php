@@ -8,4 +8,10 @@ namespace App\Services;
 class UserOtpService
 {
 
+    public static function sendEmailOtp($user)
+    {
+    }
+    public static function sendPhoneOtp($user)
+    {
+    }
 }
