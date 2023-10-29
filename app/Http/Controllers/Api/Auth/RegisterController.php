@@ -23,9 +23,9 @@ class RegisterController extends Controller
         $buyer = BuyerService::store($request, $user->id);
         $otp = UserOtpService::sendEmailOtp($user);
 
-        $data = array_merge($user->toArray(), $buyer->toArray());
+        $user->load("buyer");
 
-        return response()->json($data);
+        return response()->json($user, 201);
     }
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
@@ -33,8 +33,8 @@ class RegisterController extends Controller
         $supplier = SupplierService::store($request, $user->id);
         $otp = UserOtpService::sendEmailOtp($user);
 
-        $data = array_merge($user->toArray(), $supplier->toArray());
+        $user->load("supplier");
 
-        return response()->json($data);
+        return response()->json($user, 201);
     }
 }

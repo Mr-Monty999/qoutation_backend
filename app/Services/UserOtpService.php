@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\UserOtp;
 
 /**
@@ -29,5 +30,22 @@ class UserOtpService
     {
         $otp = UserOtpService::store($user, $time);
         return $otp;
+    }
+
+    public static function verifyOtp($userId, $otpCode)
+    {
+        $user = User::findOrFail($userId);
+
+        $otp = $user->otps()->latest()->firstOrFail();
+
+        if ($otp->expired_at > now()) {
+            if ($otp->code === $otpCode)
+                return true;
+        }
+
+        $otp->verified_at = now();
+        $otp->save();
+
+        return false;
     }
 }

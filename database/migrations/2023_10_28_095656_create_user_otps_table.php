@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id");
             $table->string("code");
             // $table->string("type");
-            $table->boolean("is_verified")->default(false);
+            $table->timestamp("verified_at")->nullable();
             $table->timestamp("expired_at")->nullable();
             $table->timestamps();
             $table->softDeletes();
