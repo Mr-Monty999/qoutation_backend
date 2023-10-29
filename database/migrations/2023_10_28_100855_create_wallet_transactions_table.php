@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("wallet_id");
             $table->string("type")->nullable();
             $table->decimal("amount", 12)->default(0);
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->softDeletes();
 
 
+            $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("wallet_id")->references("id")->on("wallets")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }

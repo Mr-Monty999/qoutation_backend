@@ -46,4 +46,51 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function supplier()
+    {
+        return $this->hasOne(Supplier::class, "user_id");
+    }
+
+    public function buyer()
+    {
+        return $this->hasOne(Buyer::class, "user_id");
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, "user_id");
+    }
+
+    public function serviceTypes()
+    {
+        return $this->belongsToMany(ServiceType::class, "user_service_type", "user_id");
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, "user_id");
+    }
+
+    public function otps()
+    {
+        return $this->hasMany(UserOtp::class, "user_id");
+    }
+
+    public function serviceQoutations()
+    {
+        return $this->hasMany(ServiceQoutation::class, "user_id");
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, "user_id");
+    }
+
+
+    public function walletTransactions()
+    {
+
+        return $this->hasMany(WalletTransaction::class, "user_id");
+    }
 }
