@@ -21,7 +21,9 @@ class OtpController extends Controller
             $otp = UserOtpService::sendPhoneOtp($user);
 
 
-        return response()->json([], 201);
+        return response()->json([
+            "message" => trans("messages.otp sent successfully")
+        ], 201);
     }
 
     public function verifyOtp(VerifyRegisterOtp $request)
@@ -30,15 +32,21 @@ class OtpController extends Controller
         $verify = UserOtpService::verifyOtp($user, $request->otp_code);
 
         if (!$verify)
-            return response()->json([], 403);
+            return response()->json([
+                "message" => trans("messages.otp is not correct or expired")
+            ], 401);
 
-        if ($request->type == "email_confirmation")
-            $user->email_verified_at = now();
-        elseif ($request->type == "phone_confirmation")
-            $user->phone_verified_at = now();
+        if ($request->type != "forget_password") {
+            if ($request->type == "email_confirmation")
+                $user->email_verified_at = now();
+            elseif ($request->type == "phone_confirmation")
+                $user->phone_verified_at = now();
 
-        $user->save();
+            $user->save();
+        }
 
-        return response()->json([], 200);
+        return response()->json([
+            "message" => trans("messages.otp verified successfully")
+        ], 200);
     }
 }

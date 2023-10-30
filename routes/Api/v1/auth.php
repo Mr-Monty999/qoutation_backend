@@ -24,10 +24,9 @@ Route::group(["prefix" => "v1/auth"], function () {
 
     Route::post("login", [LoginController::class, "login"]);
 
-    ///// Forget Password routes ////
-    Route::post("forget-password/change-password", [ForgetPasswordController::class, "changePassword"]);
-    // Route::post("forget-password/send-otp", [OtpController::class, "sendForgetPasswordOtp"]);
-    // Route::post("forget-password/verify-otp", [OtpController::class, "verifyForgetPasswordOtp"]);
+    ///// Reset Password routes ////
+    Route::post("forget-password/get-user", [ForgetPasswordController::class, "getUser"]);
+    Route::post("forget-password/reset-password", [ForgetPasswordController::class, "resetPassword"]);
 
     ///// Register Routes /////
     Route::post("register/buyer", [RegisterController::class, "registerBuyer"]);

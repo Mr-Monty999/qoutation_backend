@@ -47,4 +47,15 @@ class UserOtpService
 
         return false;
     }
+    public static function checkOtpIsVerified($user, $otpCode)
+    {
+        $otp = $user->otps()->latest()->firstOrFail();
+
+        if ($otp->expired_at > now() && $otp->verified_at != null)
+            if ($otp->code === $otpCode)
+                return true;
+
+
+        return false;
+    }
 }
