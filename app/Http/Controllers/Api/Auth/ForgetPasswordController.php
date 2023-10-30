@@ -29,12 +29,4 @@ class ForgetPasswordController extends Controller
             "message" => trans("messages.password updated successfully")
         ]);
     }
-    public function getUser(Request $request)
-    {
-        $user = User::where("email", $request->email_or_phone)
-            ->orWhere("phone", $request->email_or_phone)
-            ->firstOrFail();
-
-        return response()->json($user);
-    }
 }

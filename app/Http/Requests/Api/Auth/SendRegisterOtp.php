@@ -24,7 +24,7 @@ class SendRegisterOtp extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => "required|string",
+            "email_or_phone" => "required|string",
             "send_via" => "required|string|in:email,phone"
         ];
     }

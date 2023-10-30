@@ -27,7 +27,7 @@ class RegisterBuyerRequest extends FormRequest
             "name" => "required|string",
             "email" => "required|email|unique:users,email",
             "country_code" => "required|string|in:966",
-            "phone" => "required|numeric|unique:users,phone",
+            "phone" => "required|numeric|digits:9",
             "password" => "required|string|min:8",
             "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",

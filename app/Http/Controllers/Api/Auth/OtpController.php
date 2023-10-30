@@ -13,7 +13,9 @@ class OtpController extends Controller
 {
     public function sendOtp(SendRegisterOtp $request)
     {
-        $user = User::findOrFail($request->user_id);
+        $user = User::where("email", $request->email_or_phone)
+            ->orWhere("phone", $request->email_or_phone)
+            ->firstOrFail();
 
         if ($request->send_via == "email")
             $otp = UserOtpService::sendEmailOtp($user);
@@ -22,7 +24,8 @@ class OtpController extends Controller
 
 
         return response()->json([
-            "message" => trans("messages.otp sent successfully")
+            "message" => trans("messages.otp sent successfully"),
+            "user" => $user
         ], 201);
     }
 

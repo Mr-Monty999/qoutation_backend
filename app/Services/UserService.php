@@ -25,4 +25,10 @@ class UserService
 
         return $user;
     }
+
+    public static function checkIfValueExists($column, $value)
+    {
+        $check = User::where($column, $value)->exists();
+        return $check;
+    }
 }

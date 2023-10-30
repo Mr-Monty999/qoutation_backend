@@ -25,8 +25,7 @@ Route::group(["prefix" => "v1/auth"], function () {
     Route::post("login", [LoginController::class, "login"]);
 
     ///// Reset Password routes ////
-    Route::post("forget-password/get-user", [ForgetPasswordController::class, "getUser"]);
-    Route::post("forget-password/reset-password", [ForgetPasswordController::class, "resetPassword"]);
+    Route::post("reset-password", [ForgetPasswordController::class, "resetPassword"]);
 
     ///// Register Routes /////
     Route::post("register/buyer", [RegisterController::class, "registerBuyer"]);

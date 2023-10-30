@@ -14,11 +14,17 @@ use App\Services\UserOtpService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
     public  function registerBuyer(RegisterBuyerRequest $request)
     {
+        if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
+            throw  ValidationException::withMessages([
+                "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
+            ]);
+
         $user = UserService::store($request);
         $buyer = BuyerService::store($request, $user->id);
         $otp = UserOtpService::sendEmailOtp($user);
@@ -29,6 +35,11 @@ class RegisterController extends Controller
     }
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
+        if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
+            throw  ValidationException::withMessages([
+                "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
+            ]);
+
         $user = UserService::store($request);
         $supplier = SupplierService::store($request, $user->id);
         $otp = UserOtpService::sendEmailOtp($user);
