@@ -17,9 +17,11 @@ class OtpController extends Controller
             ->orWhere("phone", $request->email_or_phone)
             ->firstOrFail();
 
-        if ($request->send_via == "email")
+        $isEmail = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL);
+
+        if ($isEmail)
             $otp = UserOtpService::sendEmailOtp($user);
-        elseif ($request->send_via == "phone")
+        else
             $otp = UserOtpService::sendPhoneOtp($user);
 
 
