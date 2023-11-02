@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "v1/auth"], function () {
 
+
+
     Route::post("login", [LoginController::class, "login"]);
 
     ///// Reset Password routes ////
