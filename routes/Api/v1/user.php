@@ -18,10 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(["prefix" => "v1/user", "middleware" => "auth:sanctum"], function () {
+Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function () {
     // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     //     return $request->user();
     // });
 
     Route::get("get-auth-user", [UserController::class, "getAuthUser"]);
+
+    Route::group(["middleware" => ["verified"]], function () {
+    });
 });
