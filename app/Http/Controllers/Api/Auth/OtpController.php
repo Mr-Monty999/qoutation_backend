@@ -33,7 +33,11 @@ class OtpController extends Controller
 
     public function verifyOtp(VerifyRegisterOtp $request)
     {
-        $user = User::findOrFail($request->user_id);
+        // $user = User::findOrFail($request->user_id);
+        $user = User::where("email", $request->email_or_phone)
+            ->orWhere("phone", $request->email_or_phone)
+            ->firstOrFail();
+
         $verify = UserOtpService::verifyOtp($user, $request->otp_code);
 
         if (!$verify)

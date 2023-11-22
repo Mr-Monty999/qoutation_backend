@@ -24,7 +24,8 @@ class VerifyRegisterOtp extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => "required|string",
+            // "user_id" => "required|numeric",
+            "email_or_phone" => "required|string",
             "otp_code" => "required|string",
             "type" => "required|string|in:forget_password,phone_confirmation,email_confirmation"
         ];
