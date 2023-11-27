@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_service_type', function (Blueprint $table) {
-            $table->unsignedBigInteger("user_id");
+        Schema::create('service_activity', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("service_id");
+            $table->unsignedBigInteger("activity_id");
             $table->timestamps();
 
-            $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("service_id")->references("id")->on("services")->cascadeOnDelete()->cascadeOnUpdate();;
+            $table->foreign("activity_id")->references("id")->on("activites")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_service_type');
+        Schema::dropIfExists('service_activity');
     }
 };
