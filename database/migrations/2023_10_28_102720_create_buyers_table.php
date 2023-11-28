@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->string("image")->nullable();
+            $table->string("lat")->nullable();
+            $table->string("lng")->nullable();
             $table->date("birthdate")->nullable();
             $table->timestamps();
             $table->softDeletes();

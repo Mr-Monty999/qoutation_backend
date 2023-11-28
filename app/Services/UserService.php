@@ -21,7 +21,6 @@ class UserService
 
 
         $data["password"] = Hash::make($data["password"]);
-        $data["phone"]  = $country->code . $data["phone"];
 
         $user = User::create($data);
         $data = $user;

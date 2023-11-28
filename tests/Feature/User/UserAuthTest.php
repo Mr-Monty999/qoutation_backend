@@ -30,7 +30,9 @@ class UserAuthTest extends TestCase
             "password" => Hash::make("password")
         ]);
         $supplier = Supplier::create([
-            "user_id" => $user->id
+            "user_id" => $user->id,
+            "commercial_record_number" => "1432424",
+
         ]);
 
         $response = $this->post('/api/v1/auth/login', [
@@ -62,7 +64,8 @@ class UserAuthTest extends TestCase
             "name" => "test",
             "country_id" => $country->id,
             "phone" => "123456789",
-            "activity_ids" => $acitivties
+            "lat" => "134242442.2344",
+            "lng" => "242424242.242"
 
         ]);
 
@@ -87,7 +90,11 @@ class UserAuthTest extends TestCase
             "name" => "test",
             "country_id" => $country->id,
             "phone" => "123456789",
-            "activity_ids" => $acitivties
+            "activity_ids" => $acitivties,
+            "commercial_record_number" => "1432424",
+            "lat" => "134242442.2344",
+            "lng" => "242424242.242",
+            "activity_description" => "test test"
         ]);
 
         $response->assertStatus(201);
