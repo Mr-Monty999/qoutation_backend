@@ -62,11 +62,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Admin::class, "user_id");
     }
 
-    public function serviceTypes()
-    {
-        return $this->belongsToMany(ServiceType::class, "user_service_type", "user_id");
-    }
-
     public function services()
     {
         return $this->hasMany(Service::class, "user_id");
@@ -92,5 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
 
         return $this->hasMany(WalletTransaction::class, "user_id");
+    }
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, "user_activity", "user_id");
     }
 }

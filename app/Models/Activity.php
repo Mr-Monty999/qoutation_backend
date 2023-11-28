@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsToMany(User::class, "user_activity", "activity_id");
     }
 
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, "service_service_type", "service_type_id");
+        return $this->belongsToMany(Service::class, "service_activity", "activity_id");
     }
 }
