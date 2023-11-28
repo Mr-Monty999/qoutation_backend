@@ -55,7 +55,7 @@ class RegisterSupplierRequest extends FormRequest
             "image" => "nullable|image",
             "country_id" => "required|numeric",
             "activity_ids" => "required|array",
-            "commercial_record_number" => "required|string|unique:suppliers,commercial_record_number",
+            "commercial_record_number" => "required|numeric|unique:suppliers,commercial_record_number",
             "commercial_record_image" => "nullable|image",
             "lat" => "nullable|string",
             "lng" => "nullable|string",
