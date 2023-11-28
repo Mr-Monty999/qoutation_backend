@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Country;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\UserOtp;
@@ -42,12 +43,17 @@ class UserAuthTest extends TestCase
     public function test_user_can_register_buyer()
     {
 
+        $country = Country::create([
+            "name" => "country",
+            "code" => "966"
+        ]);
+
         $response = $this->post('/api/v1/auth/register/buyer', [
             "email" => "test@example.com",
             "password" => "password",
             "password_confirmation" => "password",
             "name" => "test",
-            "country_code" => "966",
+            "country_id" => $country->id,
             "phone" => "123456789"
         ]);
 
@@ -56,12 +62,17 @@ class UserAuthTest extends TestCase
     public function test_user_can_register_supplier()
     {
 
+        $country = Country::create([
+            "name" => "country",
+            "code" => "966"
+        ]);
+
         $response = $this->post('/api/v1/auth/register/supplier', [
             "email" => "test@example.com",
             "password" => "password",
             "password_confirmation" => "password",
             "name" => "test",
-            "country_code" => "966",
+            "country_id" => $country->id,
             "phone" => "123456789"
         ]);
 
