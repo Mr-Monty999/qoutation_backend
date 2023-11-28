@@ -112,4 +112,40 @@ class UserAuthTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_user_can_reset_password()
+    {
+
+
+        $user = User::create([
+            "name" => "test",
+            "email" => "test@example.com",
+            "phone" => "96624241242",
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $otp = UserOtp::create([
+            "user_id" => $user->id,
+            "code" => rand(1234, 9999),
+            "expired_at" => now()->addMinutes(5)
+        ]);
+
+        $verifyOtp = UserOtpService::verifyOtp($user, $otp->code);
+
+
+
+
+
+
+        $response = $this->post('/api/v1/auth/reset-password', [
+            "otp_code" => $otp->code . "",
+            "user_id" => $user->id . "",
+            "password" => "password",
+            "password_confirmation" => "password"
+
+        ]);
+
+        $response->assertStatus(200);
+    }
 }
