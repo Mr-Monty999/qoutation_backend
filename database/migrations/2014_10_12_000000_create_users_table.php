@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("country_id")->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string("phone")->unique()->nullable();
@@ -24,6 +25,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+
+            $table->foreign("country_id")->references("id")->on("countries")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
