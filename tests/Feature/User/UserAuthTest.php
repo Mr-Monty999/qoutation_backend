@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Activity;
 use App\Models\Country;
 use App\Models\Supplier;
 use App\Models\User;
@@ -48,13 +49,21 @@ class UserAuthTest extends TestCase
             "code" => "966"
         ]);
 
+        Activity::factory(10)->create();
+
+        $acitivties = Activity::pluck("id")->toArray();
+
+
+
         $response = $this->post('/api/v1/auth/register/buyer', [
             "email" => "test@example.com",
             "password" => "password",
             "password_confirmation" => "password",
             "name" => "test",
             "country_id" => $country->id,
-            "phone" => "123456789"
+            "phone" => "123456789",
+            "activity_ids" => $acitivties
+
         ]);
 
         $response->assertStatus(201);
@@ -67,13 +76,18 @@ class UserAuthTest extends TestCase
             "code" => "966"
         ]);
 
+        Activity::factory(10)->create();
+
+        $acitivties = Activity::pluck("id")->toArray();
+
         $response = $this->post('/api/v1/auth/register/supplier', [
             "email" => "test@example.com",
             "password" => "password",
             "password_confirmation" => "password",
             "name" => "test",
             "country_id" => $country->id,
-            "phone" => "123456789"
+            "phone" => "123456789",
+            "activity_ids" => $acitivties
         ]);
 
         $response->assertStatus(201);

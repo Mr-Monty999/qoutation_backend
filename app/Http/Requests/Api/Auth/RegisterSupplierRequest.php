@@ -31,7 +31,9 @@ class RegisterSupplierRequest extends FormRequest
             "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",
             "image" => "nullable|image",
-            "country_id" => "required|numeric"
+            "country_id" => "required|numeric",
+            "activity_ids" => "required|array"
+
 
         ];
     }

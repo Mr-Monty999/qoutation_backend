@@ -19,12 +19,15 @@ class UserService
 
         $country = Country::findOrFail($data["country_id"]);
 
+
         $data["password"] = Hash::make($data["password"]);
         $data["phone"]  = $country->code . $data["phone"];
 
         $user = User::create($data);
         $data = $user;
         $data["token"] = $user->createToken(uniqid())->plainTextToken;
+
+        $user->activities()->sync($data["acitivity_ids"]);
 
         return $user;
     }
