@@ -44,7 +44,9 @@ class RegisterController extends Controller
         $supplier = SupplierService::store($request, $user->id);
         $otp = UserOtpService::sendEmailOtp($user);
 
-        $user->load("supplier");
+        $user->activities()->sync($request->activity_ids);
+
+        $user->load("supplier", "activities");
 
         return response()->json($user, 201);
     }

@@ -26,7 +26,6 @@ class UserService
         $data = $user;
         $data["token"] = $user->createToken(uniqid())->plainTextToken;
 
-        $user->activities()->sync($data["acitivity_ids"]);
 
         return $user;
     }
