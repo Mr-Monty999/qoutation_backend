@@ -65,7 +65,9 @@ class UserAuthTest extends TestCase
             "country_id" => $country->id,
             "phone" => "123456789",
             "lat" => "134242442.2344",
-            "lng" => "242424242.242"
+            "lng" => "242424242.242",
+            "address" => "riydh - street"
+
 
         ]);
 
@@ -94,7 +96,8 @@ class UserAuthTest extends TestCase
             "commercial_record_number" => "1432424",
             "lat" => "134242442.2344",
             "lng" => "242424242.242",
-            "activity_description" => "test test"
+            "activity_description" => "test test",
+            "address" => "riydh - street"
         ]);
 
         $response->assertStatus(201);

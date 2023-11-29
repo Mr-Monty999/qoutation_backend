@@ -60,6 +60,8 @@ class RegisterSupplierRequest extends FormRequest
             "lat" => "nullable|string",
             "lng" => "nullable|string",
             "activity_description" => "nullable|string",
+            "address" => "required|string"
+
 
 
         ];

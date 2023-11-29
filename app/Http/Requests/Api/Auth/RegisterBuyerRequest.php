@@ -52,7 +52,8 @@ class RegisterBuyerRequest extends FormRequest
             "image" => "nullable|image",
             "country_id" => "required|numeric",
             "lat" => "nullable|string",
-            "lng" => "nullable|string"
+            "lng" => "nullable|string",
+            "address" => "required|string"
 
         ];
     }

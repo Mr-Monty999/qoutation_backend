@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("image")->nullable();
             $table->string("commercial_record_number");
             $table->string("commercial_record_image")->nullable();
+            $table->string("address")->nullable();
             $table->string("activity_description")->nullable();
             $table->string("lat")->nullable();
             $table->string("lng")->nullable();
