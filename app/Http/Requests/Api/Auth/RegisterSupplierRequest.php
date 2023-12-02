@@ -53,7 +53,7 @@ class RegisterSupplierRequest extends FormRequest
             "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",
             "image" => "nullable|image",
-            "country_id" => "required|numeric",
+            "country_id" => "required|numeric|exists:countries,id",
             "activity_ids" => "required|array",
             "commercial_record_number" => "required|numeric|unique:suppliers,commercial_record_number",
             "commercial_record_image" => "nullable|image",
