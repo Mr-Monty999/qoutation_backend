@@ -212,5 +212,8 @@ return [
         'updated_at'               => 'تاريخ التحديث',
         'username'                 => 'اسم المُستخدم',
         'year'                     => 'السنة',
+        'commercial_record_number' => 'رقم السجل التجاري',
+        "commercial_record_image" => "صورة السجل التجاري"
+
     ],
 ];

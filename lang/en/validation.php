@@ -212,5 +212,8 @@ return [
         'updated_at'               => 'updated at',
         'username'                 => 'username',
         'year'                     => 'year',
+        'commercial_record_number' => 'commercial record number',
+        "commercial_record_image" => "commercial record image"
+
     ],
 ];

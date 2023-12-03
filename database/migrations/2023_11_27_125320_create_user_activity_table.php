@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_activity', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("activity_id");
             $table->timestamps();

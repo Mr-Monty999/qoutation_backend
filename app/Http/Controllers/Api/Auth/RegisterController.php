@@ -14,6 +14,7 @@ use App\Services\UserOtpService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
@@ -25,29 +26,50 @@ class RegisterController extends Controller
                 "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
             ]);
 
-        $user = UserService::store($request);
-        $buyer = BuyerService::store($request, $user->id);
-        $otp = UserOtpService::sendEmailOtp($user);
+        DB::beginTransaction();
 
-        $user->load("buyer");
+        try {
 
-        return response()->json($user, 201);
+            $user = UserService::store($request);
+            $buyer = BuyerService::store($request, $user->id);
+            $otp = UserOtpService::sendEmailOtp($user);
+
+            $user->load("buyer");
+
+            DB::commit();
+            return response()->json($user, 201);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
+
+        $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
+
+
         if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
             throw  ValidationException::withMessages([
                 "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
             ]);
 
-        $user = UserService::store($request);
-        $supplier = SupplierService::store($request, $user->id);
-        $otp = UserOtpService::sendEmailOtp($user);
+        DB::beginTransaction();
 
-        $user->activities()->sync($request->activity_ids);
+        try {
+            $user = UserService::store($request);
+            $supplier = SupplierService::store($request, $user->id);
+            $otp = UserOtpService::sendEmailOtp($user);
 
-        $user->load("supplier", "activities");
+            $user->activities()->sync($request->activity_ids);
 
-        return response()->json($user, 201);
+            $user->load("supplier", "activities");
+
+            DB::commit();
+            return response()->json($user, 201);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
 }
