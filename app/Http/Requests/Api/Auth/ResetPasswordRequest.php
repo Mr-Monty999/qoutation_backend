@@ -25,7 +25,7 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             "otp_code" => "required|string",
-            "user_id" => "required|string",
+            "email_or_phone" => "required|string",
             "password" => "required|string|min:8",
             "password_confirmation" => "required|string|same:password"
 

@@ -6,5 +6,6 @@ return [
     "otp sent successfully" => "otp sent successfully",
     "password updated successfully" => "password updated successfully",
     "phone number must equal 9 digits" => "phone number must equal 9 digits",
+    "account not found" => "account not found"
 
 ];

@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Auth\VerifyRegisterOtp;
 use App\Models\User;
 use App\Services\UserOtpService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class OtpController extends Controller
 {
@@ -15,7 +16,10 @@ class OtpController extends Controller
     {
         $user = User::where("email", $request->email_or_phone)
             ->orWhere("phone", $request->email_or_phone)
-            ->firstOrFail();
+            ->first();
+
+        if (!$user)
+            throw ValidationException::withMessages(['email_or_phone' => trans("messages.account not found")]);
 
         $isEmail = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL);
 

@@ -175,7 +175,7 @@ class UserAuthTest extends TestCase
 
         $response = $this->post('/api/v1/auth/reset-password', [
             "otp_code" => $otp->code . "",
-            "user_id" => $user->id . "",
+            "email_or_phone" => $user->email,
             "password" => "password",
             "password_confirmation" => "password"
 
