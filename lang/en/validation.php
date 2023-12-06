@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'accepted'             => 'The :attribute must be accepted.',
     'accepted_if'          => 'The :attribute must be accepted when :other is :value.',
     'active_url'           => 'The :attribute is not a valid URL.',
@@ -213,7 +214,8 @@ return [
         'username'                 => 'username',
         'year'                     => 'year',
         'commercial_record_number' => 'commercial record number',
-        "commercial_record_image" => "commercial record image"
+        "commercial_record_image" => "commercial record image",
+        "otp_code" => "otp code",
 
     ],
 ];

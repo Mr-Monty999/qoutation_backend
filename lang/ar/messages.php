@@ -5,5 +5,6 @@ return [
     "otp verified successfully" => "تم التحقق من رمز التأكيد بنجاح",
     "otp sent successfully" => "تم إرسال رمز التأكيد بنجاح",
     "password updated successfully" => 'تم تحديث كلمة السر بنجاح',
-    "phone number must equal 9 digits" => "يجب أن يساوي رقم الهاتف 9 أرقام"
+    "phone number must equal 9 digits" => "يجب أن يساوي رقم الهاتف 9 أرقام",
+
 ];

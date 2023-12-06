@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'throttle' => 'محاولات كثيرة . الرجاء المحاولة بعد :seconds ثانية',
     'accepted'             => 'يجب قبول :attribute.',
     'accepted_if'          => 'يجب قبول :attribute في حالة :other يساوي :value.',
     'active_url'           => 'حقل :attribute لا يُمثّل رابطًا صحيحًا.',
@@ -213,7 +214,10 @@ return [
         'username'                 => 'اسم المُستخدم',
         'year'                     => 'السنة',
         'commercial_record_number' => 'رقم السجل التجاري',
-        "commercial_record_image" => "صورة السجل التجاري"
+        "commercial_record_image" => "صورة السجل التجاري",
+        "otp_code" => "رمز التحقق",
+
+
 
     ],
 ];

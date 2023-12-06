@@ -24,7 +24,7 @@ Route::group(["prefix" => "v1/auth"], function () {
 
 
 
-    Route::post("login", [LoginController::class, "login"]);
+    Route::post("login", [LoginController::class, "login"])->middleware("throttle:3,1");
 
     ///// Reset Password routes ////
     Route::post("reset-password", [ForgetPasswordController::class, "resetPassword"]);
@@ -34,6 +34,6 @@ Route::group(["prefix" => "v1/auth"], function () {
     Route::post("register/supplier", [RegisterController::class, "registerSupplier"]);
 
     ////////////// Otp Routes ////////
-    Route::post("send-otp", [OtpController::class, "sendOtp"]);
+    Route::post("send-otp", [OtpController::class, "sendOtp"])->middleware("throttle:1,1");
     Route::post("verify-otp", [OtpController::class, "verifyOtp"]);
 });
