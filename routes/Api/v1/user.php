@@ -33,6 +33,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
             "as" => "user"
         ]);
 
+
+        //// get auth user services ////
         Route::get("/auth/services", [ServiceController::class, "userServices"]);
     });
 });
