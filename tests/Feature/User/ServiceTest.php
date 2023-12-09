@@ -52,7 +52,7 @@ class ServiceTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function test_user_can_update_his_service()
+    public function test_user_can_update_his_services()
     {
 
 
@@ -133,7 +133,7 @@ class ServiceTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_user_can_get_show_services()
+    public function test_user_can_get_show_any_service()
     {
 
 
@@ -163,5 +163,37 @@ class ServiceTest extends TestCase
         $response = $this->get("/api/v1/user/services/$service->id");
 
         $response->assertStatus(200);
+    }
+
+    public function test_user_can_get_delete_services()
+    {
+
+
+        $user = User::create([
+            "name" => "test",
+            "email" => "testtesttest@example.com",
+            "phone" => "96624241242",
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
+        $this->actingAs($user);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => "title",
+            "description" => "description",
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+
+        $service->activities()->attach($a1->id);
+
+        $response = $this->delete("/api/v1/user/services/$service->id");
+
+        $response->assertStatus(204);
     }
 }
