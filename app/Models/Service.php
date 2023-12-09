@@ -21,8 +21,8 @@ class Service extends Model
     {
         return $this->hasMany(ServiceQoutation::class, "service_id");
     }
-    public function serviceTypes()
+    public function activities()
     {
-        return $this->belongsToMany(ServiceType::class, "service_service_type", "service_id");
+        return $this->belongsToMany(Activity::class, "service_activity", "service_id");
     }
 }

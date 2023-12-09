@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -34,6 +35,8 @@ class RegisterController extends Controller
             $buyer = BuyerService::store($request, $user->id);
             $otp = UserOtpService::sendEmailOtp($user);
 
+            $role = Role::findOrCreate("buyer");
+            $user->assignRole("buyer");
             $user->load("buyer");
 
             DB::commit();
@@ -63,6 +66,8 @@ class RegisterController extends Controller
 
             $user->activities()->sync($request->activity_ids);
 
+            $role = Role::findOrCreate("supplier");
+            $user->assignRole("supplier");
             $user->load("supplier", "activities");
 
             DB::commit();

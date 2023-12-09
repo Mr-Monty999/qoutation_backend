@@ -216,6 +216,8 @@ return [
         'commercial_record_number' => 'رقم السجل التجاري',
         "commercial_record_image" => "صورة السجل التجاري",
         "otp_code" => "رمز التحقق",
+        "activity_ids" => "النشاطات"
+
 
 
 

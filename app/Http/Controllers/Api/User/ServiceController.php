@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreServiceRequest;
+use App\Http\Requests\Api\Auth\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
+use App\Services\ServiceService;
+use Dflydev\DotAccessData\Data;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -16,17 +20,16 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $services = Service::latest()->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+        return response()->json($services);
+    }
+    public function userServices()
     {
-        //
+        $user = Auth::user();
+        $services = $user->services()->latest()->paginate(10);
+
+        return response()->json($services);
     }
 
     /**
@@ -37,7 +40,32 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request)
     {
-        //
+
+        $user = auth()->user();
+
+        if (!$user->buyer)
+            abort(403);
+
+        DB::beginTransaction();
+        try {
+
+            $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
+
+
+            $data = $request->validated();
+            $data["user_id"] = $user->id;
+
+            $service = ServiceService::store($data);
+
+            $service->activities()->attach($request->activity_ids);
+
+
+            DB::commit();
+            return response()->json($service, 201);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
 
     /**
@@ -51,16 +79,6 @@ class ServiceController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Service $service)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

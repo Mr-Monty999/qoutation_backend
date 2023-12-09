@@ -17,9 +17,9 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        $buyers = Service::getAllPaginated();
+        // $buyers = Service::getAllPaginated();
 
-        return response()->json($buyers);
+        // return response()->json($buyers);
     }
 
     /**
