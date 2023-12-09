@@ -64,6 +64,8 @@ class ServiceController extends Controller
 
             $service->activities()->attach($request->activity_ids);
 
+            $service->load("activities");
+
 
             DB::commit();
             return response()->json($service, 201);
@@ -113,6 +115,9 @@ class ServiceController extends Controller
 
 
             $service->activities()->sync($request->activity_ids);
+
+            $service->load("activities");
+
 
 
             DB::commit();
