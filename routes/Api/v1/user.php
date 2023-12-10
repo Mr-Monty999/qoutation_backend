@@ -34,7 +34,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         ]);
 
 
-        //// get auth user services ////
-        Route::get("/auth/services", [ServiceController::class, "userServices"]);
+        //// get auth buyer services ////
+        Route::get("/auth/buyer/services", [ServiceController::class, "buyerServices"]);
     });
 });

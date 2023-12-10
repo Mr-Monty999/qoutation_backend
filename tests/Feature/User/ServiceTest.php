@@ -113,7 +113,7 @@ class ServiceTest extends TestCase
     }
 
 
-    public function test_user_can_get_his_own_services()
+    public function test_buyer_can_get_his_own_services()
     {
 
 
@@ -128,7 +128,7 @@ class ServiceTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/auth/services');
+        $response = $this->get('/api/v1/user/auth/buyer/services');
 
         $response->assertStatus(200);
     }

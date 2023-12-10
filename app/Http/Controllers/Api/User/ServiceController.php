@@ -26,7 +26,7 @@ class ServiceController extends Controller
 
         return response()->json($services);
     }
-    public function userServices()
+    public function buyerServices()
     {
         $user = Auth::user();
         $services = $user->services()
@@ -36,6 +36,16 @@ class ServiceController extends Controller
 
         return response()->json($services);
     }
+    // public function supplierFeedServices()
+    // {
+    //     $user = Auth::user();
+    //     $services = $user->services()
+    //         ->with("user", "activities")
+    //         ->withCount("serviceQoutations")
+    //         ->latest()->paginate(10);
+
+    //     return response()->json($services);
+    // }
 
     /**
      * Store a newly created resource in storage.
