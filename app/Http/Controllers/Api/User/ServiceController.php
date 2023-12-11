@@ -75,6 +75,7 @@ class ServiceController extends Controller
             $service->activities()->attach($request->activity_ids);
 
             $service->load("activities", "user");
+            $service->loadCount("serviceQoutations");
 
 
             DB::commit();
@@ -127,6 +128,8 @@ class ServiceController extends Controller
             $service->activities()->sync($request->activity_ids);
 
             $service->load("activities", "user");
+            $service->loadCount("serviceQoutations");
+
 
 
 
