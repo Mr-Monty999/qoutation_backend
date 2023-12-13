@@ -122,7 +122,8 @@ class ServiceController extends Controller
 
 
             $data = $request->validated();
-            $data["user_id"] = $user->id;
+
+            $service->update($data);
 
 
             $service->activities()->sync($request->activity_ids);
