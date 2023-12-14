@@ -33,20 +33,76 @@ class WalletController extends Controller
 
             DB::commit();
             return response()->json([
-                "msg" => "recharged successfully",
+                "data" => $data,
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
             return response()->json(["msg" => "error"], 400);
         }
     }
-    public function rechargeSuccess(Request $request)
+    public function rechargeSuccess(Request $request, $transactionNumber)
     {
+        DB::beginTransaction();
+        try {
+            $transaction = WalletTransaction::where("number", $transactionNumber)
+                ->firstOrFail();
+
+            $transaction->update([
+                "status" => "paid"
+            ]);
+
+            $wallet = $transaction->wallet;
+            $wallet->balance += $transaction->amount;
+            $wallet->save();
+
+
+            DB::commit();
+            return response()->json([
+                "msg" => "wallet recharged successfully",
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
-    public function rechargeCancelled(Request $request)
+    public function rechargeCancelled(Request $request, $transactionNumber)
     {
+        DB::beginTransaction();
+        try {
+            $transaction = WalletTransaction::where("number", $transactionNumber)
+                ->firstOrFail();
+
+            $transaction->update([
+                "status" => "cancelled"
+            ]);
+
+            DB::commit();
+            return response()->json([
+                "msg" => "wallet recharge cancelled",
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
-    public function rechargeDeclined(Request $request)
+    public function rechargeDeclined(Request $request, $transactionNumber)
     {
+        DB::beginTransaction();
+        try {
+            $transaction = WalletTransaction::where("number", $transactionNumber)
+                ->firstOrFail();
+
+            $transaction->update([
+                "status" => "declined"
+            ]);
+
+            DB::commit();
+            return response()->json([
+                "msg" => "wallet recharge declined",
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
 }
