@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 class ServiceTest extends TestCase
 {
+    use WithFaker;
     /**
      * A basic feature test example.
      *
@@ -23,9 +24,9 @@ class ServiceTest extends TestCase
 
 
         $user = User::create([
-            "name" => "test",
-            "email" => "testtesttest@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -35,17 +36,17 @@ class ServiceTest extends TestCase
         ]);
 
         $a1 = Activity::create([
-            "name" => "a1"
+            "name" => $this->faker->name
         ]);
         $a2 = Activity::create([
-            "name" => "a2"
+            "name" => $this->faker->name
         ]);
 
         $this->actingAs($user);
 
         $response = $this->post('/api/v1/user/services', [
-            "title" => "title",
-            "description" => "description",
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
             "activity_ids" => "$a1->id,$a2->id"
         ]);
 
@@ -57,9 +58,9 @@ class ServiceTest extends TestCase
 
 
         $user = User::create([
-            "name" => "test",
-            "email" => "testtesttest@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -70,8 +71,8 @@ class ServiceTest extends TestCase
 
         $service = Service::create([
             "user_id" => $user->id,
-            "title" => "title",
-            "description" => "description",
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
         ]);
 
         $a1 = Activity::create([
@@ -84,8 +85,8 @@ class ServiceTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->put("/api/v1/user/services/$service->id", [
-            "title" => "title",
-            "description" => "description",
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
             "activity_ids" => "$a1->id,$a2->id"
         ]);
 
@@ -150,8 +151,8 @@ class ServiceTest extends TestCase
 
         $service = Service::create([
             "user_id" => $user->id,
-            "title" => "title",
-            "description" => "description",
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
         ]);
 
         $a1 = Activity::create([
@@ -182,8 +183,8 @@ class ServiceTest extends TestCase
 
         $service = Service::create([
             "user_id" => $user->id,
-            "title" => "title",
-            "description" => "description",
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
         ]);
 
         $a1 = Activity::create([

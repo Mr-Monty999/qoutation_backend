@@ -15,6 +15,7 @@ use Tests\TestCase;
 
 class UserAuthTest extends TestCase
 {
+    use WithFaker;
     /**
      * A basic feature test example.
      *
@@ -23,9 +24,9 @@ class UserAuthTest extends TestCase
     public function test_user_can_login()
     {
         $user = User::create([
-            "name" => "test",
-            "email" => "test@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -36,7 +37,7 @@ class UserAuthTest extends TestCase
         ]);
 
         $response = $this->post('/api/v1/auth/login', [
-            "email" => "test@example.com",
+            "email" => $user->email,
             "password" => "password",
         ]);
 
@@ -58,10 +59,10 @@ class UserAuthTest extends TestCase
 
 
         $response = $this->post('/api/v1/auth/register/buyer', [
-            "email" => "test@example.com",
+            "email" => $this->faker->email,
             "password" => "password",
             "password_confirmation" => "password",
-            "name" => "test",
+            "name" => $this->faker->name,
             "country_id" => $country->id,
             "phone" => rand(123456789, 99999999),
             "lat" => "134242442.2344",
@@ -86,10 +87,10 @@ class UserAuthTest extends TestCase
         $acitivties = implode(",", Activity::pluck("id")->toArray());
 
         $response = $this->post('/api/v1/auth/register/supplier', [
-            "email" => "test@example.com",
+            "email" => $this->faker->email,
             "password" => "password",
             "password_confirmation" => "password",
-            "name" => "test",
+            "name" => $this->faker->name,
             "country_id" => $country->id,
             "phone" => rand(123456789, 99999999),
             "activity_ids" => $acitivties,
@@ -108,9 +109,9 @@ class UserAuthTest extends TestCase
 
 
         $user = User::create([
-            "name" => "test",
-            "email" => "test@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -127,9 +128,9 @@ class UserAuthTest extends TestCase
 
 
         $user = User::create([
-            "name" => "test",
-            "email" => "test@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -153,9 +154,9 @@ class UserAuthTest extends TestCase
 
 
         $user = User::create([
-            "name" => "test",
-            "email" => "test@example.com",
-            "phone" => "96624241242",
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);

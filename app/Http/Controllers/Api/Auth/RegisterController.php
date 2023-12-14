@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Auth\RegisterSupplierRequest;
 use App\Models\Buyer;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Services\BuyerService;
 use App\Services\SupplierService;
 use App\Services\UserOtpService;
@@ -32,6 +33,11 @@ class RegisterController extends Controller
         try {
 
             $user = UserService::store($request);
+
+            $wallet = Wallet::create([
+                "user_id" => $user->id,
+            ]);
+
             $buyer = BuyerService::store($request, $user->id);
             $otp = UserOtpService::sendEmailOtp($user);
 
@@ -61,6 +67,9 @@ class RegisterController extends Controller
 
         try {
             $user = UserService::store($request);
+            $wallet = Wallet::create([
+                "user_id" => $user->id,
+            ]);
             $supplier = SupplierService::store($request, $user->id);
             $otp = UserOtpService::sendEmailOtp($user);
 

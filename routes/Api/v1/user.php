@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\User\ServiceController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\User\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,13 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         //// get auth buyer services ////
         Route::get("/auth/buyer/services", [ServiceController::class, "buyerServices"]);
+
+
+
+        ///// wallets /////
+        Route::post("wallet-recharge", [WalletController::class, "recharge"]);
+        Route::get("wallet-recharge/success/{transactionId}", [WalletController::class, "rechargeSuccess"])->name("user.recharge.success");
+        Route::get("wallet-recharge/cancelled/{transactionId}", [WalletController::class, "rechargeCancelled"])->name("user.recharge.cancelled");
+        Route::get("wallet-recharge/declined/{transactionId}", [WalletController::class, "rechargeDeclined"])->name("user.recharge.declined");
     });
 });

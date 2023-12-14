@@ -11,7 +11,7 @@ class UserController extends Controller
     public function getAuthUser()
     {
         $user = Auth::user();
-        $user->load(["supplier", "buyer", "admin"]);
+        $user->load(["supplier", "buyer", "admin", "wallet"]);
 
 
         return response()->json($user);

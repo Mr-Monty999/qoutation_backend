@@ -3,85 +3,50 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\WalletRechargeRequest;
 use App\Http\Requests\StoreWalletRequest;
 use App\Http\Requests\UpdateWalletRequest;
 use App\Models\Wallet;
+use App\Models\WalletTransaction;
+use App\Services\TelrService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function recharge(WalletRechargeRequest $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $user = auth()->user();
+            $data["user_id"] = $user->id;
+            $data["wallet_id"] = $user->wallet->id;
+            $data["number"] = time();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreWalletRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreWalletRequest $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Wallet $wallet)
-    {
-        //
-    }
+            $walletTransaction = WalletTransaction::create($data);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Wallet $wallet)
-    {
-        //
-    }
+            $data = TelrService::checkout($data["amount"], $walletTransaction->number);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateWalletRequest  $request
-     * @param  \App\Models\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateWalletRequest $request, Wallet $wallet)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Wallet $wallet)
+            DB::commit();
+            return response()->json([
+                "msg" => "recharged successfully",
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
+    }
+    public function rechargeSuccess(Request $request)
     {
-        //
+    }
+    public function rechargeCancelled(Request $request)
+    {
+    }
+    public function rechargeDeclined(Request $request)
+    {
     }
 }

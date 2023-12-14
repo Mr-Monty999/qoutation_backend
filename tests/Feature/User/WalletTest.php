@@ -2,13 +2,15 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class WalletTest extends TestCase
 {
     use WithFaker;
     /**
@@ -16,7 +18,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_logged_in_user_can_get_his_data()
+    public function test_user_can_recharge_his_wallet()
     {
 
 
@@ -28,9 +30,22 @@ class UserTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $wallet = Wallet::create([
+            "user_id" => $user->id
+        ]);
+
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "25234324244242423"
+
+        ]);
+
+
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/get-auth-user');
+        $response = $this->post('/api/v1/user/wallet-recharge', [
+            "amount" => 300
+        ]);
 
         $response->assertStatus(200);
     }
