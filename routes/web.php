@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*

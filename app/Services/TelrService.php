@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 class TelrService
 {
 
-    public static function checkout($amount, $uniqueNumber, $locale = "ar", $description = "")
+    public static function checkout($amount, $uniqueNumber, $description = "", $locale = "ar")
     {
         $response =  Http::asForm()->post(env("TELR_URL"), [
             "ivp_method" => "create",
@@ -22,11 +22,11 @@ class TelrService
             "ivp_cart" => $uniqueNumber,
             "ivp_desc" => $description,
             "ivp_lang" => $locale,
-            "return_auth" => route("user.recharge.success", $uniqueNumber),
-            "return_decl" => route("user.recharge.declined", $uniqueNumber),
-            "return_can" => route("user.recharge.cancelled", $uniqueNumber)
+            "return_auth" => env('TELR_SUCCESS_CALLBACK'),
+            "return_decl" => env("TELR_DECLINED_CALLBACK"),
+            "return_can" => env("TELR_CANCELLED_CALLBACK")
         ]);
 
-        return response($response);
+        return json_decode($response->body());
     }
 }

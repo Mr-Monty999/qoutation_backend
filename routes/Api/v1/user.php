@@ -41,9 +41,9 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
         ///// wallets /////
-        Route::post("wallet-recharge", [WalletController::class, "recharge"]);
-        Route::post("wallet-recharge/success/{transactionNumber}", [WalletController::class, "rechargeSuccess"])->name("user.recharge.success");
-        Route::post("wallet-recharge/cancelled/{transactionNumber}", [WalletController::class, "rechargeCancelled"])->name("user.recharge.cancelled");
-        Route::post("wallet-recharge/declined/{transactionNumber}", [WalletController::class, "rechargeDeclined"])->name("user.recharge.declined");
+        Route::post("wallet-recharge", [WalletController::class, "recharge"])->middleware("throttle:3,1");
+        Route::post("wallet-recharge/success/{transactionNumber}", [WalletController::class, "rechargeSuccess"])->name("user.wallet.recharge.success");
+        Route::post("wallet-recharge/cancelled/{transactionNumber}", [WalletController::class, "rechargeCancelled"])->name("user.wallet.recharge.cancelled");
+        Route::post("wallet-recharge/declined/{transactionNumber}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined");
     });
 });

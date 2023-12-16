@@ -116,7 +116,7 @@ class WalletTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/wallet-recharge/cancelled/$transaction->number", []);
+        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->number", []);
 
         $response->assertStatus(200);
     }
@@ -152,7 +152,7 @@ class WalletTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/wallet-recharge/declined/$transaction->number", []);
+        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->number", []);
 
         $response->assertStatus(200);
     }

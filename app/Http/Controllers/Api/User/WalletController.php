@@ -28,12 +28,13 @@ class WalletController extends Controller
 
             $walletTransaction = WalletTransaction::create($data);
 
-            $data = TelrService::checkout($data["amount"], $walletTransaction->number);
+            $data = TelrService::checkout($data["amount"], $walletTransaction->number, "wallet_recharge");
 
 
             DB::commit();
             return response()->json([
-                "data" => $data,
+                "payment" => $data,
+                "transaction" => $walletTransaction
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
