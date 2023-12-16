@@ -24,6 +24,7 @@ class WalletController extends Controller
             $data["user_id"] = $user->id;
             $data["wallet_id"] = $user->wallet->id;
             $data["number"] = time();
+            $data["uuid"] = uniqid("");
 
 
             $walletTransaction = WalletTransaction::create($data);
@@ -41,11 +42,11 @@ class WalletController extends Controller
             return response()->json(["msg" => "error"], 400);
         }
     }
-    public function rechargeSuccess(Request $request, $transactionNumber)
+    public function rechargeSuccess(Request $request, $uuid)
     {
         DB::beginTransaction();
         try {
-            $transaction = WalletTransaction::where("number", $transactionNumber)
+            $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
             $transaction->update([
@@ -66,11 +67,11 @@ class WalletController extends Controller
             return response()->json(["msg" => "error"], 400);
         }
     }
-    public function rechargeCancelled(Request $request, $transactionNumber)
+    public function rechargeCancelled(Request $request, $uuid)
     {
         DB::beginTransaction();
         try {
-            $transaction = WalletTransaction::where("number", $transactionNumber)
+            $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
             $transaction->update([
@@ -86,11 +87,11 @@ class WalletController extends Controller
             return response()->json(["msg" => "error"], 400);
         }
     }
-    public function rechargeDeclined(Request $request, $transactionNumber)
+    public function rechargeDeclined(Request $request, $uuid)
     {
         DB::beginTransaction();
         try {
-            $transaction = WalletTransaction::where("number", $transactionNumber)
+            $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
             $transaction->update([

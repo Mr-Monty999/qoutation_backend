@@ -75,13 +75,14 @@ class WalletTest extends TestCase
         $transaction = WalletTransaction::create([
             "user_id" => $user->id,
             "wallet_id" => $wallet->id,
-            "number" => now()
+            "number" => now(),
+            "uuid" => uniqid("", true)
         ]);
 
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->number", []);
+        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->uuid", []);
 
         $response->assertStatus(200);
     }
@@ -110,13 +111,15 @@ class WalletTest extends TestCase
         $transaction = WalletTransaction::create([
             "user_id" => $user->id,
             "wallet_id" => $wallet->id,
-            "number" => now()
+            "number" => now(),
+            "uuid" => uniqid("", true)
+
         ]);
 
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->number", []);
+        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->uuid", []);
 
         $response->assertStatus(200);
     }
@@ -146,13 +149,15 @@ class WalletTest extends TestCase
         $transaction = WalletTransaction::create([
             "user_id" => $user->id,
             "wallet_id" => $wallet->id,
-            "number" => now()
+            "number" => now(),
+            "uuid" => uniqid("", true)
+
         ]);
 
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->number", []);
+        $response = $this->post("/api/v1/user/wallet-recharge/success/$transaction->uuid", []);
 
         $response->assertStatus(200);
     }

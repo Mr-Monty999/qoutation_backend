@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal("amount", 12)->default(0);
             $table->string("status")->default("pending");
             $table->string("number")->unique();
+            $table->string("uuid")->unique();
             $table->timestamps();
             $table->softDeletes();
 
