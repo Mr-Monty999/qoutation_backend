@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateWalletRequest;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use App\Services\TelrService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -52,7 +53,7 @@ class WalletController extends Controller
             $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
-            if ($transaction->status == "pending") {
+            if ($transaction->status == "pending" && Carbon::parse($transaction->created_at) > now()->subHour()) {
                 $transaction->update([
                     "status" => "paid"
                 ]);
@@ -78,7 +79,7 @@ class WalletController extends Controller
             $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
-            if ($transaction->status == "pending")
+            if ($transaction->status == "pending" && Carbon::parse($transaction->created_at) > now()->subHour())
                 $transaction->update([
                     "status" => "cancelled"
                 ]);
@@ -100,7 +101,7 @@ class WalletController extends Controller
                 ->firstOrFail();
 
 
-            if ($transaction->status == "pending")
+            if ($transaction->status == "pending" && Carbon::parse($transaction->created_at) > now()->subHour())
                 $transaction->update([
                     "status" => "declined"
                 ]);
