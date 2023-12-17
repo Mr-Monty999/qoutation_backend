@@ -24,12 +24,14 @@ class WalletController extends Controller
             $data["user_id"] = $user->id;
             $data["wallet_id"] = $user->wallet->id;
             $data["number"] = time();
-            $data["uuid"] = uniqid("");
+
+            $uuid =  uniqid("");
+            $data["uuid"] = $uuid;
 
 
             $walletTransaction = WalletTransaction::create($data);
 
-            $data = TelrService::checkout($data["amount"], $walletTransaction->number, "wallet_recharge");
+            $data = TelrService::checkout($data["amount"], $walletTransaction->number, $uuid, "wallet_recharge");
 
 
             DB::commit();
@@ -49,14 +51,15 @@ class WalletController extends Controller
             $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
-            $transaction->update([
-                "status" => "paid"
-            ]);
+            if ($transaction->status == "pending") {
+                $transaction->update([
+                    "status" => "paid"
+                ]);
 
-            $wallet = $transaction->wallet;
-            $wallet->balance += $transaction->amount;
-            $wallet->save();
-
+                $wallet = $transaction->wallet;
+                $wallet->balance += $transaction->amount;
+                $wallet->save();
+            }
 
             DB::commit();
             return response()->json([
@@ -74,9 +77,10 @@ class WalletController extends Controller
             $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
-            $transaction->update([
-                "status" => "cancelled"
-            ]);
+            if ($transaction->status == "pending")
+                $transaction->update([
+                    "status" => "cancelled"
+                ]);
 
             DB::commit();
             return response()->json([
@@ -94,9 +98,11 @@ class WalletController extends Controller
             $transaction = WalletTransaction::where("uuid", $uuid)
                 ->firstOrFail();
 
-            $transaction->update([
-                "status" => "declined"
-            ]);
+
+            if ($transaction->status == "pending")
+                $transaction->update([
+                    "status" => "declined"
+                ]);
 
             DB::commit();
             return response()->json([

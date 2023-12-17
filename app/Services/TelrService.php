@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 class TelrService
 {
 
-    public static function checkout($amount, $uniqueNumber, $description = "", $locale = "ar")
+    public static function checkout($amount, $uniqueNumber, $uuid, $description = "", $locale = "ar")
     {
 
         $response =  Http::asForm()->post(env("TELR_URL"), [
@@ -23,9 +23,9 @@ class TelrService
             "ivp_cart" => $uniqueNumber,
             "ivp_desc" => $description,
             "ivp_lang" => $locale,
-            "return_auth" => env('TELR_SUCCESS_CALLBACK'),
-            "return_decl" => env("TELR_DECLINED_CALLBACK"),
-            "return_can" => env("TELR_CANCELLED_CALLBACK")
+            "return_auth" => env('TELR_SUCCESS_CALLBACK') . "/" . $uuid,
+            "return_decl" => env("TELR_DECLINED_CALLBACK") . "/" . $uuid,
+            "return_can" => env("TELR_CANCELLED_CALLBACK") . "/" . $uuid
         ]);
 
         return json_decode($response->body());
