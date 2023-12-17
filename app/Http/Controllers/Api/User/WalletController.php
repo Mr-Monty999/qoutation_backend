@@ -11,6 +11,8 @@ use App\Models\WalletTransaction;
 use App\Services\TelrService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class WalletController extends Controller
 {
@@ -25,7 +27,7 @@ class WalletController extends Controller
             $data["wallet_id"] = $user->wallet->id;
             $data["number"] = time();
 
-            $uuid =  uniqid("");
+            $uuid =  Uuid::uuid4();
             $data["uuid"] = $uuid;
 
 
