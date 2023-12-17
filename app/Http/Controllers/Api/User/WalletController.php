@@ -39,7 +39,6 @@ class WalletController extends Controller
             DB::commit();
             return response()->json([
                 "payment" => $data,
-                "transaction" => $walletTransaction
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
