@@ -107,7 +107,7 @@ class WalletController extends Controller
 
             DB::commit();
             return response()->json([
-                "msg" => "wallet recharge declined",
+                "msg" => trans("wallet recharge declined"),
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
