@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\User\ServiceController;
+use App\Http\Controllers\Api\User\ServiceQoutationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
     Route::group(["middleware" => ["verified"]], function () {
 
         /////////////// services /////////////
-        Route::resource("services", ServiceController::class, [
+        Route::apiResource("services", ServiceController::class, [
             "as" => "user"
         ]);
 
@@ -45,5 +46,11 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::post("wallet-recharge/success/{uuid}", [WalletController::class, "rechargeSuccess"])->name("user.wallet.recharge.success")->middleware("throttle:3,1");
         Route::post("wallet-recharge/cancelled/{uuid}", [WalletController::class, "rechargeCancelled"])->name("user.wallet.recharge.cancelled")->middleware("throttle:3,1");
         Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
+
+
+        /////////////// services /////////////
+        Route::apiResource("quotations", ServiceQoutationController::class, [
+            "as" => "user"
+        ]);
     });
 });
