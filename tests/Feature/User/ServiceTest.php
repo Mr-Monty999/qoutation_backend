@@ -5,6 +5,7 @@ namespace Tests\Feature\User;
 use App\Models\Activity;
 use App\Models\Buyer;
 use App\Models\Service;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -129,7 +130,7 @@ class ServiceTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/auth/buyer/services');
+        $response = $this->get('/api/v1/user/buyer/services');
 
         $response->assertStatus(200);
     }
@@ -196,5 +197,29 @@ class ServiceTest extends TestCase
         $response = $this->delete("/api/v1/user/services/$service->id");
 
         $response->assertStatus(204);
+    }
+
+    public function test_supplier_get_services()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => $this->faker->creditCardNumber
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/api/v1/user/supplier/services');
+
+        $response->assertStatus(200);
     }
 }

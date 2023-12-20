@@ -36,16 +36,20 @@ class ServiceController extends Controller
 
         return response()->json($services);
     }
-    // public function supplierFeedServices()
-    // {
-    //     $user = Auth::user();
-    //     $services = $user->services()
-    //         ->with("user", "activities")
-    //         ->withCount("serviceQuotations")
-    //         ->latest()->paginate(10);
 
-    //     return response()->json($services);
-    // }
+    public function supplierServices()
+    {
+        $user = Auth::user();
+        $userActivities = $user->activities->pluck("id");
+        $services = Service::with("user", "activities")
+            ->whereHas("activities", function ($q) use ($userActivities) {
+                $q->whereIn("activity_id", $userActivities);
+            })
+            ->withCount("serviceQuotations")
+            ->latest()->paginate(10);
+
+        return response()->json($services);
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -35,9 +35,13 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
             "as" => "user"
         ]);
 
+        //// get supplier services ////
 
-        //// get auth buyer services ////
-        Route::get("/auth/buyer/services", [ServiceController::class, "buyerServices"]);
+        Route::get("/supplier/services", [ServiceController::class, "supplierServices"]);
+
+
+        //// get buyer services ////
+        Route::get("/buyer/services", [ServiceController::class, "buyerServices"]);
 
 
 
