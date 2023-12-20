@@ -24,7 +24,9 @@ class UpdateServiceQuotationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "amount" => "required|numeric",
+            "description" => "nullable|string",
+            "title" => "required|string"
         ];
     }
 }

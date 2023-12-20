@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\ServiceQoutation;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,10 @@ class QuotationTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $wallet = Wallet::create([
+            "user_id" => $user->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
             "commercial_record_number" => "23443234324"
@@ -103,7 +108,6 @@ class QuotationTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->put("/api/v1/user/quotations/$quotation->id", [
-            "service_id" => $service->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
             "amount" => 3432434
@@ -149,7 +153,7 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/auth/supplier/quotations');
+        $response = $this->get('/api/v1/user/quotations?type=own');
 
         $response->assertStatus(200);
     }

@@ -8,6 +8,7 @@ use App\Http\Requests\Api\User\UpdateServiceQuotationRequest;
 use App\Http\Requests\StoreServiceQoutationRequest;
 use App\Http\Requests\UpdateServiceQoutationRequest;
 use App\Models\ServiceQoutation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ServiceQoutationController extends Controller
@@ -17,19 +18,23 @@ class ServiceQoutationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $user = auth()->user();
+
+        $quotations = ServiceQoutation::with("user", "service");
+
+        if ($request->type == "own") {
+            $quotations->where("user_id", $user->id);
+        }
+        $quotations =  $quotations->get();
+
+        return response()->json([
+            "data" => $quotations
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,6 +46,15 @@ class ServiceQoutationController extends Controller
     {
 
         $user = auth()->user();
+        $userWallet = $user->wallet;
+
+
+
+        if (!$user->supplier)
+            abort(403);
+
+        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+            abort(403);
 
 
         DB::beginTransaction();
@@ -50,6 +64,8 @@ class ServiceQoutationController extends Controller
             $data = $request->validated();
             $data["user_id"] = $user->id;
             $quotation = ServiceQoutation::create($data);
+            $quotation->load("user", "service");
+            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
 
 
             DB::commit();
@@ -68,9 +84,13 @@ class ServiceQoutationController extends Controller
      * @param  \App\Models\ServiceQoutation  $serviceQoutation
      * @return \Illuminate\Http\Response
      */
-    public function show(ServiceQoutation $serviceQoutation)
+    public function show($id)
     {
-        return response()->json($serviceQoutation, 200);
+        $serviceQoutation = ServiceQoutation::findOrFail($id);
+
+        $serviceQoutation->load("user", "service");
+
+        return response()->json($serviceQoutation);
     }
 
     /**
@@ -80,9 +100,10 @@ class ServiceQoutationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(UpdateServiceQuotationRequest $request, ServiceQoutation $serviceQoutation)
+    public function update(UpdateServiceQuotationRequest $request, $id)
     {
 
+        $serviceQoutation = ServiceQoutation::findOrFail($id);
         $user = auth()->user();
 
         if (!$user->supplier || $serviceQoutation->user_id != $user->id)
@@ -95,7 +116,7 @@ class ServiceQoutationController extends Controller
 
             $data = $request->validated();
             $serviceQoutation->update($data);
-
+            $serviceQoutation->load("user", "service");
 
             DB::commit();
             return response()->json([
@@ -107,14 +128,12 @@ class ServiceQoutationController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ServiceQoutation $serviceQoutation)
+    public function destroy($id)
     {
-        //
+        $serviceQoutation = ServiceQoutation::findOrFail($id);
+
+        $serviceQoutation->delete();
+
+        return response()->json([], 204);
     }
 }
