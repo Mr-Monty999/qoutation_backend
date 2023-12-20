@@ -18,9 +18,9 @@ class Service extends Model
         return $this->belongsTo(User::class, "user_id");
     }
 
-    public function serviceQoutations()
+    public function serviceQuotations()
     {
-        return $this->hasMany(ServiceQoutation::class, "service_id");
+        return $this->hasMany(ServiceQuotation::class, "service_id");
     }
     public function activities()
     {

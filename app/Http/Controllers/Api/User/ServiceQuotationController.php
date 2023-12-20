@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreServiceQuotationRequest;
 use App\Http\Requests\Api\User\UpdateServiceQuotationRequest;
-use App\Http\Requests\StoreServiceQoutationRequest;
-use App\Http\Requests\UpdateServiceQoutationRequest;
-use App\Models\ServiceQoutation;
+use App\Models\ServiceQuotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ServiceQoutationController extends Controller
+class ServiceQuotationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +21,7 @@ class ServiceQoutationController extends Controller
 
         $user = auth()->user();
 
-        $quotations = ServiceQoutation::with("user", "service");
+        $quotations = ServiceQuotation::with("user", "service");
 
         if ($request->type == "own") {
             $quotations->where("user_id", $user->id);
@@ -39,7 +37,7 @@ class ServiceQoutationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceQoutationRequest  $request
+     * @param  \App\Http\Requests\StoreServiceQuotationRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreServiceQuotationRequest $request)
@@ -63,7 +61,7 @@ class ServiceQoutationController extends Controller
 
             $data = $request->validated();
             $data["user_id"] = $user->id;
-            $quotation = ServiceQoutation::create($data);
+            $quotation = ServiceQuotation::create($data);
             $quotation->load("user", "service");
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
 
@@ -81,32 +79,32 @@ class ServiceQoutationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $serviceQoutation = ServiceQoutation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($id);
 
-        $serviceQoutation->load("user", "service");
+        $serviceQuotation->load("user", "service");
 
-        return response()->json($serviceQoutation);
+        return response()->json($serviceQuotation);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Http\Response
      */
 
     public function update(UpdateServiceQuotationRequest $request, $id)
     {
 
-        $serviceQoutation = ServiceQoutation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($id);
         $user = auth()->user();
 
-        if (!$user->supplier || $serviceQoutation->user_id != $user->id)
+        if (!$user->supplier || $serviceQuotation->user_id != $user->id)
             abort(403);
 
 
@@ -115,12 +113,12 @@ class ServiceQoutationController extends Controller
 
 
             $data = $request->validated();
-            $serviceQoutation->update($data);
-            $serviceQoutation->load("user", "service");
+            $serviceQuotation->update($data);
+            $serviceQuotation->load("user", "service");
 
             DB::commit();
             return response()->json([
-                "data" => $serviceQoutation
+                "data" => $serviceQuotation
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
@@ -130,9 +128,9 @@ class ServiceQoutationController extends Controller
 
     public function destroy($id)
     {
-        $serviceQoutation = ServiceQoutation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($id);
 
-        $serviceQoutation->delete();
+        $serviceQuotation->delete();
 
         return response()->json([], 204);
     }

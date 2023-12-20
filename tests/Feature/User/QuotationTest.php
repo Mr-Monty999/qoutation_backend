@@ -4,7 +4,7 @@ namespace Tests\Feature\User;
 
 use App\Models\Activity;
 use App\Models\Service;
-use App\Models\ServiceQoutation;
+use App\Models\ServiceQuotation;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Wallet;
@@ -90,7 +90,7 @@ class QuotationTest extends TestCase
             "description" => $this->faker->text,
         ]);
 
-        $quotation = ServiceQoutation::create([
+        $quotation = ServiceQuotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
@@ -184,7 +184,7 @@ class QuotationTest extends TestCase
             "description" => $this->faker->text,
         ]);
 
-        $quotation = ServiceQoutation::create([
+        $quotation = ServiceQuotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
@@ -230,7 +230,7 @@ class QuotationTest extends TestCase
             "description" => $this->faker->text,
         ]);
 
-        $quotation = ServiceQoutation::create([
+        $quotation = ServiceQuotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\ServiceQoutation;
+use App\Models\ServiceQuotation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ServiceQoutationPolicy
+class ServiceQuotationPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class ServiceQoutationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ServiceQoutation $serviceQoutation)
+    public function view(User $user, ServiceQuotation $serviceQuotation)
     {
         //
     }
@@ -48,10 +48,10 @@ class ServiceQoutationPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ServiceQoutation $serviceQoutation)
+    public function update(User $user, ServiceQuotation $serviceQuotation)
     {
         //
     }
@@ -60,10 +60,10 @@ class ServiceQoutationPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ServiceQoutation $serviceQoutation)
+    public function delete(User $user, ServiceQuotation $serviceQuotation)
     {
         //
     }
@@ -72,10 +72,10 @@ class ServiceQoutationPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ServiceQoutation $serviceQoutation)
+    public function restore(User $user, ServiceQuotation $serviceQuotation)
     {
         //
     }
@@ -84,10 +84,10 @@ class ServiceQoutationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ServiceQoutation  $serviceQoutation
+     * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ServiceQoutation $serviceQoutation)
+    public function forceDelete(User $user, ServiceQuotation $serviceQuotation)
     {
         //
     }

@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\User\ServiceController;
-use App\Http\Controllers\Api\User\ServiceQoutationController;
+use App\Http\Controllers\Api\User\ServiceQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
         /////////////// services /////////////
-        Route::apiResource("quotations", ServiceQoutationController::class, [
+        Route::apiResource("quotations", ServiceQuotationController::class, [
             "as" => "user"
         ]);
     });

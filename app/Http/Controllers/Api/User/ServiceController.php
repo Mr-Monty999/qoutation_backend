@@ -21,7 +21,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::with("user", "activities")
-            ->withCount("serviceQoutations")
+            ->withCount("serviceQuotations")
             ->latest()->paginate(10);
 
         return response()->json($services);
@@ -31,7 +31,7 @@ class ServiceController extends Controller
         $user = Auth::user();
         $services = $user->services()
             ->with("user", "activities")
-            ->withCount("serviceQoutations")
+            ->withCount("serviceQuotations")
             ->latest()->paginate(10);
 
         return response()->json($services);
@@ -41,7 +41,7 @@ class ServiceController extends Controller
     //     $user = Auth::user();
     //     $services = $user->services()
     //         ->with("user", "activities")
-    //         ->withCount("serviceQoutations")
+    //         ->withCount("serviceQuotations")
     //         ->latest()->paginate(10);
 
     //     return response()->json($services);
@@ -75,7 +75,7 @@ class ServiceController extends Controller
             $service->activities()->attach($request->activity_ids);
 
             $service->load("activities", "user");
-            $service->loadCount("serviceQoutations");
+            $service->loadCount("serviceQuotations");
 
 
             DB::commit();
@@ -95,7 +95,7 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         $service->load("user", "activities")
-            ->loadCount("serviceQoutations");
+            ->loadCount("serviceQuotations");
 
         return response()->json($service);
     }
@@ -129,7 +129,7 @@ class ServiceController extends Controller
             $service->activities()->sync($request->activity_ids);
 
             $service->load("activities", "user");
-            $service->loadCount("serviceQoutations");
+            $service->loadCount("serviceQuotations");
 
 
 
