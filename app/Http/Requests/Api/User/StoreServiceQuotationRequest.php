@@ -24,7 +24,6 @@ class StoreServiceQuotationRequest extends FormRequest
     public function rules()
     {
         return [
-            "service_id" => "required|exists:services,id",
             "amount" => "required|numeric",
             "description" => "nullable|string",
             "title" => "required|string"

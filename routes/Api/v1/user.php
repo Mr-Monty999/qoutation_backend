@@ -53,7 +53,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
         /////////////// services /////////////
-        Route::apiResource("quotations", ServiceQuotationController::class, [
+        Route::apiResource("services.quotations", ServiceQuotationController::class, [
             "as" => "user"
         ]);
     });

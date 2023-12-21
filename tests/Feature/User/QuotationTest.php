@@ -57,8 +57,7 @@ class QuotationTest extends TestCase
             "description" => $this->faker->text,
         ]);
 
-        $response = $this->post('/api/v1/user/quotations', [
-            "service_id" => $service->id,
+        $response = $this->post("/api/v1/user/services/$service->id/quotations", [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
             "amount" => 3432434
@@ -107,7 +106,7 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->put("/api/v1/user/quotations/$quotation->id", [
+        $response = $this->put("/api/v1/user/services/$service->id/quotations/$quotation->id", [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
             "amount" => 3432434
@@ -130,9 +129,35 @@ class QuotationTest extends TestCase
         ]);
 
 
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "23443234324"
+        ]);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $quotation = ServiceQuotation::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+            "service_id" => $service->id,
+            "amount" => 344234
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+        $a2 = Activity::create([
+            "name" => "a2"
+        ]);
+
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/quotations');
+        $response = $this->get("/api/v1/user/services/$service->id/quotations");
 
         $response->assertStatus(200);
     }
@@ -151,9 +176,35 @@ class QuotationTest extends TestCase
         ]);
 
 
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "23443234324"
+        ]);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $quotation = ServiceQuotation::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+            "service_id" => $service->id,
+            "amount" => 344234
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+        $a2 = Activity::create([
+            "name" => "a2"
+        ]);
+
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/quotations?type=own');
+        $response = $this->get("/api/v1/user/services/$service->id/quotations?type=own");
 
         $response->assertStatus(200);
     }
@@ -198,7 +249,7 @@ class QuotationTest extends TestCase
 
         $user->activities()->attach($a1->id);
 
-        $response = $this->get("/api/v1/user/quotations/$quotation->id");
+        $response = $this->get("/api/v1/user/services/$service->id/quotations/$quotation->id");
 
         $response->assertStatus(200);
     }
@@ -244,7 +295,7 @@ class QuotationTest extends TestCase
 
         $user->activities()->attach($a1->id);
 
-        $response = $this->delete("/api/v1/user/quotations/$quotation->id");
+        $response = $this->delete("/api/v1/user/services/$service->id/quotations/$quotation->id");
 
         $response->assertStatus(204);
     }

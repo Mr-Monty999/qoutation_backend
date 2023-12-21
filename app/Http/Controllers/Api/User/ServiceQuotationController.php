@@ -40,7 +40,7 @@ class ServiceQuotationController extends Controller
      * @param  \App\Http\Requests\StoreServiceQuotationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceQuotationRequest $request)
+    public function store(StoreServiceQuotationRequest $request, $serviceId)
     {
 
         $user = auth()->user();
@@ -61,6 +61,7 @@ class ServiceQuotationController extends Controller
 
             $data = $request->validated();
             $data["user_id"] = $user->id;
+            $data["service_id"] = $serviceId;
             $quotation = ServiceQuotation::create($data);
             $quotation->load("user", "service");
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
@@ -82,9 +83,9 @@ class ServiceQuotationController extends Controller
      * @param  \App\Models\ServiceQuotation  $serviceQuotation
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serviceId, $quotationId)
     {
-        $serviceQuotation = ServiceQuotation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($quotationId);
 
         $serviceQuotation->load("user", "service");
 
@@ -98,10 +99,10 @@ class ServiceQuotationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(UpdateServiceQuotationRequest $request, $id)
+    public function update(UpdateServiceQuotationRequest $request, $serviceId, $quotationId)
     {
 
-        $serviceQuotation = ServiceQuotation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($quotationId);
         $user = auth()->user();
 
         if (!$user->supplier || $serviceQuotation->user_id != $user->id)
@@ -126,9 +127,9 @@ class ServiceQuotationController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($serviceId, $quotationId)
     {
-        $serviceQuotation = ServiceQuotation::findOrFail($id);
+        $serviceQuotation = ServiceQuotation::findOrFail($quotationId);
 
         $serviceQuotation->delete();
 
