@@ -9,6 +9,10 @@ return [
     "account not found" => "لم يتم إيجاد الحساب",
     "wallet recharge proccess declined" => "تم رفض عملية شحن المحفظة",
     "wallet recharge proccess cancelled" => "تم إلغاء عملية شحن المحفظة",
-    "wallet recharged successfully" => "تم شحن المحفظة"
+    "wallet recharged successfully" => "تم شحن المحفظة",
+    "amount" => "المبلغ",
+    "price" => "السعر"
+
+
 
 ];

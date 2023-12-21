@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreServiceQuotationRequest;
 use App\Http\Requests\Api\User\UpdateServiceQuotationRequest;
+use App\Models\Service;
 use App\Models\ServiceQuotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,16 +17,30 @@ class ServiceQuotationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function allUserQuotations(Request $request)
+    {
+        $user = auth()->user();
+
+        $quotations = ServiceQuotation::with("user", "service");
+
+        $quotations->where("user_id", $user->id);
+
+
+        $quotations =  $quotations->get();
+
+        return response()->json([
+            "data" => $quotations
+        ]);
+    }
+    public function index(Request $request, $serviceId)
     {
 
         $user = auth()->user();
 
         $quotations = ServiceQuotation::with("user", "service");
 
-        if ($request->type == "own") {
-            $quotations->where("user_id", $user->id);
-        }
+        $quotations->where("service_id", $serviceId);
+
         $quotations =  $quotations->get();
 
         return response()->json([
@@ -46,14 +61,18 @@ class ServiceQuotationController extends Controller
         $user = auth()->user();
         $userWallet = $user->wallet;
 
-
-
         if (!$user->supplier)
             abort(403);
 
         if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
             abort(403);
 
+        $quotationExists = ServiceQuotation::where("service_id", $serviceId)
+            ->where("user_id", $user->id)
+            ->exists();
+
+        if ($quotationExists)
+            abort(403);
 
         DB::beginTransaction();
         try {
@@ -73,7 +92,7 @@ class ServiceQuotationController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
-            return response()->json(["msg" => "error"], 400);
+            return response()->json(["msg" => $e->__toString()], 400);
         }
     }
 

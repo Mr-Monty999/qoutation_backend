@@ -9,6 +9,8 @@ return [
     "account not found" => "account not found",
     "wallet recharge proccess declined" => "wallet recharge proccess declined",
     "wallet recharge proccess cancelled" => "wallet recharge proccess cancelled",
-    "wallet recharged successfully" => "wallet recharged successfully"
+    "wallet recharged successfully" => "wallet recharged successfully",
+    "amount" => "amount",
+    "price" => "price"
 
 ];

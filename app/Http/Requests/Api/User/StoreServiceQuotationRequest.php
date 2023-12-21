@@ -30,4 +30,10 @@ class StoreServiceQuotationRequest extends FormRequest
 
         ];
     }
+    public function attributes()
+    {
+        return [
+            "amount" => trans("messages.price")
+        ];
+    }
 }

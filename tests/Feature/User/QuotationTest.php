@@ -116,7 +116,7 @@ class QuotationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_user_can_get_all_quotations()
+    public function test_user_can_get_all_service_quotations()
     {
 
 
@@ -158,6 +158,52 @@ class QuotationTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get("/api/v1/user/services/$service->id/quotations");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user_can_get_all_his_all_quotations()
+    {
+
+
+        $user = User::create([
+            "name" => "test",
+            "email" => "testtesttest@example.com",
+            "phone" => "96624241242",
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "23443234324"
+        ]);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $quotation = ServiceQuotation::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+            "service_id" => $service->id,
+            "amount" => 344234
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+        $a2 = Activity::create([
+            "name" => "a2"
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get("/api/v1/user/quotations/all");
 
         $response->assertStatus(200);
     }
