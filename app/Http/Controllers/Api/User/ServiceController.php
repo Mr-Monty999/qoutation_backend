@@ -41,7 +41,11 @@ class ServiceController extends Controller
     {
         $user = Auth::user();
         $userActivities = $user->activities->pluck("id");
-        $services = Service::with("user", "activities")
+        $services = Service::with([
+            "user",
+            "activities",
+            "userQuotation"
+        ])
             ->whereHas("activities", function ($q) use ($userActivities) {
                 $q->whereIn("activity_id", $userActivities);
             })

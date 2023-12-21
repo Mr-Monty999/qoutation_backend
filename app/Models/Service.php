@@ -22,6 +22,10 @@ class Service extends Model
     {
         return $this->hasMany(ServiceQuotation::class, "service_id");
     }
+    public function userQuotation()
+    {
+        return $this->hasOne(ServiceQuotation::class, "service_id")->where("user_id", auth()->id());
+    }
     public function activities()
     {
         return $this->belongsToMany(Activity::class, "service_activity", "service_id");
