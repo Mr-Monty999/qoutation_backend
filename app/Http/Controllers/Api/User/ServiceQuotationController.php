@@ -65,7 +65,9 @@ class ServiceQuotationController extends Controller
             abort(403);
 
         if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-            abort(403);
+            return response()->json([
+                "message" => trans("messages.you dont have enough money in your wallet !")
+            ], 403);
 
         $quotationExists = ServiceQuotation::where("service_id", $serviceId)
             ->where("user_id", $user->id)
@@ -84,6 +86,7 @@ class ServiceQuotationController extends Controller
             $quotation = ServiceQuotation::create($data);
             $quotation->load("user", "service");
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+            $userWallet->save();
 
 
             DB::commit();

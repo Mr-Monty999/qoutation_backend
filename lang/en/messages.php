@@ -14,6 +14,8 @@ return [
     "price" => "price",
     "email confirmation" => "email confirmation",
     "Verifiy Your Email" => "Verifiy Your Email",
-    "your otp is" => "your otp is"
+    "your otp is" => "your otp is",
+    "best regards" => "best regards",
+    "you dont have enough money in your wallet !" => "you dont have enough money in your wallet !"
 
 ];
