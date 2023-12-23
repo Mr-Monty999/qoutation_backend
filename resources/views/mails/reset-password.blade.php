@@ -201,7 +201,7 @@
                     letter-spacing: -1px;
                     line-height: 48px;
                   ">
-                                {{ trans('messages.email confirmation') }}
+                                {{ trans('messages.Reset Password') }}
                             </h1>
                         </td>
                     </tr>
