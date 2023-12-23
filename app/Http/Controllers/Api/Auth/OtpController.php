@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\SendRegisterOtp;
 use App\Http\Requests\Api\Auth\VerifyRegisterOtp;
+use App\Mail\EmailConfirmationMail;
 use App\Models\User;
 use App\Services\UserOtpService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class OtpController extends Controller
@@ -23,9 +25,9 @@ class OtpController extends Controller
 
         $isEmail = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL);
 
-        if ($isEmail)
+        if ($isEmail) {
             $otp = UserOtpService::sendEmailOtp($user);
-        else
+        } else
             $otp = UserOtpService::sendPhoneOtp($user);
 
 

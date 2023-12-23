@@ -11,6 +11,9 @@ return [
     "wallet recharge proccess cancelled" => "wallet recharge proccess cancelled",
     "wallet recharged successfully" => "wallet recharged successfully",
     "amount" => "amount",
-    "price" => "price"
+    "price" => "price",
+    "email confirmation" => "email confirmation",
+    "Verifiy Your Email" => "Verifiy Your Email",
+    "your otp is" => "your otp is"
 
 ];

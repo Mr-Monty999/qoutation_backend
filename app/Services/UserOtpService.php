@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Mail\EmailConfirmationMail;
 use App\Models\User;
 use App\Models\UserOtp;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class UserOtpService.
@@ -24,6 +26,8 @@ class UserOtpService
     public static function sendEmailOtp($user, $time = 5)
     {
         $otp = UserOtpService::store($user, $time);
+        Mail::to($user)->send(new EmailConfirmationMail($otp));
+
         return $otp;
     }
     public static function sendPhoneOtp($user, $time = 5)

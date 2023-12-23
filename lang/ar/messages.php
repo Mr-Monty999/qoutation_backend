@@ -11,7 +11,13 @@ return [
     "wallet recharge proccess cancelled" => "تم إلغاء عملية شحن المحفظة",
     "wallet recharged successfully" => "تم شحن المحفظة",
     "amount" => "المبلغ",
-    "price" => "السعر"
+    "price" => "السعر",
+    "email confirmation" => "تأكيد البريد الإلكتروني",
+    "Verifiy Your Email" => "تأكيد البريد الإكتروني الخاص بك",
+    "your otp is" => "رمز التحقق الخاص بك هو"
+
+
+
 
 
 
