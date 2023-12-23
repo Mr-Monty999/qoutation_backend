@@ -18,9 +18,10 @@ class ResetPasswordMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $data;
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -31,7 +32,7 @@ class ResetPasswordMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Reset Password Mail',
+            subject: trans('messages.Reset Password'),
         );
     }
 
@@ -43,7 +44,7 @@ class ResetPasswordMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.reset-password',
         );
     }
 

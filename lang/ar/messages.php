@@ -16,7 +16,9 @@ return [
     "Verifiy Your Email" => "تأكيد البريد الإكتروني الخاص بك",
     "your otp is" => "رمز التحقق الخاص بك هو",
     "best regards" => "مع تحياتنا",
-    "you dont have enough money in your wallet !" => "ليس لديك ما يكفي من المال في محفظتك!"
+    "you dont have enough money in your wallet !" => "ليس لديك ما يكفي من المال في محفظتك!",
+    "Reset Password" => "إعادة تعيين كلمة المرور"
+
 
 
 

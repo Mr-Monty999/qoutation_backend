@@ -27,7 +27,7 @@ class VerifyRegisterOtp extends FormRequest
             // "user_id" => "required|numeric",
             "email_or_phone" => "required|string",
             "otp_code" => "required|string",
-            "type" => "required|string|in:forget_password,phone_confirmation,email_confirmation"
+            "type" => "required|string|in:reset_password,phone_confirmation,email_confirmation"
         ];
     }
 }

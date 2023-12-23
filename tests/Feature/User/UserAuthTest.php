@@ -117,7 +117,10 @@ class UserAuthTest extends TestCase
         ]);
 
         $response = $this->post('/api/v1/auth/send-otp', [
-            "email_or_phone" => $user->email
+            "email_or_phone" => $user->email,
+            "type" => "email_confirmation"
+
+
         ]);
 
         $response->assertStatus(201);
@@ -135,7 +138,7 @@ class UserAuthTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
-        $otp = UserOtpService::sendEmailOtp($user);
+        $otp = UserOtpService::sendEmailOtp($user, "email_confirmation");
 
 
 

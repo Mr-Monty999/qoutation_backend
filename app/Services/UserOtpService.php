@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\EmailConfirmationMail;
+use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Facades\Mail;
@@ -23,10 +24,13 @@ class UserOtpService
 
         return $otp;
     }
-    public static function sendEmailOtp($user, $time = 5)
+    public static function sendEmailOtp($user, $otpType, $time = 5)
     {
         $otp = UserOtpService::store($user, $time);
-        Mail::to($user)->send(new EmailConfirmationMail($otp));
+        if ($otpType == "email_confirmation")
+            Mail::to($user)->send(new EmailConfirmationMail($otp));
+        elseif ($otpType == "reset_password")
+            Mail::to($user)->send(new ResetPasswordMail($otp));
 
         return $otp;
     }

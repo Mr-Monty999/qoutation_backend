@@ -26,9 +26,9 @@ class OtpController extends Controller
         $isEmail = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL);
 
         if ($isEmail) {
-            $otp = UserOtpService::sendEmailOtp($user);
+            $otp = UserOtpService::sendEmailOtp($user, $request->type);
         } else
-            $otp = UserOtpService::sendPhoneOtp($user);
+            $otp = UserOtpService::sendPhoneOtp($user, $request->type);
 
 
         return response()->json([
@@ -51,7 +51,7 @@ class OtpController extends Controller
                 "message" => trans("messages.otp is not correct or expired")
             ], 401);
 
-        if ($request->type != "forget_password") {
+        if ($request->type != "reset_password") {
             if ($request->type == "email_confirmation")
                 $user->email_verified_at = now();
             elseif ($request->type == "phone_confirmation")
