@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreServiceQuotationRequest;
 use App\Http\Requests\Api\User\UpdateServiceQuotationRequest;
+use App\Mail\SendQuotationNotificationMail;
 use App\Models\Service;
 use App\Models\ServiceQuotation;
+use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class ServiceQuotationController extends Controller
 {
@@ -88,8 +92,19 @@ class ServiceQuotationController extends Controller
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
             $userWallet->save();
 
+            $serviceOwner = Service::find($serviceId)->user;
+            Notification::send($serviceOwner, new SendQuotationNotification([
+                "service_id" => $serviceId,
+                "quotation_id" => $quotation->id,
+                "sender_id" => $user->id
+            ]));
+
+            Mail::to($serviceOwner)->send(new SendQuotationNotificationMail([
+                "sender_name" => $user->name
+            ]));
 
             DB::commit();
+
             return response()->json([
                 "data" => $quotation
             ], 201);

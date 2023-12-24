@@ -17,7 +17,9 @@ return [
     "your otp is" => "رمز التحقق الخاص بك هو",
     "best regards" => "مع تحياتنا",
     "you dont have enough money in your wallet !" => "ليس لديك ما يكفي من المال في محفظتك!",
-    "Reset Password" => "إعادة تعيين كلمة المرور"
+    "Reset Password" => "إعادة تعيين كلمة المرور",
+    "send_quotation_notification" => "أرسل :name عرض سعر لطلبك",
+    "new quotation" => "عرض سعر جديد"
 
 
 
