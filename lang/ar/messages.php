@@ -20,7 +20,12 @@ return [
     "Reset Password" => "إعادة تعيين كلمة المرور",
     "send_quotation_notification" => "أرسل :name عرض سعر لطلبك",
     "new quotation" => "عرض سعر جديد",
-    "SAR" => "ريال سعودي"
+    "SAR" => "ريال سعودي",
+    "supplier phone" => "رقم هاتف المورد",
+    "supplier email" => "بريد المورد",
+    "quotation title" => "عنوان العرض",
+    "quotation price" => "السعر",
+    "quotation description" => "وصف العرض",
 
 
 

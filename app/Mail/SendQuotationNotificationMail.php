@@ -23,7 +23,7 @@ class SendQuotationNotificationMail extends Mailable
     {
         $this->data = $data;
         $this->data["subject"] = trans("messages.send_quotation_notification", [
-            "name" => $this->data["sender_name"]
+            "name" => $this->data["supplier_name"]
         ]);
     }
 

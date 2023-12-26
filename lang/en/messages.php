@@ -20,6 +20,11 @@ return [
     "Reset Password" => "Reset Password",
     "send_quotation_notification" => ":name sent a quote for your order",
     "new quotation" => "new quotation",
-    "SAR" => "SAR"
+    "SAR" => "SAR",
+    "supplier phone" => "supplier phone",
+    "supplier email" => "supplier email",
+    "quotation title" => "quotation title",
+    "quotation price" => "quotation price",
+    "quotation description" => "quotation description",
 
 ];

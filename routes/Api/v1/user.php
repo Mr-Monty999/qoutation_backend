@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\ServiceController;
 use App\Http\Controllers\Api\User\ServiceQuotationController;
 use App\Http\Controllers\Api\User\UserController;
@@ -58,5 +59,9 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::apiResource("services.quotations", ServiceQuotationController::class, [
             "as" => "user"
         ]);
+
+
+        ///// notifications /////
+        Route::get("notifications", [NotificationController::class, "index"]);
     });
 });

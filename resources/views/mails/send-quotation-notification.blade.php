@@ -233,13 +233,45 @@
                   font-size: 16px;
                   line-height: 24px;
                 ">
-                            <div style="text-align: left;">
-                                <p style="margin: 0;font-weight: bold;font-size:20px">{{ $data['quotation_title'] }}</p>
-                                <p style="font-weight: bold;font-size:20px">
-                                    {{ number_format($data['quotation_price']) }}
-                                    {{ trans('messages.SAR') }}</p>
-                                <p style="margin: 0;font-weight:bold;font-size:20px">
-                                    {{ $data['quotation_description'] }}</p>
+                            <div style="text-align: center">
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:25px">
+                                        {{ trans('messages.supplier phone') }}:</div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr">
+                                        +{{ $data['supplier_phone'] }}
+                                    </div>
+                                </div>
+                                <br>
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ trans('messages.supplier email') }}:</div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ $data['supplier_email'] }}
+                                    </div>
+                                </div>
+                                <br>
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ trans('messages.quotation title') }}:</div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ $data['quotation_title'] }}
+                                    </div>
+                                </div>
+                                <br>
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ trans('messages.quotation price') }}:</div>
+                                    <div style="font-weight: bold;font-size:20px">
+                                        {{ number_format($data['quotation_price']) }}
+                                        {{ trans('messages.SAR') }}</div>
+                                </div>
+                                <br>
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                        {{ trans('messages.quotation description') }}:</div>
+                                    <div style="margin: 0;font-weight:bold;font-size:20px">
+                                        {{ $data['quotation_description'] }}</div>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -367,7 +399,7 @@
                     <!-- start unsubscribe -->
                     <!-- <tr>
                         <td align="center" bgcolor="#e9ecef"
-                            style="padding: 12px 24px; font-family: 'Cairo', sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+                            style="padding: 12px 24px;font-family: 'Cairo', sans-serif;font-size: 14px; line-height: 20px; color: #666;">
                             <p style="margin: 0;">To stop receiving these emails, you can <a
                                     href="https://www.blogdesire.com" target="_blank">unsubscribe</a> at any time.</p>
                             <p style="margin: 0;">Paste 1234 S. Broadway St. City, State 12345</p>
