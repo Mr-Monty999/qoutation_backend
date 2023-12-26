@@ -19,6 +19,7 @@ return [
     "you dont have enough money in your wallet !" => "you dont have enough money in your wallet !",
     "Reset Password" => "Reset Password",
     "send_quotation_notification" => ":name sent a quote for your order",
-    "new quotation" => "new quotation"
+    "new quotation" => "new quotation",
+    "SAR" => "SAR"
 
 ];

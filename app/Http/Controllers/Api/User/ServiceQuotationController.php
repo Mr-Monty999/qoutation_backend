@@ -100,7 +100,10 @@ class ServiceQuotationController extends Controller
             ]));
 
             Mail::to($serviceOwner)->send(new SendQuotationNotificationMail([
-                "sender_name" => $user->name
+                "sender_name" => $user->name,
+                "quotation_title" => $quotation->title,
+                "quotation_price" => $quotation->amount,
+                "quotation_description" => $quotation->description,
             ]));
 
             DB::commit();

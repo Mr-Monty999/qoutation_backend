@@ -196,12 +196,12 @@
                             <h1
                                 style="
                     margin: 0;
-                    font-size: 32px;
+                    font-size: 35px;
                     font-weight: 700;
                     letter-spacing: -1px;
                     line-height: 48px;
                   ">
-                                {{ trans('messages.new quotation') }}
+                                {{ $data['subject'] }}
                             </h1>
                         </td>
                     </tr>
@@ -233,7 +233,14 @@
                   font-size: 16px;
                   line-height: 24px;
                 ">
-                            <h3 style="margin: 0">{{ $data['subject'] }}</h3>
+                            <div style="text-align: left;">
+                                <p style="margin: 0;font-weight: bold;font-size:20px">{{ $data['quotation_title'] }}</p>
+                                <p style="font-weight: bold;font-size:20px">
+                                    {{ number_format($data['quotation_price']) }}
+                                    {{ trans('messages.SAR') }}</p>
+                                <p style="margin: 0;font-weight:bold;font-size:20px">
+                                    {{ $data['quotation_description'] }}</p>
+                            </div>
                         </td>
                     </tr>
                     <!-- end copy -->
