@@ -63,5 +63,6 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         ///// notifications /////
         Route::get("notifications", [NotificationController::class, "index"]);
+        Route::put("notifications/{notification}/read", [NotificationController::class, "read"]);
     });
 });

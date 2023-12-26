@@ -235,41 +235,41 @@
                 ">
                             <div style="text-align: center">
                                 <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px">
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.supplier phone') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr">
+                                    <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr;color:black">
                                         +{{ $data['supplier_phone'] }}
                                     </div>
                                 </div>
                                 <br>
                                 <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.supplier email') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:20px;color:black">
                                         {{ $data['supplier_email'] }}
                                     </div>
                                 </div>
                                 <br>
                                 <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation title') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:20px;color:black">
                                         {{ $data['quotation_title'] }}
                                     </div>
                                 </div>
                                 <br>
                                 <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation price') }}:</div>
-                                    <div style="font-weight: bold;font-size:20px">
+                                    <div style="font-weight: bold;font-size:20px;color:black">
                                         {{ number_format($data['quotation_price']) }}
                                         {{ trans('messages.SAR') }}</div>
                                 </div>
                                 <br>
                                 <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px">
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation description') }}:</div>
-                                    <div style="margin: 0;font-weight:bold;font-size:20px">
+                                    <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
                                         {{ $data['quotation_description'] }}</div>
                                 </div>
                             </div>

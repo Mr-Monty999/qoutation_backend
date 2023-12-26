@@ -18,4 +18,16 @@ class NotificationController extends Controller
             "data" => $notifications
         ]);
     }
+
+    public function read($notificationId)
+    {
+        $user = auth()->user();
+        $notification = $user->notifications()->find($notificationId);
+
+        $notification->markAsRead();
+
+        return response()->json([
+            "data" => $notification
+        ]);
+    }
 }
