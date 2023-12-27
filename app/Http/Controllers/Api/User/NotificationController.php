@@ -22,7 +22,7 @@ class NotificationController extends Controller
     public function read($notificationId)
     {
         $user = auth()->user();
-        $notification = $user->notifications()->find($notificationId);
+        $notification = $user->notifications()->findOrFail($notificationId);
 
         $notification->markAsRead();
 
