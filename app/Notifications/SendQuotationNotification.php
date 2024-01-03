@@ -55,10 +55,6 @@ class SendQuotationNotification extends Notification
      */
     public function toDatabase($notifiable)
     {
-        return [
-            "service_id" => $this->data["service_id"],
-            "quotation_id" => $this->data["quotation_id"],
-            "sender_id" => $this->data["sender_id"]
-        ];
+        return $this->data;
     }
 }

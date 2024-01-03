@@ -96,7 +96,11 @@ class ServiceQuotationController extends Controller
             Notification::send($serviceOwner, new SendQuotationNotification([
                 "service_id" => $serviceId,
                 "quotation_id" => $quotation->id,
-                "sender_id" => $user->id
+                "sender_id" => $user->id,
+                // "messages" => [
+                //     "ar" => "لقد قام " . $user->name . " بإرسال عرض سعر لطلبك",
+                //     "en" => $user->name . " has sent a quotes for your request"
+                // ]
             ]));
 
             Mail::to($serviceOwner)->send(new SendQuotationNotificationMail([
