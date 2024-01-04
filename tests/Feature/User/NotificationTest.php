@@ -103,4 +103,36 @@ class NotificationTest extends TestCase
 
         $response->assertStatus(200);
     }
+    public function test_user_can_read_his_all_notifications()
+    {
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $wallet = Wallet::create([
+            "user_id" => $user->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+
+
+        $this->actingAs($user);
+
+        $user->notify(new SendQuotationNotification([
+            "service_id" =>  $user->id,
+            "quotation_id" =>  $user->id,
+            "sender_id" => $user->id
+        ]));
+
+        $notification = $user->notifications->first();
+
+        $response = $this->put("/api/v1/user/notifications/readall");
+
+        $response->assertStatus(200);
+    }
 }

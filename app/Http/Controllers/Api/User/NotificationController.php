@@ -63,4 +63,15 @@ class NotificationController extends Controller
             "data" => $data
         ]);
     }
+
+    public function readAllNotifications(Request $request)
+    {
+        $user = auth()->user();
+        $user->unreadNotifications->markAsRead();
+
+        return response()->json([
+            "data" => null,
+
+        ]);
+    }
 }
