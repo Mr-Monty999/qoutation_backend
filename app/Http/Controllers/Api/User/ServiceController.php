@@ -102,10 +102,28 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        $service->load("user", "activities")
+
+        $user = auth()->user();
+
+        if ($service->user_id != $user->id)
+            abort(403);
+
+        $service->load([
+            "user",
+            "activities",
+        ])
             ->loadCount("serviceQuotations");
 
-        return response()->json($service);
+        $data = $service;
+        $serviceQuotations = $service->serviceQuotations;
+        $serviceQuotations->load("user.supplier");
+        $data["service_quotations"] = $service->serviceQuotations()->orderBy("amount")
+            ->paginate(1);
+
+
+
+
+        return response()->json($data);
     }
 
 
