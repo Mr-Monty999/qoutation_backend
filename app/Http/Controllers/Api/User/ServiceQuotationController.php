@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreServiceQuotationRequest;
 use App\Http\Requests\Api\User\UpdateServiceQuotationRequest;
+use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Service;
 use App\Models\ServiceQuotation;
+use App\Notifications\AcceptQuotationNotification;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +37,53 @@ class ServiceQuotationController extends Controller
         return response()->json([
             "data" => $quotations
         ]);
+    }
+
+    public function acceptQuotation(Request $request, Service $service, ServiceQuotation $serviceQuotation)
+    {
+
+        $user = auth()->user();
+        if ($service->user_id != $user->id)
+            abort(403);
+
+
+        if ($serviceQuotation->accepted_by != null)
+            abort(403);
+
+        $supplier = $serviceQuotation->user;
+
+        DB::beginTransaction();
+        try {
+            $serviceQuotation->update([
+                "accepted_by" => $user->id
+            ]);
+
+            Notification::send($supplier, new AcceptQuotationNotification([
+                "service_id" => $service->id,
+                "quotation_id" => $serviceQuotation->id,
+                "sender_id" => $user->id,
+            ]));
+
+            Mail::to($supplier)->send(new AcceptQuotationMail([
+                "buyer_name" => $user->name,
+                "buyer_phone" => $user->phone,
+                "buyer_email" => $user->email,
+                "quotation_title" => $serviceQuotation->title,
+                "quotation_price" => $serviceQuotation->amount,
+                "quotation_description" => $serviceQuotation->description,
+                "service_id" => $service->id,
+
+            ]));
+
+
+            DB::commit();
+            return response()->json([
+                "msg" => trans("messages.accepted successfully")
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
     public function index(Request $request, $serviceId)
     {

@@ -26,7 +26,14 @@ return [
     "quotation title" => "عنوان العرض",
     "quotation price" => "السعر",
     "quotation description" => "وصف العرض",
-    "request url" => "رابط الطلب"
+    "request url" => "رابط الطلب",
+    "accepted successfully" => "تم القبول بنجاح",
+    "buyer phone" => "رقم هاتف المشتري",
+    "buyer email" => "بريد المشتري",
+    "accept_quotation_message" => ":name قبل عرض سعرك",
+
+
+
 
 
 

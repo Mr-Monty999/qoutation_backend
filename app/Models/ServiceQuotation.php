@@ -17,6 +17,10 @@ class ServiceQuotation extends Model
         return $this->belongsTo(User::class, "user_id");
     }
 
+    public function acceptedBy()
+    {
+        return $this->belongsTo(User::class, "accepted_by");
+    }
     public function service()
     {
         return $this->belongsTo(Service::class, "service_id");

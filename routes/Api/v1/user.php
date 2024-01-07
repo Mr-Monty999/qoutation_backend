@@ -60,6 +60,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
             "as" => "user"
         ]);
 
+        Route::put("services/{service}/quotations/{serviceQuotation}/accept", [ServiceQuotationController::class, "acceptQuotation"]);
+
 
         ///// notifications /////
         Route::put("notifications/{notification}/read", [NotificationController::class, "read"]);

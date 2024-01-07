@@ -345,4 +345,50 @@ class QuotationTest extends TestCase
 
         $response->assertStatus(204);
     }
+
+    public function test_buyer_can_accept_any_quotation()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "23443234324"
+        ]);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $quotation = ServiceQuotation::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+            "service_id" => $service->id,
+            "amount" => 344234
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+        $a2 = Activity::create([
+            "name" => "a2"
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->put("/api/v1/user/services/$service->id/quotations/$quotation->id/accept", []);
+
+
+        $response->assertStatus(200);
+    }
 }
