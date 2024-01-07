@@ -182,7 +182,16 @@ class ServiceQuotationController extends Controller
      */
     public function show($serviceId, $quotationId)
     {
+
+
+        $service = Service::findOrFail($serviceId);
         $serviceQuotation = ServiceQuotation::findOrFail($quotationId);
+
+        $user = auth()->user();
+
+        if ($user->id != $serviceQuotation->user_id)
+            abort(403);
+
 
         $serviceQuotation->load("user", "service");
 

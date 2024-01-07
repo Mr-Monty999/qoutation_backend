@@ -262,7 +262,7 @@
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation price') }}:</div>
                                     <div style="font-weight: bold;font-size:20px;color:black">
-                                        {{ number_format($data['quotation_price']) }}
+                                        {{ number_format($data['quotation_price'], 2) }}
                                         {{ trans('messages.SAR') }}</div>
                                 </div>
                                 <br>
