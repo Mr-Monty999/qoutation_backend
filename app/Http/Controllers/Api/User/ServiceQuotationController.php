@@ -110,6 +110,8 @@ class ServiceQuotationController extends Controller
                 "quotation_title" => $quotation->title,
                 "quotation_price" => $quotation->amount,
                 "quotation_description" => $quotation->description,
+                "service_id" => $serviceId,
+
             ]));
 
             DB::commit();

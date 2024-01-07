@@ -26,6 +26,7 @@ return [
     "quotation title" => "عنوان العرض",
     "quotation price" => "السعر",
     "quotation description" => "وصف العرض",
+    "request url" => "رابط الطلب"
 
 
 

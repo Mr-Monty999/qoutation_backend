@@ -26,5 +26,6 @@ return [
     "quotation title" => "quotation title",
     "quotation price" => "quotation price",
     "quotation description" => "quotation description",
+    "request url" => "request url",
 
 ];

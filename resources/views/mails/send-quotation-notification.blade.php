@@ -272,6 +272,13 @@
                                     <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
                                         {{ $data['quotation_description'] }}</div>
                                 </div>
+                                <br>
+                                <div>
+                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
+                                        {{ trans('messages.request url') }}:</div>
+                                    <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
+                                        {{ env('FRONTEND_URL') . '/user/services/' . $data['service_id'] }}</div>
+                                </div>
                             </div>
                         </td>
                     </tr>
