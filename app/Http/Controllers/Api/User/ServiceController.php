@@ -114,16 +114,13 @@ class ServiceController extends Controller
         ])
             ->loadCount("serviceQuotations");
 
-        $data = $service;
-        $serviceQuotations = $service->serviceQuotations;
-        $serviceQuotations->load("user.supplier");
-        $data["service_quotations"] = $service->serviceQuotations()->orderBy("amount")
-            ->paginate(1);
+        $service["service_quotations"] = $service->serviceQuotations()->with("user.supplier")->orderBy("amount")
+            ->paginate(10);
 
 
 
 
-        return response()->json($data);
+        return response()->json($service);
     }
 
 
