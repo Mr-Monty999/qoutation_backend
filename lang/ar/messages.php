@@ -31,7 +31,9 @@ return [
     "buyer phone" => "رقم هاتف المشتري",
     "buyer email" => "بريد المشتري",
     "accept_quotation_message" => ":name قبل عرض سعرك",
-    "quotation url" => "رابط عرض السعر"
+    "quotation url" => "رابط عرض السعر",
+    "url" => "الرابط"
+
 
 
 

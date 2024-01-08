@@ -275,7 +275,7 @@
                                 <br>
                                 <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.quotation url') }}:</div>
+                                        {{ trans('messages.url') }}:</div>
                                     <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
                                         {{ env('FRONTEND_URL') . '/user/services/' . $data['service_id'] . '/quotations/' . $data['quotation_id'] }}
                                     </div>
