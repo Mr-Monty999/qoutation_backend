@@ -59,6 +59,17 @@ class ServiceQuotationController extends Controller
                 "accepted_by" => $user->id
             ]);
 
+
+            $transaction = Transaction::create([
+                "user_id" => $user->id,
+                "type" => "accept_quotation",
+                "data" => [
+                    "service_id" => $service->id,
+                    "quotation_id" => $serviceQuotation->id,
+                    "amount" => $serviceQuotation->amount
+                ]
+            ]);
+
             Notification::send($supplier, new AcceptQuotationNotification([
                 "service_id" => $service->id,
                 "quotation_id" => $serviceQuotation->id,
