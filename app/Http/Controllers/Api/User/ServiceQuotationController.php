@@ -193,7 +193,8 @@ class ServiceQuotationController extends Controller
             abort(403);
 
 
-        $serviceQuotation->load("user", "service");
+        $serviceQuotation->load("user", "service.user.buyer");
+        $serviceQuotation->service->loadCount("serviceQuotations");
 
         return response()->json($serviceQuotation);
     }
