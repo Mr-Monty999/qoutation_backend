@@ -37,6 +37,7 @@ class ServiceController extends Controller
             "status" => "completed"
         ]);
 
+        $service->load("activities", "user.buyer");
         return response()->json([
             "data" => $service
         ]);
@@ -148,9 +149,14 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
+
+
         $user = auth()->user();
 
         if (!$user->buyer || $service->user_id != $user->id)
+            abort(403);
+
+        if ($service->status != "active")
             abort(403);
 
         DB::beginTransaction();
@@ -188,7 +194,11 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+        if ($service->status != "active")
+            abort(403);
+
         $service->delete();
+
 
         return response()->json([], 204);
     }
