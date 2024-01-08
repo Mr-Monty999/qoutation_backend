@@ -36,6 +36,9 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
             "as" => "user"
         ]);
 
+        Route::put("services/{service}/complete", [ServiceController::class, "markAsCompleted"]);
+
+
         //// get supplier services ////
 
         Route::get("/supplier/services", [ServiceController::class, "supplierServices"]);

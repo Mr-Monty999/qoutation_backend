@@ -54,7 +54,7 @@ class ServiceTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function test_user_can_update_his_services()
+    public function test_user_can_update_his_service()
     {
 
 
@@ -219,6 +219,42 @@ class ServiceTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get('/api/v1/user/supplier/services');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user_can_mark_his_service_as_completed()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $buyer = Buyer::create([
+            "user_id" => $user->id
+        ]);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+        $a2 = Activity::create([
+            "name" => "a2"
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->put("/api/v1/user/services/$service->id/complete", []);
 
         $response->assertStatus(200);
     }

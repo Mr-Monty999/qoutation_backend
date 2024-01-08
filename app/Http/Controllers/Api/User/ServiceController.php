@@ -10,6 +10,7 @@ use App\Services\ServiceService;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class ServiceController extends Controller
 {
@@ -25,6 +26,20 @@ class ServiceController extends Controller
             ->latest()->paginate(10);
 
         return response()->json($services);
+    }
+    public function markAsCompleted(Request $request, Service $service)
+    {
+        if ($service->status == "completed")
+            abort(403);
+
+
+        $service->update([
+            "status" => "completed"
+        ]);
+
+        return response()->json([
+            "data" => $service
+        ]);
     }
     public function buyerServices()
     {
