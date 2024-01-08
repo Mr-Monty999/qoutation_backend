@@ -128,7 +128,13 @@ class ServiceQuotationController extends Controller
         $user = auth()->user();
         $userWallet = $user->wallet;
 
+        $service = Service::find($serviceId);
+
+
         if (!$user->supplier)
+            abort(403);
+
+        if ($service->status != "active")
             abort(403);
 
         if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
