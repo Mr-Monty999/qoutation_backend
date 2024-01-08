@@ -151,9 +151,10 @@ class ServiceQuotationController extends Controller
             $data["user_id"] = $user->id;
             $data["service_id"] = $serviceId;
             $quotation = ServiceQuotation::create($data);
-            $quotation->load("user", "service");
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
             $userWallet->save();
+
+            $quotation->load("user.wallet", "service");
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
