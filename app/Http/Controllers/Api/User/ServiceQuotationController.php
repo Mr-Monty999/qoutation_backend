@@ -72,6 +72,8 @@ class ServiceQuotationController extends Controller
                 "quotation_price" => $serviceQuotation->amount,
                 "quotation_description" => $serviceQuotation->description,
                 "service_id" => $service->id,
+                "quotation_id" => $serviceQuotation->id
+
 
             ]));
 
@@ -160,6 +162,7 @@ class ServiceQuotationController extends Controller
                 "quotation_price" => $quotation->amount,
                 "quotation_description" => $quotation->description,
                 "service_id" => $serviceId,
+                "quotation_id" => $quotation->id
 
             ]));
 

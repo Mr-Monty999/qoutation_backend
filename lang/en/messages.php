@@ -31,5 +31,6 @@ return [
     "buyer phone" => "buyer phone",
     "buyer email" => "buyer email",
     "accept_quotation_message" => ":name accept your quotation",
+    "quotation url" => "quotation url"
 
 ];
