@@ -9,6 +9,7 @@ use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Service;
 use App\Models\ServiceQuotation;
+use App\Models\Transaction;
 use App\Notifications\AcceptQuotationNotification;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
@@ -142,6 +143,16 @@ class ServiceQuotationController extends Controller
             $quotation->load("user", "service");
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
             $userWallet->save();
+
+            $transaction = Transaction::create([
+                "user_id" => $user->id,
+                "type" => "send_quotation",
+                "data" => [
+                    "service_id" => $serviceId,
+                    "quotation_id" => $quotation->id,
+                    "amount" => $quotation->amount
+                ]
+            ]);
 
             $serviceOwner = Service::find($serviceId)->user;
             Notification::send($serviceOwner, new SendQuotationNotification([
