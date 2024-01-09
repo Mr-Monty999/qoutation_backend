@@ -23,6 +23,7 @@ class ServiceController extends Controller
     {
         $services = Service::with("user", "activities")
             ->withCount("serviceQuotations")
+            ->where("status", "active")
             ->latest()->paginate(10);
 
         return response()->json($services);
@@ -66,6 +67,7 @@ class ServiceController extends Controller
                 $q->whereIn("activity_id", $userActivities);
             })
             ->withCount("serviceQuotations")
+            ->where("status", "active")
             ->latest()->paginate(10);
 
         return response()->json($services);
