@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTransactionRequest extends FormRequest
+class StoreMessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreTransactionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "receiver_email" => "required|email",
+            "title" => "required|string",
+            "body" => "required|string",
+            "message_id" => "nullable|exists:messages,id",
+            "attachments" => "nullable"
+
         ];
     }
 }

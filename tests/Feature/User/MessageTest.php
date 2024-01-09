@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Message;
+use App\Models\MessageRecipient;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +21,7 @@ class MessageTest extends TestCase
      */
     public function test_user_can_send_message()
     {
+        app()->setLocale("en");
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
@@ -27,22 +30,47 @@ class MessageTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $receiverUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+        $message = Message::create([
+            "sender_id" => $user->id,
+            "title" => $this->faker->title,
+            "body" => $this->faker->text,
+
         ]);
 
 
 
         $this->actingAs($user);
 
-        $response = $this->post("/api/v1/user/messages");
+        $response = $this->post(
+            "/api/v1/user/messages",
+            [
+                "receiver_email" => $receiverUser->email,
+                "title" => $this->faker->title,
+                "body" => $this->faker->text,
+                "message_id" => $message->id
 
-        $response->assertStatus(200);
+            ]
+        );
+
+        $response->assertStatus(201);
     }
     public function test_user_can_show_message()
     {
-        $user = User::create([
+        $senderUser = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
             "phone" => $this->faker->phoneNumber,
@@ -50,16 +78,75 @@ class MessageTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $receiverUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
         $wallet = Wallet::create([
-            "user_id" => $user->id,
+            "user_id" => $senderUser->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
         ]);
 
 
+        $this->actingAs($senderUser);
 
-        $this->actingAs($user);
+        $message = Message::create([
+            "sender_id" => $senderUser->id,
+            "title" => $this->faker->name,
+            "body" => $this->faker->text
+        ]);
 
-        $response = $this->get("/api/v1/user/messages/33");
+        $messageRecipients = MessageRecipient::create([
+            "receiver_id" => $receiverUser->id,
+            "message_id" => $message->id
+        ]);
+        $response = $this->get("/api/v1/user/messages/$message->id");
+
+        $response->assertStatus(200);
+    }
+    public function test_user_can_read_message()
+    {
+        $senderUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $receiverUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
+        $wallet = Wallet::create([
+            "user_id" => $senderUser->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+
+        $this->actingAs($senderUser);
+
+        $message = Message::create([
+            "sender_id" => $senderUser->id,
+            "title" => $this->faker->name,
+            "body" => $this->faker->text
+        ]);
+
+        $messageRecipients = MessageRecipient::create([
+            "receiver_id" => $receiverUser->id,
+            "message_id" => $message->id
+        ]);
+        $response = $this->put("/api/v1/user/messages/$message->id/read");
 
         $response->assertStatus(200);
     }
@@ -83,9 +170,7 @@ class MessageTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get("/api/v1/user/messages", [
-            "type" => "received"
-        ]);
+        $response = $this->get("/api/v1/user/messages?type=received");
 
         $response->assertStatus(200);
     }
@@ -107,10 +192,7 @@ class MessageTest extends TestCase
 
 
         $this->actingAs($user);
-
-        $response = $this->get("/api/v1/user/messages", [
-            "type" => "sent"
-        ]);
+        $response = $this->get("/api/v1/user/messages?type=sent");
 
         $response->assertStatus(200);
     }

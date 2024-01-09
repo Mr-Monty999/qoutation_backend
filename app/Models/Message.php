@@ -26,8 +26,8 @@ class Message extends Model
         return $this->belongsTo(Message::class, "parent_id");
     }
 
-    public function recipients()
+    public function recipient()
     {
-        return $this->hasMany(MessageRecipient::class, "message_id");
+        return $this->hasOne(MessageRecipient::class, "message_id");
     }
 }

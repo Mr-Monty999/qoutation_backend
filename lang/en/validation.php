@@ -216,7 +216,8 @@ return [
         'commercial_record_number' => 'commercial record number',
         "commercial_record_image" => "commercial record image",
         "otp_code" => "otp code",
-        "activity_ids" => "activity ids"
+        "activity_ids" => "activity ids",
+        "receiver_email" => "receiver email",
 
     ],
 ];

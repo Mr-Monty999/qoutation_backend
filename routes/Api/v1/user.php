@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\User\ServiceController;
 use App\Http\Controllers\Api\User\ServiceQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
+use App\Http\Controllers\Api\User\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -71,5 +72,13 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::get("notifications/count", [NotificationController::class, "notificationsCount"]);
         Route::put("notifications/readall", [NotificationController::class, "readAllNotifications"]);
         Route::get("notifications", [NotificationController::class, "index"]);
+
+
+
+        ////// messages /////
+        Route::get("messages", [MessageController::class, "index"]);
+        Route::post("messages", [MessageController::class, "store"]);
+        Route::get("messages/{message}", [MessageController::class, "show"]);
+        Route::put("messages/{message}/read", [MessageController::class, "read"]);
     });
 });
