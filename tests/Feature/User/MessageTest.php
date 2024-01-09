@@ -109,7 +109,7 @@ class MessageTest extends TestCase
 
         $response->assertStatus(200);
     }
-    public function test_user_can_read_message()
+    public function test_user_can_show_message_recipient()
     {
         $senderUser = User::create([
             "name" => $this->faker->name,
@@ -146,7 +146,48 @@ class MessageTest extends TestCase
             "receiver_id" => $receiverUser->id,
             "message_id" => $message->id
         ]);
-        $response = $this->put("/api/v1/user/messages/$message->id/read");
+        $response = $this->get("/api/v1/user/messages/recipients/$messageRecipients->id");
+
+        $response->assertStatus(200);
+    }
+    public function test_user_can_read_message_recipient()
+    {
+        $senderUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $receiverUser = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+
+        $wallet = Wallet::create([
+            "user_id" => $senderUser->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+
+        $this->actingAs($senderUser);
+
+        $message = Message::create([
+            "sender_id" => $senderUser->id,
+            "title" => $this->faker->name,
+            "body" => $this->faker->text
+        ]);
+
+        $messageRecipient = MessageRecipient::create([
+            "receiver_id" => $receiverUser->id,
+            "message_id" => $message->id
+        ]);
+        $response = $this->put("/api/v1/user/messages/recipients/$messageRecipient->id/read");
 
         $response->assertStatus(200);
     }

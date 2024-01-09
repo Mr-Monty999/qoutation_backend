@@ -78,7 +78,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         ////// messages /////
         Route::get("messages", [MessageController::class, "index"]);
         Route::post("messages", [MessageController::class, "store"]);
-        Route::get("messages/{message}", [MessageController::class, "show"]);
-        Route::put("messages/{message}/read", [MessageController::class, "read"]);
+        Route::get("messages/{message}", [MessageController::class, "showMessage"]);
+        Route::get("messages/recipients/{messageRecipient}", [MessageController::class, "showMessageRecipient"]);
+        Route::put("messages/recipients/{messageRecipient}/read", [MessageController::class, "readMessageRecipient"]);
     });
 });

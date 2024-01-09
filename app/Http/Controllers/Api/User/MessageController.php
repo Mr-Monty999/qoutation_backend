@@ -96,26 +96,33 @@ class MessageController extends Controller
         }
     }
 
-    public function show(Message $message)
+    public function showMessage(Message $message)
     {
-        $message->load("recipient", "sender.buyer", "sender.supplier");
+        $message->load("recipient.receiver", "sender.buyer", "sender.supplier");
         return response()->json([
             "data" => $message
         ]);
     }
-    public function read(Message $message)
+    public function showMessageRecipient(MessageRecipient $messageRecipient)
+    {
+        $messageRecipient->load("receiver", "message.sender.buyer", "message.sender.supplier");
+        return response()->json([
+            "data" => $messageRecipient
+        ]);
+    }
+    public function readMessageRecipient(MessageRecipient $messageRecipient)
     {
 
-        $message->load("recipient", "sender.buyer", "sender.supplier");
+        $messageRecipient->load("message.sender.buyer", "message.sender.supplier");
 
-        if ($message->recipient->read_at != null)
+        if ($messageRecipient->read_at != null)
             abort(403);
 
-        $message->recipient()->update([
+        $messageRecipient->update([
             "read_at" => now()
         ]);
         return response()->json([
-            "data" => $message
+            "data" => $messageRecipient
         ]);
     }
 }
