@@ -55,9 +55,6 @@ class RegisterController extends Controller
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
 
-        $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
-
-
         if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
             throw  ValidationException::withMessages([
                 "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
