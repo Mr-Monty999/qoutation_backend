@@ -57,6 +57,9 @@ class MessageController extends Controller
     public function store(StoreMessageRequest $request)
     {
 
+        // return response()->json([
+        //     $request->attachments
+        // ], 403);
         $data = $request->validated();
 
         $user = auth()->user();
@@ -73,11 +76,16 @@ class MessageController extends Controller
 
             $data["sender_id"] = $user->id;
             if ($request->hasFile("attachments")) {
-                $fileName = time() . '-' . $request->file("attachments")->getClientOriginalName();
-                $data["attachments"] = $request->file("attachments")->storeAs("messages/attachments", $fileName, "public");
+                $files = [];
+                foreach ($request->file("attachments") as $attachment) {
+                    $fileName = time() . '-' . $attachment->getClientOriginalName();
+                    $files[] = $attachment->storeAs("messages/attachments", $fileName, "public");
+                }
+                $data["attachments"] = $files;
             }
 
             $message = Message::create($data);
+
 
             $messageRecipient = MessageRecipient::create([
                 "receiver_id" => $receiver->id,
@@ -92,7 +100,7 @@ class MessageController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
-            return response()->json(["msg" => "error"], 400);
+            return response()->json(["msg" => $e->__toString()], 400);
         }
     }
 

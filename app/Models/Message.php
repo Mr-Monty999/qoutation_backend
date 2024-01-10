@@ -12,6 +12,10 @@ class Message extends Model
 
     protected $guarded = ["id"];
 
+    protected $casts = [
+        'attachments' => 'json',
+    ];
+
     public function sender()
     {
         return $this->belongsTo(User::class, "sender_id");

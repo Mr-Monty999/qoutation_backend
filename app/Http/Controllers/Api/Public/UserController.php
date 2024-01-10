@@ -10,6 +10,7 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
+        $user->load("supplier", "buyer");
         return response()->json([
             "data" => $user
         ]);
