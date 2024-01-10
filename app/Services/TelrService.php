@@ -13,7 +13,7 @@ class TelrService
     public static function checkout($amount, $uniqueNumber, $uuid, $description = "", $locale = "ar")
     {
 
-        $response =  Http::asForm()->post(env("TELR_URL"), [
+        $response =  Http::withoutVerifying()->asForm()->post(env("TELR_URL"), [
             "ivp_method" => "create",
             "ivp_authkey" => env("TELR_AUTH_KEY"),
             "ivp_store" => env("TELR_STORE_ID"),
