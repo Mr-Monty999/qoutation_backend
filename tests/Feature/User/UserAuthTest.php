@@ -84,7 +84,7 @@ class UserAuthTest extends TestCase
 
         Activity::factory(10)->create();
 
-        $acitivties = implode(",", Activity::pluck("id")->toArray());
+        $acitivties = Activity::pluck("id")->toArray();
 
         $response = $this->post('/api/v1/auth/register/supplier', [
             "email" => $this->faker->email,

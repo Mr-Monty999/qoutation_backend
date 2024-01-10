@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\Public\CountryController;
 use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\Public\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,6 @@ Route::group(["prefix" => "v1/public"], function () {
     Route::get('activities', [ActivityController::class, "index"]);
 
     Route::get('countries', [CountryController::class, "index"]);
+
+    Route::get("users/{user}", [UserController::class, "show"]);
 });
