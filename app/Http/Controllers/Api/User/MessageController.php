@@ -73,12 +73,13 @@ class MessageController extends Controller
 
             $data["sender_id"] = $user->id;
             if ($request->hasFile("attachments")) {
+                $data["attachments"] = [];
                 $files = [];
                 foreach ($request->file("attachments") as $attachment) {
-                    $fileName = time() . '-' . $attachment->getClientOriginalName();
-                    $files[] = $attachment->storeAs("messages/attachments", $fileName, "public");
+                    $files["name"] = time() . '-' . $attachment->getClientOriginalName();
+                    $files["url"] = $attachment->storeAs("messages/attachments", $files["name"], "public");
+                    array_push($data["attachments"], $files);
                 }
-                $data["attachments"] = $files;
             }
 
             $message = Message::create($data);
