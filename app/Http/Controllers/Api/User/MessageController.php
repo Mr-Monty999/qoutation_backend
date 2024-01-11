@@ -104,14 +104,14 @@ class MessageController extends Controller
 
     public function showMessage(Message $message)
     {
-        $message->load("recipient.receiver", "sender.buyer", "sender.supplier");
+        $message->load("recipient.receiver.supplier", "recipient.receiver.buyer", "sender.buyer", "sender.supplier");
         return response()->json([
             "data" => $message
         ]);
     }
     public function showMessageRecipient(MessageRecipient $messageRecipient)
     {
-        $messageRecipient->load("receiver", "message.sender.buyer", "message.sender.supplier");
+        $messageRecipient->load("receiver.supplier", "receiver.buyer", "message.sender.buyer", "message.sender.supplier");
         return response()->json([
             "data" => $messageRecipient
         ]);
