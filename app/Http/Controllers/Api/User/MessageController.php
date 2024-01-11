@@ -57,9 +57,6 @@ class MessageController extends Controller
     public function store(StoreMessageRequest $request)
     {
 
-        // return response()->json([
-        //     $request->attachments
-        // ], 403);
         $data = $request->validated();
 
         $user = auth()->user();
@@ -100,7 +97,7 @@ class MessageController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
-            return response()->json(["msg" => $e->__toString()], 400);
+            return response()->json(["msg" => "error"], 400);
         }
     }
 
