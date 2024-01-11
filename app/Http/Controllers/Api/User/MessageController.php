@@ -119,10 +119,11 @@ class MessageController extends Controller
     public function readMessageRecipient(MessageRecipient $messageRecipient)
     {
 
-        $messageRecipient->load("message.sender.buyer", "message.sender.supplier");
-
-        if ($messageRecipient->read_at != null)
+        $user = auth()->user();
+        if ($messageRecipient->read_at != null || $messageRecipient->receiver_id != $user->id)
             abort(403);
+
+        $messageRecipient->load("message.sender.buyer", "message.sender.supplier");
 
         $messageRecipient->update([
             "read_at" => now()
