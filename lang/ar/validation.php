@@ -219,7 +219,7 @@ return [
         "activity_ids" => "النشاطات",
         "receiver_email" => "بريد المستلم",
         "city_id" => "المدينة",
-        "neighborhood_id" => "الحي"
+        "neighbourhood_id" => "الحي"
 
 
 
