@@ -3,6 +3,7 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,30 @@ class UserTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get('/api/v1/user/get-auth-user');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user_can_get_info()
+    {
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $wallet = Wallet::create([
+            "user_id" => $user->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+
+
+        $this->actingAs($user);
+
+        $response = $this->get("/api/v1/user/info");
 
         $response->assertStatus(200);
     }

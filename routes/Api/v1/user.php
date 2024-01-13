@@ -82,5 +82,10 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::get("messages/{message}", [MessageController::class, "showMessage"]);
         Route::get("messages/recipients/{messageRecipient}", [MessageController::class, "showMessageRecipient"]);
         Route::put("messages/recipients/{messageRecipient}/read", [MessageController::class, "readMessageRecipient"]);
+
+
+
+        ///// info api ////
+        Route::get("info", [UserController::class, "info"]);
     });
 });
