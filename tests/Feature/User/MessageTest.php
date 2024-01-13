@@ -134,7 +134,7 @@ class MessageTest extends TestCase
         ]);
 
 
-        $this->actingAs($senderUser);
+        $this->actingAs($receiverUser);
 
         $message = Message::create([
             "sender_id" => $senderUser->id,

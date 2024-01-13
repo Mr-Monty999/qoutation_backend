@@ -119,14 +119,27 @@ class MessageController extends Controller
 
     public function showMessage(Message $message)
     {
+        $user = auth()->user();
+
+        if ($message->sender_id != $user->id)
+            abort(403);
+
         $message->load("recipient.receiver.supplier", "recipient.receiver.buyer", "sender.buyer", "sender.supplier");
+
         return response()->json([
             "data" => $message
         ]);
     }
     public function showMessageRecipient(MessageRecipient $messageRecipient)
     {
+        $user = auth()->user();
+
+        if ($messageRecipient->receiver_id != $user->id)
+            abort(403);
+
         $messageRecipient->load("receiver.supplier", "receiver.buyer", "message.sender.buyer", "message.sender.supplier");
+
+
         return response()->json([
             "data" => $messageRecipient
         ]);
