@@ -32,7 +32,8 @@ return [
     "buyer email" => "بريد المشتري",
     "accept_quotation_message" => ":name قبل عرض سعرك",
     "quotation url" => "رابط عرض السعر",
-    "url" => "الرابط"
+    "url" => "الرابط",
+    "send_new_message_notification" => "لديك رسالة جديدة من :name"
 
 
 

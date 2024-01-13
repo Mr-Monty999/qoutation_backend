@@ -32,6 +32,7 @@ return [
     "buyer email" => "buyer email",
     "accept_quotation_message" => ":name accept your quotation",
     "quotation url" => "quotation url",
-    "url" => "url"
+    "url" => "url",
+    "send_new_message_notification" => "you have a new message from :name"
 
 ];

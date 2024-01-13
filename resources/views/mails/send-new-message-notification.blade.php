@@ -234,50 +234,12 @@
                   line-height: 24px;
                 ">
                             <div style="text-align: center">
-                                <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.buyer phone') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr;color:black">
-                                        +{{ $data['buyer_phone'] }}
-                                    </div>
-                                </div>
-                                <br>
-                                <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.buyer email') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px;color:black">
-                                        {{ $data['buyer_email'] }}
-                                    </div>
-                                </div>
-                                <br>
-                                <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.quotation title') }}:</div>
-                                    <div style="margin: 0;font-weight: bold;font-size:20px;color:black">
-                                        {{ $data['quotation_title'] }}
-                                    </div>
-                                </div>
-                                <br>
-                                <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.quotation price') }}:</div>
-                                    <div style="font-weight: bold;font-size:20px;color:black">
-                                        {{ number_format($data['quotation_price'], 2) }}
-                                        {{ trans('messages.SAR') }}</div>
-                                </div>
-                                <br>
-                                <div>
-                                    <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
-                                        {{ trans('messages.quotation description') }}:</div>
-                                    <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
-                                        {{ $data['quotation_description'] }}</div>
-                                </div>
                                 <br>
                                 <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.url') }}:</div>
                                     <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
-                                        {{ env('FRONTEND_URL') . '/user/services/' . $data['service_id'] . '/quotations/' . $data['quotation_id'] }}
+                                        {{ env('FRONTEND_URL') . '/user/messages/' . $data['message_recipient_id'] . '/received' }}
                                     </div>
                                 </div>
                             </div>

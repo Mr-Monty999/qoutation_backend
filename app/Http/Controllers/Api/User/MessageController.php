@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Http\Requests\Api\User\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
+use App\Mail\SendNewMessageNotification;
 use App\Models\MessageRecipient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
@@ -106,6 +108,13 @@ class MessageController extends Controller
             ]);
 
             $messageRecipient->Load("receiver.buyer", "receiver.supplier", "message");
+
+            Mail::to($receiver)->send(new SendNewMessageNotification([
+
+                "message_recipient_id" => $messageRecipient->id,
+                "sender_name" => $user->name
+
+            ]));
 
             DB::commit();
             return response()->json([
