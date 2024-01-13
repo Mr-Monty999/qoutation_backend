@@ -3,7 +3,9 @@
 namespace Tests\Feature\User;
 
 use App\Models\Activity;
+use App\Models\City;
 use App\Models\Country;
+use App\Models\Neighbourhood;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\UserOtp;
@@ -48,8 +50,17 @@ class UserAuthTest extends TestCase
     {
 
         $country = Country::create([
-            "name" => "country",
+            "name" => $this->faker->country,
             "code" => "966"
+        ]);
+
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
+        ]);
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetName
         ]);
 
         Activity::factory(10)->create();
@@ -64,6 +75,8 @@ class UserAuthTest extends TestCase
             "password_confirmation" => "password",
             "name" => $this->faker->name,
             "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
             "phone" => rand(123456789, 99999999),
             "lat" => "134242442.2344",
             "lng" => "242424242.242",
@@ -78,8 +91,17 @@ class UserAuthTest extends TestCase
     {
 
         $country = Country::create([
-            "name" => "country",
+            "name" => $this->faker->country,
             "code" => "966"
+        ]);
+
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
+        ]);
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetName
         ]);
 
         Activity::factory(10)->create();
@@ -92,6 +114,8 @@ class UserAuthTest extends TestCase
             "password_confirmation" => "password",
             "name" => $this->faker->name,
             "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
             "phone" => rand(123456789, 99999999),
             "activity_ids" => $acitivties,
             "commercial_record_number" => "1432424",

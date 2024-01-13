@@ -218,6 +218,8 @@ return [
         "otp_code" => "otp code",
         "activity_ids" => "activity ids",
         "receiver_email" => "receiver email",
+        "city_id" => "city",
+        "neighborhood_id" => "neighborhood"
 
     ],
 ];

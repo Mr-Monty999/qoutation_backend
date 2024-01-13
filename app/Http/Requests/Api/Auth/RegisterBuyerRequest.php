@@ -51,6 +51,8 @@ class RegisterBuyerRequest extends FormRequest
             "birthdate" => "nullable|date",
             "image" => "nullable|image",
             "country_id" => "required|numeric|exists:countries,id",
+            "city_id" => "required|numeric|exists:cities,id",
+            "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",
             "lat" => "nullable|string",
             "lng" => "nullable|string",
             "address" => "required|string"

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\RegisterBuyerRequest;
 use App\Http\Requests\Api\Auth\RegisterSupplierRequest;
 use App\Models\Buyer;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Neighbourhood;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Wallet;
@@ -27,6 +30,13 @@ class RegisterController extends Controller
             throw  ValidationException::withMessages([
                 "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
             ]);
+
+        $country = Country::findOrFail($request->country_id);
+        $city = City::findOrFail($request->city_id);
+        $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
+
+        if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
+            abort(403);
 
         DB::beginTransaction();
 
@@ -59,6 +69,13 @@ class RegisterController extends Controller
             throw  ValidationException::withMessages([
                 "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
             ]);
+
+        $country = Country::findOrFail($request->country_id);
+        $city = City::findOrFail($request->city_id);
+        $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
+
+        if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
+            abort(403);
 
         DB::beginTransaction();
 
