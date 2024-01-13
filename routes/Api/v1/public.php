@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\Public\CountryController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\Public\UserController;
+use App\Http\Controllers\Api\Public\CityController;
+use App\Http\Controllers\Api\Public\NeighbourhoodController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,11 @@ Route::group(["prefix" => "v1/public"], function () {
     Route::get('activities', [ActivityController::class, "index"]);
 
     Route::get('countries', [CountryController::class, "index"]);
+
+    Route::get('countries/{country}/cities', [CityController::class, "getCountryCities"]);
+
+    Route::get('cities/{city}/neighbourhoods', [NeighbourhoodController::class, "getCityNeighbourhoods"]);
+
 
     Route::get("users/{user}", [UserController::class, "show"]);
 });
