@@ -96,7 +96,9 @@ class ServiceController extends Controller
             $data = $request->validated();
             $data["user_id"] = $user->id;
 
-            $service = ServiceService::store($data);
+            $serviceId = Service::create($data)->id;
+
+            $service = Service::find($serviceId);
 
             $service->activities()->attach($request->activity_ids);
 
