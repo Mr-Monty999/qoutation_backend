@@ -17,9 +17,6 @@ class UserService
 
         $data = $request->validated();
 
-        $country = Country::findOrFail($data["country_id"]);
-
-
         $data["password"] = Hash::make($data["password"]);
 
         $user = User::create($data);

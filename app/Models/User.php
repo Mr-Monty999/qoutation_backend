@@ -101,4 +101,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(MessageRecipient::class, "receiver_id");
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, "country_id");
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, "city_id");
+    }
+    public function neighbourhood()
+    {
+        return $this->belongsTo(Neighbourhood::class, "neighbourhood_id");
+    }
 }
