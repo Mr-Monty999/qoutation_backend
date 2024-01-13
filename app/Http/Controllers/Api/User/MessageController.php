@@ -14,6 +14,21 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
 
+    public function getCount()
+    {
+        $user = auth()->user();
+        $unreadMessageCount = MessageRecipient::where("receiver_id", $user->id)
+            ->whereNull("read_at")
+            ->count();
+        $sentMessageCount = Message::where("sender_id", $user->id)->count();
+
+        return response()->json([
+            "data" => [
+                "unread_messages_count" => $unreadMessageCount,
+                "sent_messages_count" => $sentMessageCount
+            ]
+        ]);
+    }
     public function index(Request $request)
     {
 
