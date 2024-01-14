@@ -28,7 +28,7 @@ class ServiceQuotationController extends Controller
     {
         $user = auth()->user();
 
-        $quotations = ServiceQuotation::with("user", "service");
+        $quotations = ServiceQuotation::with("user.buyer", "user.supplier", "service.user.buyer");
 
         $quotations->where("user_id", $user->id);
 
@@ -104,7 +104,7 @@ class ServiceQuotationController extends Controller
 
         $user = auth()->user();
 
-        $quotations = ServiceQuotation::with("user", "service");
+        $quotations = ServiceQuotation::with("user.buyer", "user.supplier", "service.user.buyer");
 
         $quotations->where("service_id", $serviceId);
 
@@ -160,7 +160,7 @@ class ServiceQuotationController extends Controller
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
             $userWallet->save();
 
-            $quotation->load("user.wallet", "service");
+            $quotation->load("user.wallet", "service.user.buyer");
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
@@ -225,7 +225,7 @@ class ServiceQuotationController extends Controller
             abort(403);
 
 
-        $serviceQuotation->load("user", "service.user.buyer");
+        $serviceQuotation->load("user.buyer", "user.supplier", "service.user.buyer");
         $serviceQuotation->service->loadCount("serviceQuotations");
 
         return response()->json($serviceQuotation);
@@ -254,7 +254,7 @@ class ServiceQuotationController extends Controller
 
             $data = $request->validated();
             $serviceQuotation->update($data);
-            $serviceQuotation->load("user", "service");
+            $serviceQuotation->load("user.buyer", "user.supplier", "service.user.buyer");
 
             DB::commit();
             return response()->json([
