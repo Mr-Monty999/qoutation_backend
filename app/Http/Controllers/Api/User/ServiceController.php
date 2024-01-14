@@ -102,7 +102,7 @@ class ServiceController extends Controller
 
             $service->activities()->attach($request->activity_ids);
 
-            $service->load("activities", "user");
+            $service->load("activities", "user.buyer", "user.supplier");
             $service->loadCount("serviceQuotations");
 
 
@@ -129,7 +129,7 @@ class ServiceController extends Controller
             abort(403);
 
         $service->load([
-            "user",
+            "user.buyer", "user.supplier",
             "activities",
         ])
             ->loadCount("serviceQuotations");
@@ -176,7 +176,7 @@ class ServiceController extends Controller
 
             $service->activities()->sync($request->activity_ids);
 
-            $service->load("activities", "user");
+            $service->load("activities", "user.buyer", "user.supplier");
             $service->loadCount("serviceQuotations");
 
 
