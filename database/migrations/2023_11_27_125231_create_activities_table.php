@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("image")->nullable();
             $table->text("description")->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -24,6 +25,33 @@ return new class extends Migration
 
         Activity::create([
             "name" => "المقاولات"
+        ]);
+        Activity::create([
+            "name" => "التجارة"
+        ]);
+        Activity::create([
+            "name" => "السياحة"
+        ]);
+        Activity::create([
+            "name" => "التكنولوجيا"
+        ]);
+        Activity::create([
+            "name" => "التعليم"
+        ]);
+        Activity::create([
+            "name" => "الصحة"
+        ]);
+        Activity::create([
+            "name" => "الطاقة"
+        ]);
+        Activity::create([
+            "name" => "الرياضة"
+        ]);
+        Activity::create([
+            "name" => "الترفيه"
+        ]);
+        Activity::create([
+            "name" => "الملابس"
         ]);
     }
 
