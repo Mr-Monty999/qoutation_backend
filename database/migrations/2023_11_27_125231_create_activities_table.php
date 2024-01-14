@@ -53,6 +53,12 @@ return new class extends Migration
         Activity::create([
             "name" => "الملابس"
         ]);
+        Activity::create([
+            "name" => "المواد الغذائية"
+        ]);
+        Activity::create([
+            "name" => "التجميل"
+        ]);
     }
 
     /**
