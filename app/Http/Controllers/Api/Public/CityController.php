@@ -7,13 +7,24 @@ use App\Models\City;
 use App\Http\Requests\StoreCityRequest;
 use App\Http\Requests\UpdateCityRequest;
 use App\Models\Country;
+use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    public function getCountryCities(Country $country)
+    public function getCountryCities(Request $request, Country $country)
     {
 
-        $cities = $country->cities;
+        $cities = null;
+        $perPage = 10;
+
+        if ($request->perPage)
+            $perPage = $request->perPage;
+
+        if ($request->has("paginated") && $request->paginated == "true")
+            $cities = $country->cities()->paginate($perPage);
+        else
+            $cities = $country->cities;
+
         return response()->json([
             "data" => $cities
         ]);

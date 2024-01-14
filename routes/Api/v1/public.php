@@ -7,10 +7,10 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\Public\CountryController;
-use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\Public\UserController;
 use App\Http\Controllers\Api\Public\CityController;
 use App\Http\Controllers\Api\Public\NeighbourhoodController;
+use App\Http\Controllers\Api\Public\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +37,7 @@ Route::group(["prefix" => "v1/public"], function () {
 
 
     Route::get("users/{user}", [UserController::class, "show"]);
+
+
+    Route::get("suppliers", [SupplierController::class, "index"]);
 });
