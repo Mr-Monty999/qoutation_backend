@@ -49,7 +49,7 @@ class RegisterBuyerRequest extends FormRequest
             "password" => "required|string|min:8",
             "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",
-            "image" => "nullable|image",
+            "image" => "nullable|image|max:2048",
             "country_id" => "required|numeric|exists:countries,id",
             "city_id" => "required|numeric|exists:cities,id",
             "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",

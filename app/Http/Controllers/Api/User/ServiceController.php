@@ -21,7 +21,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::with("user", "activities")
+        $services = Service::with("user.supplier", "user.buyer", "activities")
             ->withCount("serviceQuotations")
             ->where("status", "active")
             ->latest()->paginate(10);
@@ -47,7 +47,7 @@ class ServiceController extends Controller
     {
         $user = Auth::user();
         $services = $user->services()
-            ->with("user", "activities")
+            ->with("user.supplier", "user.buyer", "activities")
             ->withCount("serviceQuotations")
             ->latest()->paginate(10);
 
@@ -59,7 +59,7 @@ class ServiceController extends Controller
         $user = Auth::user();
         $userActivities = $user->activities->pluck("id");
         $services = Service::with([
-            "user",
+            "user.supplier", "user.buyer",
             "activities",
             "userQuotation"
         ])
