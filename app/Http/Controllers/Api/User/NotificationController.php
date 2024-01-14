@@ -21,7 +21,7 @@ class NotificationController extends Controller
             ->map(function ($notification) use ($user) {
                 $data = $notification->toArray();
                 $data["data"] = [
-                    "sender" => User::find($data["data"]["sender_id"])->load("supplier"),
+                    "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
                     "service" => Service::find($data["data"]["service_id"]),
                     "quotation" => ServiceQuotation::find($data["data"]["quotation_id"]),
 
