@@ -49,7 +49,7 @@ class RegisterController extends Controller
             ]);
 
             $buyer = BuyerService::store($request, $user->id);
-            $otp = UserOtpService::sendEmailOtp($user, "email_confirmation");
+            $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
             $role = Role::findOrCreate("buyer");
             $user->assignRole("buyer");
@@ -85,7 +85,7 @@ class RegisterController extends Controller
                 "user_id" => $user->id,
             ]);
             $supplier = SupplierService::store($request, $user->id);
-            $otp = UserOtpService::sendEmailOtp($user, "email_confirmation");
+            $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
             $user->activities()->sync($request->activity_ids);
 

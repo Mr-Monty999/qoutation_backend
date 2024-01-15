@@ -162,7 +162,7 @@ class UserAuthTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
-        $otp = UserOtpService::sendEmailOtp($user, "email_confirmation");
+        $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
 
 
@@ -189,12 +189,12 @@ class UserAuthTest extends TestCase
         ]);
 
         $otp = UserOtp::create([
-            "user_id" => $user->id,
+            "identifier" => $user->email,
             "code" => rand(1234, 9999),
             "expired_at" => now()->addMinutes(5)
         ]);
 
-        $verifyOtp = UserOtpService::verifyOtp($user, $otp->code);
+        $verifyOtp = UserOtpService::verifyOtp($user->email, $otp->code);
 
 
 

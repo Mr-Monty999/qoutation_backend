@@ -17,7 +17,7 @@ class ForgetPasswordController extends Controller
             ->orWhere("phone", $request->email_or_phone)
             ->firstOrFail();
 
-        $checkOtp = UserOtpService::checkOtpIsVerified($user, $request->otp_code);
+        $checkOtp = UserOtpService::checkOtpIsVerified($request->email_or_phone, $request->otp_code);
 
         if (!$checkOtp)
             return response()->json([

@@ -14,36 +14,38 @@ use Illuminate\Support\Facades\Mail;
 class UserOtpService
 {
 
-    public static function store($user, $time = 5)
+    public static function store($identifier, $time = 5)
     {
         $otp = UserOtp::create([
-            "user_id" => $user->id,
+            "identifier" => $identifier,
             "code" => rand(1234, 9999),
             "expired_at" => now()->addMinutes($time)
         ]);
 
         return $otp;
     }
-    public static function sendEmailOtp($user, $otpType, $time = 5)
+    public static function sendEmailOtp($identifier, $otpType, $time = 5)
     {
-        $otp = UserOtpService::store($user, $time);
+        $otp = UserOtpService::store($identifier, $time);
         if ($otpType == "email_confirmation")
-            Mail::to($user)->send(new EmailConfirmationMail($otp));
+            Mail::to($identifier)->send(new EmailConfirmationMail($otp));
         elseif ($otpType == "reset_password")
-            Mail::to($user)->send(new ResetPasswordMail($otp));
+            Mail::to($identifier)->send(new ResetPasswordMail($otp));
 
         return $otp;
     }
-    public static function sendPhoneOtp($user, $time = 5)
+    public static function sendPhoneOtp($identifier, $time = 5)
     {
-        $otp = UserOtpService::store($user, $time);
+        $otp = UserOtpService::store($identifier, $time);
         return $otp;
     }
 
-    public static function verifyOtp($user, $otpCode)
+    public static function verifyOtp($identifier, $otpCode)
     {
 
-        $otp = $user->otps()->latest()->firstOrFail();
+        // $otp = $user->otps()->latest()->firstOrFail();
+
+        $otp = UserOtp::where("identifier", $identifier)->latest()->firstOrFail();
 
         if ($otp->expired_at > now() && $otp->verified_at == null) {
             if ($otp->code == $otpCode) {
@@ -55,9 +57,11 @@ class UserOtpService
 
         return false;
     }
-    public static function checkOtpIsVerified($user, $otpCode)
+    public static function checkOtpIsVerified($identifier, $otpCode)
     {
-        $otp = $user->otps()->latest()->firstOrFail();
+        // $otp = $user->otps()->latest()->firstOrFail();
+
+        $otp = UserOtp::where("identifier", $identifier)->firstOrFail();
 
         if ($otp->expired_at > now() && $otp->verified_at != null)
             if ($otp->code == $otpCode)

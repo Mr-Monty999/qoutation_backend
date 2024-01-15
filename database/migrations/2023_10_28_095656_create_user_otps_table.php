@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_otps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            // $table->unsignedBigInteger("user_id");
+            $table->string("identifier");
             $table->string("code");
             // $table->string("type");
             $table->timestamp("verified_at")->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
 
 
 
-            $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
+            // $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
