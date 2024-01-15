@@ -16,12 +16,13 @@ class OtpController extends Controller
 {
     public function sendOtp(SendRegisterOtp $request)
     {
-        // $user = User::where("email", $request->email_or_phone)
-        //     ->orWhere("phone", $request->email_or_phone)
-        //     ->first();
-
-        // if (!$user)
-        //     throw ValidationException::withMessages(['email_or_phone' => trans("messages.account not found")]);
+        if ($request->type == "reset_password") {
+            $user = User::where("email", $request->email_or_phone)
+                ->orWhere("phone", $request->email_or_phone)
+                ->first();
+            if (!$user)
+                throw ValidationException::withMessages(['email_or_phone' => trans("messages.account not found")]);
+        }
 
         $isEmail = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL);
 
