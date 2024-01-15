@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\RegisterController;
-use App\Http\Controllers\Api\BuyerController;
-use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\User\BuyerController;
 use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\ServiceController;
 use App\Http\Controllers\Api\User\ServiceQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
+use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,5 +87,18 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         ///// info api ////
         Route::get("info", [UserController::class, "info"]);
+
+
+        ////// buyers /////
+        Route::put("buyer/profile/update", [BuyerController::class, "updateProfile"]);
+
+
+        ////// suppliers /////
+        Route::put("supplier/profile/update", [SupplierController::class, "updateProfile"]);
+
+
+        ///// users /////
+        Route::put("password/update", [UserController::class, "updatePassword"]);
+        Route::put("email/update", [UserController::class, "updateEmail"]);
     });
 });
