@@ -25,7 +25,7 @@ class UpdateSupplierProfileRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "phone" => "required|numeric|unique:users,phone," . auth()->user()->id,
+            "phone" => "required|numeric|unique:users,phone," . auth()->id(),
             "birthdate" => "nullable|date",
             "activity_description" => "nullable|string",
             "commercial_record_number" => "required|numeric|unique:suppliers,commercial_record_number," . auth()->user()->supplier->id,
