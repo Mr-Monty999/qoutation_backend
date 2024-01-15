@@ -35,7 +35,7 @@ class MessageController extends Controller
     {
 
         if (!in_array($request->type, ["sent", "received"]))
-            abort(403);
+            return response()->json([], 403);
 
         $user = auth()->user();
 
@@ -84,7 +84,7 @@ class MessageController extends Controller
 
 
         if ($receiver->id == $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         try {
 
@@ -131,7 +131,7 @@ class MessageController extends Controller
         $user = auth()->user();
 
         if ($message->sender_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         $message->load("recipient.receiver.supplier", "recipient.receiver.buyer", "sender.buyer", "sender.supplier");
 
@@ -144,7 +144,7 @@ class MessageController extends Controller
         $user = auth()->user();
 
         if ($messageRecipient->receiver_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         $messageRecipient->load("receiver.supplier", "receiver.buyer", "message.sender.buyer", "message.sender.supplier");
 
@@ -158,7 +158,7 @@ class MessageController extends Controller
 
         $user = auth()->user();
         if ($messageRecipient->read_at != null || $messageRecipient->receiver_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         $messageRecipient->load("message.sender.buyer", "message.sender.supplier");
 

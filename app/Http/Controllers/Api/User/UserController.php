@@ -54,7 +54,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         if (!Hash::check($request->old_password, $user->getAuthPassword()))
-            abort(403);
+            return response()->json([], 403);
 
 
         $user->update([
@@ -72,7 +72,7 @@ class UserController extends Controller
         $verifyOtp = UserOtpService::verifyOtp($user, $request->otp);
 
         if (!$verifyOtp)
-            abort(403);
+            return response()->json([], 403);
 
         $user->update([
             "email" => $request->new_email

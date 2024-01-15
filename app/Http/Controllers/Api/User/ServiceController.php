@@ -31,7 +31,7 @@ class ServiceController extends Controller
     public function markAsCompleted(Request $request, Service $service)
     {
         if ($service->status == "completed")
-            abort(403);
+            return response()->json([], 403);
 
 
         $service->update([
@@ -85,7 +85,7 @@ class ServiceController extends Controller
         $user = auth()->user();
 
         if (!$user->buyer)
-            abort(403);
+            return response()->json([], 403);
 
         DB::beginTransaction();
         try {
@@ -126,7 +126,7 @@ class ServiceController extends Controller
         $user = auth()->user();
 
         if ($service->user_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         $service->load([
             "user.buyer", "user.supplier",
@@ -158,10 +158,10 @@ class ServiceController extends Controller
         $user = auth()->user();
 
         if (!$user->buyer || $service->user_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
         if ($service->status != "active")
-            abort(403);
+            return response()->json([], 403);
 
         DB::beginTransaction();
         try {
@@ -199,7 +199,7 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         if ($service->status != "active")
-            abort(403);
+            return response()->json([], 403);
 
         $service->delete();
 

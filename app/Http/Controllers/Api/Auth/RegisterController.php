@@ -36,7 +36,7 @@ class RegisterController extends Controller
         $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
 
         if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
-            abort(403);
+            return response()->json([], 403);
 
         DB::beginTransaction();
 
@@ -75,7 +75,7 @@ class RegisterController extends Controller
         $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
 
         if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
-            abort(403);
+            return response()->json([], 403);
 
         DB::beginTransaction();
 

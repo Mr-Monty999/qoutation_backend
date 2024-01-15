@@ -45,11 +45,11 @@ class ServiceQuotationController extends Controller
 
         $user = auth()->user();
         if ($service->user_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
 
         if ($serviceQuotation->accepted_by != null)
-            abort(403);
+            return response()->json([], 403);
 
         $supplier = $serviceQuotation->user;
 
@@ -132,10 +132,10 @@ class ServiceQuotationController extends Controller
 
 
         if (!$user->supplier)
-            abort(403);
+            return response()->json([], 403);
 
         if ($service->status != "active")
-            abort(403);
+            return response()->json([], 403);
 
         if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
             return response()->json([
@@ -147,7 +147,7 @@ class ServiceQuotationController extends Controller
             ->exists();
 
         if ($quotationExists)
-            abort(403);
+            return response()->json([], 403);
 
         DB::beginTransaction();
         try {
@@ -222,7 +222,7 @@ class ServiceQuotationController extends Controller
         $user = auth()->user();
 
         if ($user->id != $serviceQuotation->user_id)
-            abort(403);
+            return response()->json([], 403);
 
 
         $serviceQuotation->load("user.buyer", "user.supplier", "service.user.buyer");
@@ -245,7 +245,7 @@ class ServiceQuotationController extends Controller
         $user = auth()->user();
 
         if (!$user->supplier || $serviceQuotation->user_id != $user->id)
-            abort(403);
+            return response()->json([], 403);
 
 
         DB::beginTransaction();

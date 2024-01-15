@@ -22,12 +22,12 @@ class SupplierController extends Controller
         $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
 
         if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
-            abort(403);
+            return response()->json([], 403);
 
         $user = auth()->user();
 
         if (!$user->supplier)
-            abort(403);
+            return response()->json([], 403);
 
         $user->update($data);
         $user->load("supplier", "activities");
