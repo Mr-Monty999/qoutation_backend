@@ -76,7 +76,8 @@ class UserController extends Controller
             return response()->json([], 403);
 
         $user->update([
-            "email" => $request->new_email
+            "email" => $request->new_email,
+            "email_verified_at" => now()
         ]);
 
         return response()->json([
