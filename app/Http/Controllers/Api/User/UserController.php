@@ -18,7 +18,7 @@ class UserController extends Controller
     public function getAuthUser()
     {
         $user = Auth::user();
-        $user->load(["supplier", "buyer", "admin", "wallet", "country", "city", "neighbourhood"])
+        $user->load(["supplier", "buyer", "admin", "wallet", "country", "city", "neighbourhood", "activities"])
             ->loadCount(
                 "notifications",
                 "unreadNotifications"
@@ -97,6 +97,14 @@ class UserController extends Controller
             "email_verified_at" => now()
         ]);
 
-        return response()->json();
+        $user->load(["supplier", "buyer", "admin", "wallet", "country", "city", "neighbourhood", "activities"])
+            ->loadCount(
+                "notifications",
+                "unreadNotifications"
+            );
+
+        return response()->json([
+            "data" => $user
+        ]);
     }
 }
