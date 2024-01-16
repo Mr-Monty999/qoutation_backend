@@ -11,6 +11,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
 use App\Models\Service;
+use Illuminate\Support\Facades\DB;
 
 class BuyerController extends Controller
 {
@@ -18,25 +19,40 @@ class BuyerController extends Controller
     {
         $data = $request->validated();
 
-        $country = Country::findOrFail($request->country_id);
-        $city = City::findOrFail($request->city_id);
-        $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
 
-        if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
-            return response()->json([], 403);
+        DB::beginTransaction();
+        try {
+
+            $country = Country::findOrFail($request->country_id);
+            $city = City::findOrFail($request->city_id);
+            $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
+
+            if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
+                return response()->json([], 403);
 
 
-        $user = auth()->user();
+            $user = auth()->user();
 
-        if (!$user->buyer)
-            return response()->json([], 403);
+            if (!$user->buyer)
+                return response()->json([], 403);
 
-        $user->update($data);
-        $user->load("buyer");
-        $user->buyer->update($data);
+            if ($request->hasFile("image")) {
+                $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
 
-        return response()->json([
-            "data" => $user
-        ]);
+                $data["image"] = $request->file("image")->storeAs("images/buyers", $fileName, "public");
+            }
+
+            $user->update($data);
+            $user->load("buyer");
+            $user->buyer->update($data);
+
+            DB::commit();
+            return response()->json([
+                "data" => $user
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => "error"], 400);
+        }
     }
 }
