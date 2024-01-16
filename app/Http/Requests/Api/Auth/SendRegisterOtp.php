@@ -26,7 +26,7 @@ class SendRegisterOtp extends FormRequest
         return [
             "email_or_phone" => "required|string",
             // "send_via" => "required|string|in:email,phone",
-            "type" => "required|string|in:reset_password,phone_confirmation,email_confirmation"
+            "type" => "required|string|in:reset_password,phone_confirmation,email_confirmation,update_email"
 
         ];
     }

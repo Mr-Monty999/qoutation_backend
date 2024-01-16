@@ -33,6 +33,7 @@ return [
     "accept_quotation_message" => ":name accept your quotation",
     "quotation url" => "quotation url",
     "url" => "url",
-    "send_new_message_notification" => "you have a new message from :name"
+    "send_new_message_notification" => "you have a new message from :name",
+    "email exists" => "email exists"
 
 ];

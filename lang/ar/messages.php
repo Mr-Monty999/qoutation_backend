@@ -33,7 +33,9 @@ return [
     "accept_quotation_message" => ":name قبل عرض سعرك",
     "quotation url" => "رابط عرض السعر",
     "url" => "الرابط",
-    "send_new_message_notification" => "لديك رسالة جديدة من :name"
+    "send_new_message_notification" => "لديك رسالة جديدة من :name",
+    "email exists" => "البريد الإكتروني موجود بالفعل"
+
 
 
 

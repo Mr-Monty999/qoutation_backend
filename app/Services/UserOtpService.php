@@ -27,7 +27,7 @@ class UserOtpService
     public static function sendEmailOtp($identifier, $otpType, $time = 5)
     {
         $otp = UserOtpService::store($identifier, $time);
-        if ($otpType == "email_confirmation")
+        if ($otpType == "email_confirmation" || $otpType == "update_email")
             Mail::to($identifier)->send(new EmailConfirmationMail($otp));
         elseif ($otpType == "reset_password")
             Mail::to($identifier)->send(new ResetPasswordMail($otp));
