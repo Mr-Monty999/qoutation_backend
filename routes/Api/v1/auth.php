@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\OtpController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
+use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,7 @@ Route::group(["prefix" => "v1/auth"], function () {
     ////////////// Otp Routes ////////
     Route::post("send-otp", [OtpController::class, "sendOtp"])->middleware("throttle:3,1");
     Route::post("verify-otp", [OtpController::class, "verifyOtp"])->middleware("throttle:3,1");
+
+
+    Route::post("verify-email", [UserController::class, "verifyEmail"])->middleware(["auth:sanctum", "throttle:3,1"]);
 });

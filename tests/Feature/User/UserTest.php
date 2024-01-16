@@ -102,14 +102,17 @@ class UserTest extends TestCase
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
         ]);
 
-        $otp = UserOtpService::sendEmailOtp($user, "email_confirmation");
+        $newEmail = $this->faker->email;
+        $otp = UserOtpService::sendEmailOtp($newEmail, "email_confirmation");
+        $verifyOtp = UserOtpService::verifyOtp($otp->identifier, $otp->code);
+
 
 
         $this->actingAs($user);
 
         $response = $this->put('/api/v1/user/email/update', [
             "otp" => $otp->code . "",
-            "new_email" => $this->faker->email
+            "new_email" => $newEmail
         ]);
 
         $response->assertStatus(200);

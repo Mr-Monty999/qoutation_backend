@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\UpdateEmailRequest;
 use App\Http\Requests\Api\User\UpdatePasswordRequest;
 use App\Models\Message;
 use App\Models\MessageRecipient;
+use App\Models\UserOtp;
 use App\Services\UserOtpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +70,7 @@ class UserController extends Controller
     {
 
         $user = auth()->user();
-        $verifyOtp = UserOtpService::verifyOtp($user, $request->otp);
+        $verifyOtp = UserOtpService::checkOtpIsVerified($request->new_email, $request->otp);
 
         if (!$verifyOtp)
             return response()->json([], 403);
@@ -81,5 +82,20 @@ class UserController extends Controller
         return response()->json([
             "data" => $user
         ]);
+    }
+    public function verifyEmail(Request $request)
+    {
+        $user = auth()->user();
+        $checkIfOtpIsVerified = UserOtpService::checkOtpIsVerified($user->email, $request->otp_code);
+
+        if (!$checkIfOtpIsVerified)
+            return response()->json([], 403);
+
+
+        $user->update([
+            "email_verified_at" => now()
+        ]);
+
+        return response()->json();
     }
 }

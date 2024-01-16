@@ -67,10 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Service::class, "user_id");
     }
 
-    public function otps()
-    {
-        return $this->hasMany(UserOtp::class, "user_id");
-    }
+    // public function otps()
+    // {
+    //     return $this->hasMany(UserOtp::class, "user_id");
+    // }
 
     public function serviceQuotations()
     {

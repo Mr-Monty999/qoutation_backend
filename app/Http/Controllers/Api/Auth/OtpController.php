@@ -40,12 +40,6 @@ class OtpController extends Controller
 
     public function verifyOtp(VerifyRegisterOtp $request)
     {
-        // $user = User::where("email", $request->email_or_phone)
-        //     ->orWhere("phone", $request->email_or_phone)
-        //     ->firstOrFail();
-
-        $user = auth()->user();
-
 
         $verify = UserOtpService::verifyOtp($request->email_or_phone, $request->otp_code);
 
@@ -53,15 +47,6 @@ class OtpController extends Controller
             return response()->json([
                 "message" => trans("messages.otp is not correct or expired")
             ], 401);
-
-        // if ($request->type != "reset_password") {
-        //     if ($request->type == "email_confirmation")
-        //         $user->email_verified_at = now();
-        //     elseif ($request->type == "phone_confirmation")
-        //         $user->phone_verified_at = now();
-
-        //     $user->save();
-        // }
 
         return response()->json([
             "message" => trans("messages.otp verified successfully")

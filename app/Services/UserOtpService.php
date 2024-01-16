@@ -43,8 +43,6 @@ class UserOtpService
     public static function verifyOtp($identifier, $otpCode)
     {
 
-        // $otp = $user->otps()->latest()->firstOrFail();
-
         $otp = UserOtp::where("identifier", $identifier)->latest()->firstOrFail();
 
         if ($otp->expired_at > now() && $otp->verified_at == null) {
@@ -59,8 +57,6 @@ class UserOtpService
     }
     public static function checkOtpIsVerified($identifier, $otpCode)
     {
-        // $otp = $user->otps()->latest()->firstOrFail();
-
         $otp = UserOtp::where("identifier", $identifier)->firstOrFail();
 
         if ($otp->expired_at > now() && $otp->verified_at != null)

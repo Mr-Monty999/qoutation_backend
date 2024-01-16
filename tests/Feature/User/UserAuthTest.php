@@ -211,4 +211,37 @@ class UserAuthTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_user_can_verify_email()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "phone" => $this->faker->phoneNumber,
+            "email_verified_at" => null,
+            "password" => Hash::make("password")
+        ]);
+
+        $otp = UserOtp::create([
+            "identifier" => $user->email,
+            "code" => rand(1234, 9999),
+            "expired_at" => now()->addMinutes(5)
+        ]);
+
+        $verifyOtp = UserOtpService::verifyOtp($user->email, $otp->code);
+
+
+        $this->actingAs($user);
+
+
+
+
+        $response = $this->post('/api/v1/auth/verify-email', [
+            "otp_code" => $otp->code . "",
+        ]);
+
+        $response->assertStatus(200);
+    }
 }
