@@ -26,10 +26,10 @@ class RegisterController extends Controller
 {
     public  function registerBuyer(RegisterBuyerRequest $request)
     {
-        if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
-            throw  ValidationException::withMessages([
-                "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
-            ]);
+        // if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
+        //     throw  ValidationException::withMessages([
+        //         "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
+        //     ]);
 
         $country = Country::findOrFail($request->country_id);
         $city = City::findOrFail($request->city_id);
@@ -65,10 +65,10 @@ class RegisterController extends Controller
     public  function registerSupplier(RegisterSupplierRequest $request)
     {
 
-        if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
-            throw  ValidationException::withMessages([
-                "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
-            ]);
+        // if (UserService::checkIfValueExists("phone", $request->country_code . $request->phone))
+        //     throw  ValidationException::withMessages([
+        //         "phone" => trans("validation.unique", ["attribute" => trans("validation.attributes.phone")])
+        //     ]);
 
         $country = Country::findOrFail($request->country_id);
         $city = City::findOrFail($request->city_id);

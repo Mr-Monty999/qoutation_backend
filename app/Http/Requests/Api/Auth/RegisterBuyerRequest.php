@@ -28,11 +28,11 @@ class RegisterBuyerRequest extends FormRequest
                 throw ValidationException::withMessages(['phone' => trans("messages.phone number must equal 9 digits")]);
 
 
-            $fullPhone = $country->code .  $phone;
+            // $fullPhone = $country->code .  $phone;
 
-            $this->merge([
-                "phone" => $fullPhone
-            ]);
+            // $this->merge([
+            //     "phone" => $fullPhone
+            // ]);
         }
     }
     /**
