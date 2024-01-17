@@ -8,9 +8,9 @@ use App\Http\Requests\Api\User\UpdateServiceRequest;
 use App\Models\Service;
 use App\Services\ServiceService;
 use Dflydev\DotAccessData\Data;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 
 class ServiceController extends Controller
 {
@@ -54,7 +54,7 @@ class ServiceController extends Controller
         return response()->json($services);
     }
 
-    public function supplierServices()
+    public function supplierServices(Request $request)
     {
         $user = Auth::user();
         $userActivities = $user->activities->pluck("id");
@@ -67,8 +67,14 @@ class ServiceController extends Controller
                 $q->whereIn("activity_id", $userActivities);
             })
             ->withCount("serviceQuotations")
-            ->where("status", "active")
-            ->latest()->paginate(10);
+            ->where("status", "active");
+
+        if ($request->type == "sent")
+            $services->whereHas("serviceQuotations", function ($q) use ($user) {
+                $q->where("user_id", $user->id);
+            });
+
+        $services = $services->latest()->paginate(10);
 
         return response()->json($services);
     }
