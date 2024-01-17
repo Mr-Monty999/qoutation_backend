@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
 use App\Models\User;
+use App\Models\UserPhone;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +28,6 @@ class BuyerTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -52,6 +52,12 @@ class BuyerTest extends TestCase
         $neighbourhood = Neighbourhood::create([
             "city_id" => $city->id,
             "name" => $this->faker->streetName
+        ]);
+
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $country->code
         ]);
 
         $this->actingAs($user);
