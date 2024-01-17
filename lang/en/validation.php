@@ -219,7 +219,10 @@ return [
         "activity_ids" => "activity ids",
         "receiver_email" => "receiver email",
         "city_id" => "city",
-        "neighbourhood_id" => "neighbourhood"
+        "neighbourhood_id" => "neighbourhood",
+        "old_password" => "old password",
+        "new_password" => "new password",
+        "new_password_confirmation" => "new password confirmation"
 
     ],
 ];

@@ -219,7 +219,10 @@ return [
         "activity_ids" => "النشاطات",
         "receiver_email" => "بريد المستلم",
         "city_id" => "المدينة",
-        "neighbourhood_id" => "الحي"
+        "neighbourhood_id" => "الحي",
+        "old_password" => "كلمة السر القديمة",
+        "new_password" => "كلمة السر الجديدة",
+        "new_password_confirmation" => "تأكيد كلمة السر الجديدة"
 
 
 
