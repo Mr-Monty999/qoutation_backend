@@ -78,7 +78,7 @@ class ServiceQuotationController extends Controller
 
             Mail::to($supplier)->send(new AcceptQuotationMail([
                 "buyer_name" => $user->name,
-                "buyer_phone" => $user->phone,
+                "buyer_phone" => $user->phone->country_code . $user->phone->number,
                 "buyer_email" => $user->email,
                 "quotation_title" => $serviceQuotation->title,
                 "quotation_price" => $serviceQuotation->amount,
@@ -185,7 +185,7 @@ class ServiceQuotationController extends Controller
 
             Mail::to($serviceOwner)->send(new SendQuotationNotificationMail([
                 "supplier_name" => $user->name,
-                "supplier_phone" => $user->phone,
+                "supplier_phone" => $user->phone->country_code . $user->phone->number,
                 "supplier_email" => $user->email,
                 "quotation_title" => $quotation->title,
                 "quotation_price" => $quotation->amount,

@@ -3,6 +3,7 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use App\Models\UserPhone;
 use App\Models\Wallet;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,11 +25,14 @@ class NotificationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -45,11 +49,14 @@ class NotificationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -77,11 +84,14 @@ class NotificationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -109,11 +119,14 @@ class NotificationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")

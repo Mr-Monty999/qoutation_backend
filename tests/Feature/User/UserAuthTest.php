@@ -9,6 +9,7 @@ use App\Models\Neighbourhood;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\UserPhone;
 use App\Services\UserOtpService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -28,9 +29,13 @@ class UserAuthTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
+        ]);
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
         ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
@@ -135,11 +140,14 @@ class UserAuthTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $response = $this->post('/api/v1/auth/send-otp', [
             "email_or_phone" => $user->email,
             "type" => "email_confirmation"
@@ -157,11 +165,14 @@ class UserAuthTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
 
@@ -183,11 +194,14 @@ class UserAuthTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $otp = UserOtp::create([
             "identifier" => $user->email,
             "code" => rand(1234, 9999),
@@ -219,11 +233,14 @@ class UserAuthTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => null,
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $otp = UserOtp::create([
             "identifier" => $user->email,
             "code" => rand(1234, 9999),

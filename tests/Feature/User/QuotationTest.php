@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\ServiceQuotation;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\UserPhone;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -28,11 +29,14 @@ class QuotationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -73,9 +77,13 @@ class QuotationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
+        ]);
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
         ]);
 
         $supplier = Supplier::create([
@@ -353,11 +361,14 @@ class QuotationTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
+        ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
             "commercial_record_number" => "23443234324"

@@ -4,6 +4,7 @@ namespace Tests\Feature\Public;
 
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\UserPhone;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,6 @@ class SupplierTest extends TestCase
         $user = User::create([
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "phone" => $this->faker->phoneNumber,
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
@@ -31,6 +31,12 @@ class SupplierTest extends TestCase
         $supplier = Supplier::create([
             "user_id" => $user->id,
             "commercial_record_number" => $this->faker->creditCardNumber
+        ]);
+
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => $this->faker->countryCode
         ]);
 
         $response = $this->get('/api/v1/public/suppliers');
