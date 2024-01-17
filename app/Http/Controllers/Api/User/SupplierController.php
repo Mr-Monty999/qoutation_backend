@@ -48,7 +48,7 @@ class SupplierController extends Controller
             $user->update($data);
             $user->activities()->sync($request->activity_ids);
 
-            $user->load("supplier", "activities");
+            $user->load("supplier", "activities", "phone");
             $user->supplier->update($data);
             DB::commit();
             return response()->json([

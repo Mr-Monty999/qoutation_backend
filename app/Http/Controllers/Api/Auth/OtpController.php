@@ -18,7 +18,9 @@ class OtpController extends Controller
     {
 
         $user = User::where("email", $request->email_or_phone)
-            ->orWhere("phone", $request->email_or_phone)
+            ->orWhereHas("phone", function ($q) use ($request) {
+                $q->where("number", $request->email_or_phone);
+            })
             ->first();
 
         if ($request->type == "reset_password") {

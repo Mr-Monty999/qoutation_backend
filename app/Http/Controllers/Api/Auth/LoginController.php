@@ -22,7 +22,7 @@ class LoginController extends Controller
             ], 401);
 
         $user = Auth::user();
-        $user->load(["supplier", "buyer", "admin"]);
+        $user->load(["supplier", "buyer", "admin", "phone"]);
         $user->token = $user->createToken(uniqid())->plainTextToken;
 
 

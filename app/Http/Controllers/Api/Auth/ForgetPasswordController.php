@@ -14,7 +14,9 @@ class ForgetPasswordController extends Controller
     public function resetPassword(ResetPasswordRequest $request)
     {
         $user = User::where("email", $request->email_or_phone)
-            ->orWhere("phone", $request->email_or_phone)
+            ->orWhereHas("phone", function ($q) use ($request) {
+                $q->where("number", $request->email_or_phone);
+            })
             ->firstOrFail();
 
         $checkOtp = UserOtpService::checkOtpIsVerified($request->email_or_phone, $request->otp_code);

@@ -11,6 +11,7 @@ use App\Models\Country;
 use App\Models\Neighbourhood;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\UserPhone;
 use App\Models\Wallet;
 use App\Services\BuyerService;
 use App\Services\SupplierService;
@@ -43,17 +44,22 @@ class RegisterController extends Controller
         try {
 
             $user = UserService::store($request);
-
+            $userPhone = UserPhone::create([
+                "user_id" => $user->id,
+                "number" => $request->phone,
+                "country_code" => $country->code
+            ]);
             $wallet = Wallet::create([
                 "user_id" => $user->id,
             ]);
+
 
             $buyer = BuyerService::store($request, $user->id);
             $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
             $role = Role::findOrCreate("buyer");
             $user->assignRole("buyer");
-            $user->load("buyer");
+            $user->load("buyer", "phone");
 
             DB::commit();
             return response()->json($user, 201);
@@ -81,6 +87,11 @@ class RegisterController extends Controller
 
         try {
             $user = UserService::store($request);
+            $userPhone = UserPhone::create([
+                "user_id" => $user->id,
+                "number" => $request->phone,
+                "country_code" => $country->code
+            ]);
             $wallet = Wallet::create([
                 "user_id" => $user->id,
             ]);
@@ -91,7 +102,7 @@ class RegisterController extends Controller
 
             $role = Role::findOrCreate("supplier");
             $user->assignRole("supplier");
-            $user->load("supplier", "activities");
+            $user->load("supplier", "activities", "phone");
 
             DB::commit();
             return response()->json($user, 201);

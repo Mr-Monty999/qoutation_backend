@@ -43,7 +43,7 @@ class BuyerController extends Controller
             }
 
             $user->update($data);
-            $user->load("buyer");
+            $user->load("buyer", "phone");
             $user->buyer->update($data);
 
             DB::commit();

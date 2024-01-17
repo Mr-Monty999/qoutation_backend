@@ -45,7 +45,7 @@ class RegisterBuyerRequest extends FormRequest
         return [
             "name" => "required|string",
             "email" => "required|email|unique:users,email",
-            "phone" => "required|numeric|unique:users,phone",
+            "phone" => "required|numeric|unique:user_phones,number",
             "password" => "required|string|min:8",
             "password_confirmation" => "required|string|same:password",
             "birthdate" => "nullable|date",
