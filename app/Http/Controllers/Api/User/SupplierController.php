@@ -46,6 +46,9 @@ class SupplierController extends Controller
             }
 
             $user->update($data);
+            $user->phone->update([
+                "number" => $request->phone
+            ]);
             $user->activities()->sync($request->activity_ids);
 
             $user->load("supplier", "activities", "phone");

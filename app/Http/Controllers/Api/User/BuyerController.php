@@ -43,6 +43,9 @@ class BuyerController extends Controller
             }
 
             $user->update($data);
+            $user->phone->update([
+                "number" => $request->phone
+            ]);
             $user->load("buyer", "phone");
             $user->buyer->update($data);
 
