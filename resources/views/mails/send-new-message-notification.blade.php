@@ -318,7 +318,7 @@
                             <p style="margin: 0">
                                 {{ trans('messages.best regards', [], 'ar') }} : {{ env('APP_NAME', [], 'ar') }}
                                 <br />
-                                <a href="{{ config('app.url') }}" target="_blank">{{ config('app.url') }}</a>
+                                <a href="{{ config('FRONTEND_URL') }}" target="_blank">{{ config('FRONTEND_URL') }}</a>
                                 <br>
                                 Mobile: +966547813233
                             </p>
