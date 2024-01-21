@@ -248,7 +248,7 @@ class ServiceQuotationController extends Controller
         if ($service->status == "completed")
             return response()->json([], 403);
 
-        if (!$user->supplier || $serviceQuotation->user_id != $user->id)
+        if (!$user->supplier || $serviceQuotation->user_id != $user->id || $serviceQuotation->accepted_by)
             return response()->json([], 403);
 
 
