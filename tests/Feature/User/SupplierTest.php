@@ -56,6 +56,7 @@ class SupplierTest extends TestCase
             "name" => $this->faker->streetName
         ]);
 
+
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
@@ -71,7 +72,7 @@ class SupplierTest extends TestCase
 
         $response = $this->put('/api/v1/user/supplier/profile/update', [
             "name" => $this->faker->name,
-            "phone" => $this->faker->numberBetween(123456789, 999999999),
+            "phone" => $phone->number,
             "birthdate" => $this->faker->date,
             "country_id" => $country->id,
             "city_id" => $city->id,

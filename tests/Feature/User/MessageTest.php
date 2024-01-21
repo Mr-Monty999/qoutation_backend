@@ -32,7 +32,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $receiverUser = User::create([
@@ -45,7 +45,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $receiverUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $wallet = Wallet::create([
@@ -89,7 +89,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $senderUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $receiverUser = User::create([
@@ -101,7 +101,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $receiverUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
 
@@ -139,7 +139,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $senderUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $receiverUser = User::create([
@@ -152,7 +152,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $receiverUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $wallet = Wallet::create([
@@ -188,7 +188,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $senderUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $receiverUser = User::create([
             "name" => $this->faker->name,
@@ -199,7 +199,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $receiverUser->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $wallet = Wallet::create([
@@ -236,7 +236,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
@@ -262,7 +262,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $wallet = Wallet::create([
             "user_id" => $user->id,
@@ -288,7 +288,7 @@ class MessageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
 
         $wallet = Wallet::create([

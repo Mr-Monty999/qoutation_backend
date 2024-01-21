@@ -63,7 +63,7 @@ class BuyerTest extends TestCase
         $this->actingAs($user);
         $response = $this->put('/api/v1/user/buyer/profile/update', [
             "name" => $this->faker->name,
-            "phone" => $this->faker->numberBetween(123456789, 999999999),
+            "phone" => $phone->number,
             "birthdate" => $this->faker->date,
             "country_id" => $country->id,
             "city_id" => $city->id,

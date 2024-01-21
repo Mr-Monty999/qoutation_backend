@@ -34,7 +34,7 @@ class ServiceTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $buyer = Buyer::create([
             "user_id" => $user->id
@@ -71,7 +71,7 @@ class ServiceTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $buyer = Buyer::create([
             "user_id" => $user->id
@@ -219,7 +219,7 @@ class ServiceTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
@@ -246,7 +246,7 @@ class ServiceTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $buyer = Buyer::create([
             "user_id" => $user->id

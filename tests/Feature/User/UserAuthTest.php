@@ -35,7 +35,7 @@ class UserAuthTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
@@ -146,7 +146,7 @@ class UserAuthTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $response = $this->post('/api/v1/auth/send-otp', [
             "email_or_phone" => $user->email,
@@ -171,7 +171,7 @@ class UserAuthTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
@@ -200,7 +200,7 @@ class UserAuthTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $otp = UserOtp::create([
             "identifier" => $user->email,
@@ -239,7 +239,7 @@ class UserAuthTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "country_code" => $this->faker->countryCode
+            "country_code" => rand(1, 999)
         ]);
         $otp = UserOtp::create([
             "identifier" => $user->email,

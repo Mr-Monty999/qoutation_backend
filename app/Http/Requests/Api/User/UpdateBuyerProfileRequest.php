@@ -44,7 +44,7 @@ class UpdateBuyerProfileRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "phone" => "required|numeric|unique:user_phones,number," . auth()->user()->id,
+            "phone" => "required|numeric|unique:user_phones,number," . auth()->user()->phone->id,
             "birthdate" => "nullable|date",
             "image" => "nullable|image|max:2048",
             "country_id" => "required|numeric|exists:countries,id",
