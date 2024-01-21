@@ -241,8 +241,12 @@ class ServiceQuotationController extends Controller
     public function update(UpdateServiceQuotationRequest $request, $serviceId, $quotationId)
     {
 
+        $service = Service::findOrFail($serviceId);
         $serviceQuotation = ServiceQuotation::findOrFail($quotationId);
         $user = auth()->user();
+
+        if ($service->status == "completed")
+            return response()->json([], 403);
 
         if (!$user->supplier || $serviceQuotation->user_id != $user->id)
             return response()->json([], 403);

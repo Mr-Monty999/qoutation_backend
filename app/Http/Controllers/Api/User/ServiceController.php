@@ -21,7 +21,12 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::with("user.supplier", "user.buyer", "activities")
+        $services = Service::with(
+            "user.supplier",
+            "user.buyer",
+            "activities",
+            "userQuotation"
+        )
             ->withCount("serviceQuotations")
             ->where("status", "active")
             ->latest()->paginate(10);
@@ -47,7 +52,12 @@ class ServiceController extends Controller
     {
         $user = Auth::user();
         $services = $user->services()
-            ->with("user.supplier", "user.buyer", "activities")
+            ->with(
+                "user.supplier",
+                "user.buyer",
+                "activities",
+                "userQuotation"
+            )
             ->withCount("serviceQuotations")
             ->latest()->paginate(10);
 
@@ -66,8 +76,7 @@ class ServiceController extends Controller
             ->whereHas("activities", function ($q) use ($userActivities) {
                 $q->whereIn("activity_id", $userActivities);
             })
-            ->withCount("serviceQuotations")
-            ->where("status", "active");
+            ->withCount("serviceQuotations");
 
         if ($request->type == "sent")
             $services->whereHas("serviceQuotations", function ($q) use ($user) {
