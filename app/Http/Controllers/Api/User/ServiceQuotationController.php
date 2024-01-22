@@ -225,7 +225,7 @@ class ServiceQuotationController extends Controller
             return response()->json([], 403);
 
 
-        $serviceQuotation->load("user.buyer", "user.supplier", "service.user.buyer");
+        $serviceQuotation->load("user.buyer", "user.supplier", "service.user.buyer", "service.activities");
         $serviceQuotation->service->loadCount("serviceQuotations");
 
         return response()->json($serviceQuotation);
