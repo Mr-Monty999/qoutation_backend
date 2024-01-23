@@ -23,6 +23,12 @@ class SupplierController extends Controller
             $suppliers =  $suppliers->latest();
 
 
+        if ($request->search)
+            $suppliers->whereHas("user", function ($q) use ($request) {
+                $q->where("name", "LIKE", "%$request->search%");
+            });
+
+
         if ($request->has("paginated") && $request->paginated == "true")
             $suppliers = $suppliers->paginate($perPage);
         else
