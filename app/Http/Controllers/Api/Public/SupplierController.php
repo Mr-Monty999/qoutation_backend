@@ -17,10 +17,16 @@ class SupplierController extends Controller
         if ($request->perPage)
             $perPage = $request->perPage;
 
+        $suppliers = Supplier::with("user.city", "user.neighbourhood");
+
+        if ($request->order && $request->order == "latest")
+            $suppliers =  $suppliers->latest();
+
+
         if ($request->has("paginated") && $request->paginated == "true")
-            $suppliers = Supplier::with("user")->paginate($perPage);
+            $suppliers = $suppliers->paginate($perPage);
         else
-            $suppliers = Supplier::with("user")->get();
+            $suppliers = $suppliers->get();
 
         return response()->json([
             "data" => $suppliers
