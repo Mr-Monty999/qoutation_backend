@@ -13,16 +13,20 @@ class ActivityController extends Controller
     public function index(Request $request)
     {
 
-        $activities = null;
+        $activities = Activity::withCount("services");
         $perPage = 10;
 
         if ($request->perPage)
             $perPage = $request->perPage;
 
+        if ($request->orderByCount && $request->orderByCount == "true")
+            $activities->orderBy("services_count", "desc");
+
+
         if ($request->has("paginated") && $request->paginated == "true")
-            $activities = Activity::paginate($perPage);
+            $activities = $activities->paginate($perPage);
         else
-            $activities = Activity::get();
+            $activities = $activities->get();
 
         return response()->json($activities);
     }
