@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
-        $user->load("supplier", "buyer", "phone", "city", "neighbourhood");
+        $user->load("supplier", "buyer", "phone", "city", "neighbourhood", "activities");
         return response()->json([
             "data" => $user
         ]);
