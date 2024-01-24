@@ -73,15 +73,22 @@ class ServiceController extends Controller
             "activities",
             "userQuotation"
         ])
-            ->whereHas("activities", function ($q) use ($userActivities) {
-                $q->whereIn("activity_id", $userActivities);
-            })
             ->withCount("serviceQuotations");
 
-        if ($request->type == "sent")
+
+
+
+        if ($request->type == "sent") {
             $services->whereHas("serviceQuotations", function ($q) use ($user) {
                 $q->where("user_id", $user->id);
             });
+        } else {
+            $services->whereHas("activities", function ($q) use ($userActivities) {
+                $q->whereIn("activity_id", $userActivities);
+            });
+            $services->where("status", "active");
+        }
+
 
         $services = $services->latest()->paginate(10);
 
