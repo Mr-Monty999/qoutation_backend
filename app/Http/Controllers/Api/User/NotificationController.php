@@ -45,7 +45,8 @@ class NotificationController extends Controller
         $user = auth()->user();
         $notification = $user->notifications()->findOrFail($notificationId);
 
-        $notification->markAsRead();
+        if ($notification->read == null)
+            $notification->markAsRead();
 
         return response()->json([
             "data" => $notification

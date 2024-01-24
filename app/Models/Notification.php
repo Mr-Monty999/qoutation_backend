@@ -16,6 +16,8 @@ class Notification extends Model
         "data" => "json"
     ];
 
+    protected $keyType = 'string';
+
 
     public function getCreatedAtAttribute($value)
     {
