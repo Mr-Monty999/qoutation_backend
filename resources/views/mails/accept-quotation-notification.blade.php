@@ -155,9 +155,8 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px">
                     <tr>
                         <td align="center" valign="top" style="padding: 36px 24px">
-                            <a href="{{ asset('assets/img/favicon/logo_t.png') }}" target="_blank"
-                                style="display: inline-block">
-                                <img src="{{ asset('assets/img/favicon/logo_t.png') }}" alt="Logo" border="0"
+                            <a href="{{ asset(env('LOCAL_LOGO')) }}" target="_blank" style="display: inline-block">
+                                <img src="{{ asset(env('LOCAL_LOGO')) }}" alt="Logo" border="0"
                                     style="
                       display: block;
                       width: 100px;
@@ -356,8 +355,7 @@
                             <p style="margin: 0">
                                 {{ trans('messages.best regards', [], 'ar') }} : {{ env('APP_NAME', [], 'ar') }}
                                 <br />
-                                <a href="{{ env('FRONTEND_URL') }}"
-                                    target="_blank">{{ env('FRONTEND_URL') }}</a>
+                                <a href="{{ env('FRONTEND_URL') }}" target="_blank">{{ env('FRONTEND_URL') }}</a>
                                 <br>
                                 Mobile: +966547813233
                             </p>
