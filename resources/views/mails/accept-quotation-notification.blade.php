@@ -160,8 +160,7 @@
                                     style="
                       display: block;
                       width: 100px;
-                      max-width: 48px;
-                      min-width: 48px;
+
                     " />
                             </a>
                         </td>
