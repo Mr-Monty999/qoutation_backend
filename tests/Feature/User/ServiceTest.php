@@ -4,6 +4,9 @@ namespace Tests\Feature\User;
 
 use App\Models\Activity;
 use App\Models\Buyer;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Neighbourhood;
 use App\Models\Service;
 use App\Models\Supplier;
 use App\Models\User;
@@ -47,12 +50,29 @@ class ServiceTest extends TestCase
             "name" => $this->faker->name
         ]);
 
+        $country = Country::create([
+            "name" => $this->faker->country,
+            "code" => "966"
+        ]);
+
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
+        ]);
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetAddress
+        ]);
+
         $this->actingAs($user);
 
         $response = $this->post('/api/v1/user/services', [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-            "activity_ids" => "$a1->id,$a2->id"
+            "activity_ids" => Activity::pluck('id')->toArray(),
+            "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
         ]);
 
         $response->assertStatus(201);
@@ -90,12 +110,30 @@ class ServiceTest extends TestCase
             "name" => "a2"
         ]);
 
+
+        $country = Country::create([
+            "name" => $this->faker->country,
+            "code" => "966"
+        ]);
+
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
+        ]);
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetAddress
+        ]);
+
         $this->actingAs($user);
 
         $response = $this->put("/api/v1/user/services/$service->id", [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-            "activity_ids" => "$a1->id,$a2->id"
+            "activity_ids" => Activity::pluck('id')->toArray(),
+            "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
         ]);
 
         $response->assertStatus(200);

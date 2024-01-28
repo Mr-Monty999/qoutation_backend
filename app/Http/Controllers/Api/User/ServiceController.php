@@ -112,7 +112,7 @@ class ServiceController extends Controller
         DB::beginTransaction();
         try {
 
-            $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
+            // $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
 
 
             $data = $request->validated();
@@ -188,7 +188,7 @@ class ServiceController extends Controller
         DB::beginTransaction();
         try {
 
-            $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
+            // $request->merge(["activity_ids" => explode(",", $request->activity_ids)]);
 
 
             $data = $request->validated();
