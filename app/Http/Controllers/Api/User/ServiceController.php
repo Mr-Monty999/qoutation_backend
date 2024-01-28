@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreServiceRequest;
 use App\Http\Requests\Api\User\UpdateServiceRequest;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Neighbourhood;
 use App\Models\Service;
 use App\Services\ServiceService;
 use Dflydev\DotAccessData\Data;
@@ -25,7 +28,10 @@ class ServiceController extends Controller
             "user.supplier",
             "user.buyer",
             "activities",
-            "userQuotation"
+            "userQuotation",
+            "city",
+            "country",
+            "neighbourhood"
         )
             ->withCount("serviceQuotations")
             ->where("status", "active")
@@ -43,7 +49,13 @@ class ServiceController extends Controller
             "status" => "completed"
         ]);
 
-        $service->load("activities", "user.buyer");
+        $service->load(
+            "activities",
+            "user.buyer",
+            "city",
+            "country",
+            "neighbourhood"
+        );
         return response()->json([
             "data" => $service
         ]);
@@ -56,7 +68,10 @@ class ServiceController extends Controller
                 "user.supplier",
                 "user.buyer",
                 "activities",
-                "userQuotation"
+                "userQuotation",
+                "city",
+                "country",
+                "neighbourhood"
             )
             ->withCount("serviceQuotations")
             ->latest()->paginate(10);
@@ -71,7 +86,10 @@ class ServiceController extends Controller
         $services = Service::with([
             "user.supplier", "user.buyer",
             "activities",
-            "userQuotation"
+            "userQuotation",
+            "city",
+            "country",
+            "neighbourhood"
         ])
             ->withCount("serviceQuotations");
 
@@ -104,6 +122,14 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
 
+
+        $country = Country::findOrFail($request->country_id);
+        $city = City::findOrFail($request->city_id);
+        $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
+
+        if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
+            return response()->json([], 403);
+
         $user = auth()->user();
 
         if (!$user->buyer)
@@ -124,7 +150,14 @@ class ServiceController extends Controller
 
             $service->activities()->attach($request->activity_ids);
 
-            $service->load("activities", "user.buyer", "user.supplier");
+            $service->load(
+                "activities",
+                "user.buyer",
+                "user.supplier",
+                "city",
+                "country",
+                "neighbourhood"
+            );
             $service->loadCount("serviceQuotations");
 
 
@@ -153,6 +186,9 @@ class ServiceController extends Controller
         $service->load([
             "user.buyer", "user.supplier",
             "activities",
+            "city",
+            "country",
+            "neighbourhood"
         ])
             ->loadCount("serviceQuotations");
 
@@ -177,6 +213,13 @@ class ServiceController extends Controller
     {
 
 
+        $country = Country::findOrFail($request->country_id);
+        $city = City::findOrFail($request->city_id);
+        $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
+
+        if ($city->country_id != $country->id || $neighbourhood->city_id != $city->id)
+            return response()->json([], 403);
+
         $user = auth()->user();
 
         if (!$user->buyer || $service->user_id != $user->id)
@@ -198,7 +241,14 @@ class ServiceController extends Controller
 
             $service->activities()->sync($request->activity_ids);
 
-            $service->load("activities", "user.buyer", "user.supplier");
+            $service->load(
+                "activities",
+                "user.buyer",
+                "user.supplier",
+                "city",
+                "country",
+                "neighbourhood"
+            );
             $service->loadCount("serviceQuotations");
 
 
