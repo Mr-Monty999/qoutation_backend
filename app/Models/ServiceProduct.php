@@ -6,14 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class ServiceProduct extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ["id"];
 
-    public function addedBy()
+    public function service()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsTo(Service::class, "service_id");
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, "product_id");
     }
 }
