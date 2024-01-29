@@ -184,7 +184,8 @@ class ServiceController extends Controller
             return response()->json([], 403);
 
         $service->load([
-            "user.buyer", "user.supplier",
+            "user.buyer",
+            "user.supplier",
             "activities",
             "city",
             "country",
@@ -236,10 +237,10 @@ class ServiceController extends Controller
 
             $data = $request->validated();
 
-            $service->update($data);
+            // $service->update($data);
 
 
-            $service->activities()->sync($request->activity_ids);
+            // $service->activities()->sync($request->activity_ids);
 
             $service->load(
                 "activities",
