@@ -51,4 +51,9 @@ class Service extends Model
     {
         return $this->belongsTo(Neighbourhood::class, "neighbourhood_id");
     }
+
+    public function products()
+    {
+        return $this->hasMany(ServiceQuotation::class, "service_id");
+    }
 }
