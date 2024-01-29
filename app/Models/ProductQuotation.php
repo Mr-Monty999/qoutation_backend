@@ -18,7 +18,7 @@ class ProductQuotation extends Model
     }
     public function serviceProduct()
     {
-        return $this->belongsTo(Product::class, "service_product_id");
+        return $this->belongsTo(ServiceProduct::class, "service_product_id");
     }
     public function user()
     {
