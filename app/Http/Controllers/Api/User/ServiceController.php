@@ -9,6 +9,8 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
 use App\Models\Service;
+use App\Models\ServiceProduct;
+use App\Services\ServiceProductService;
 use App\Services\ServiceService;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
@@ -123,6 +125,7 @@ class ServiceController extends Controller
     {
 
 
+
         $country = Country::findOrFail($request->country_id);
         $city = City::findOrFail($request->city_id);
         $neighbourhood = Neighbourhood::findOrFail($request->neighbourhood_id);
@@ -148,6 +151,9 @@ class ServiceController extends Controller
 
             $service = Service::find($serviceId);
 
+            ServiceProductService::store($data["products"], $service);
+
+
             $service->activities()->attach($request->activity_ids);
 
             $service->load(
@@ -165,7 +171,7 @@ class ServiceController extends Controller
             return response()->json($service, 201);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
-            return response()->json(["msg" => "error"], 400);
+            return response()->json(["msg" => $e->__toString()], 400);
         }
     }
 

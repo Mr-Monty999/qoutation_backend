@@ -20,4 +20,8 @@ class ServiceProduct extends Model
     {
         return $this->belongsTo(Product::class, "product_id");
     }
+    public function quotations()
+    {
+        return $this->hasMany(ProductQuotation::class, "service_product_id");
+    }
 }

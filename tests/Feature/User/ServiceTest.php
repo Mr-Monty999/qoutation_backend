@@ -73,6 +73,18 @@ class ServiceTest extends TestCase
             "country_id" => $country->id,
             "city_id" => $city->id,
             "neighbourhood_id" => $neighbourhood->id,
+            "products" => [
+                [
+                    "name" => "product1",
+                    "quantity" => 333,
+                    "description" => "test"
+                ],
+                [
+                    "name" => "product2",
+                    "quantity" => 1234,
+                    "description" => "test"
+                ]
+            ]
         ]);
 
         $response->assertStatus(201);
