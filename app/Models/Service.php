@@ -56,4 +56,8 @@ class Service extends Model
     {
         return $this->hasMany(ServiceProduct::class, "service_id");
     }
+    public function ProductQuotation()
+    {
+        return $this->hasMany(ProductQuotation::class, "service_id");
+    }
 }
