@@ -43,7 +43,14 @@ class ServiceController extends Controller
     }
     public function markAsCompleted(Request $request, Service $service)
     {
+        $user = auth()->user();
+
+
         if ($service->status == "completed")
+            return response()->json([], 403);
+
+
+        if ($service->user_id != $user->id)
             return response()->json([], 403);
 
 
@@ -186,8 +193,8 @@ class ServiceController extends Controller
 
         $user = auth()->user();
 
-        if ($service->user_id != $user->id)
-            return response()->json([], 403);
+        // if ($service->user_id != $user->id)
+        //     return response()->json([], 403);
 
         $service->load([
             "user.buyer",
@@ -195,12 +202,13 @@ class ServiceController extends Controller
             "activities",
             "city",
             "country",
-            "neighbourhood"
+            "neighbourhood",
+            "products"
         ])
             ->loadCount("serviceQuotations");
 
-        $service["service_quotations"] = $service->serviceQuotations()->with("user.supplier", "acceptedBy")->orderBy("amount")
-            ->paginate(10);
+        // $service["service_quotations"] = $service->serviceQuotations()->with("user.supplier", "acceptedBy")->orderBy("amount")
+        //     ->paginate(10);
 
 
 
@@ -277,6 +285,12 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+
+        $user = auth()->user();
+
+        if ($service->user_id != $user->id)
+            return response()->json([], 403);
+
         if ($service->status != "active")
             return response()->json([], 403);
 
