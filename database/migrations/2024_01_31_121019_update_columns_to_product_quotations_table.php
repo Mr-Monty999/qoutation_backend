@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('product_quotations', function (Blueprint $table) {
             $table->unsignedBigInteger("accepted_by")->nullable()->after("user_id");
-            $table->string("title")->after("price");
+            $table->string("title")->nullable()->after("price");
             $table->renameColumn("price", "unit_price");
 
 

@@ -26,7 +26,7 @@ class StoreProductQuotationRequest extends FormRequest
         return [
             "products" => "required|array",
             "products.*.unit_price" => "required|numeric|integer",
-            "products.*.title" => "required|string",
+            "products.*.title" => "nullable|string",
             "products.*.description" => "nullable|string",
             "products.*.service_product_id" => "required|numeric|integer|exists:service_products,id",
 
