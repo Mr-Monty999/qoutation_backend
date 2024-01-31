@@ -32,9 +32,18 @@ class StoreServiceRequest extends FormRequest
             "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",
             "products" => "required|array",
             "products.*.name" => "required|string",
-            "products.*.quantity" => "required|numeric",
+            "products.*.quantity" => "required|numeric|integer",
             "products.*.description" => "nullable|string"
 
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            "products.*.name" => trans("messages.name"),
+            "products.*.quantity" => trans("messages.quantity"),
+            "products.*.description" => trans("messages.description"),
+            "country_id" => trans("messages.country")
         ];
     }
 }

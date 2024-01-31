@@ -34,7 +34,11 @@ return [
     "quotation url" => "رابط عرض السعر",
     "url" => "الرابط",
     "send_new_message_notification" => "لديك رسالة جديدة من :name",
-    "email exists" => "البريد الإكتروني موجود بالفعل"
+    "email exists" => "البريد الإكتروني موجود بالفعل",
+    "name" => "الإسم",
+    "quantity" => "الكمية",
+    "description" => "الوصف",
+    "country" => "الدولة"
 
 
 

@@ -34,6 +34,10 @@ return [
     "quotation url" => "quotation url",
     "url" => "url",
     "send_new_message_notification" => "you have a new message from :name",
-    "email exists" => "email exists"
+    "email exists" => "email exists",
+    "name" => "name",
+    "quantity" => "quantity",
+    "description" => "description",
+    "country" => "country"
 
 ];
