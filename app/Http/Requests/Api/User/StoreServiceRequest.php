@@ -31,9 +31,9 @@ class StoreServiceRequest extends FormRequest
             "city_id" => "required|numeric|exists:cities,id",
             "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",
             "products" => "required|array",
-            // "products.name" => "required|string",
-            // "products.quantity" => "required|numeric",
-            // "products.description" => "nullable|string"
+            "products.*.name" => "required|string",
+            "products.*.quantity" => "required|numeric",
+            "products.*.description" => "nullable|string"
 
         ];
     }
