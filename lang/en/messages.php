@@ -38,6 +38,7 @@ return [
     "name" => "name",
     "quantity" => "quantity",
     "description" => "description",
-    "country" => "country"
+    "country" => "country",
+    "quotation sent successfully" => "quotation sent successfully"
 
 ];

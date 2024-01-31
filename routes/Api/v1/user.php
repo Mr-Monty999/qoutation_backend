@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\User\ServiceQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
+use App\Http\Controllers\Api\User\ProductQuotationController;
 use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::apiResource("services.quotations", ServiceQuotationController::class, [
             "as" => "user"
         ]);
+
+        Route::post("services/{service}/products/quotations", [ProductQuotationController::class, "store"]);
 
         Route::put("services/{service}/quotations/{serviceQuotation}/accept", [ServiceQuotationController::class, "acceptQuotation"]);
 

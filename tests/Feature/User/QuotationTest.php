@@ -4,6 +4,7 @@ namespace Tests\Feature\User;
 
 use App\Models\Activity;
 use App\Models\Service;
+use App\Models\ServiceProduct;
 use App\Models\ServiceQuotation;
 use App\Models\Supplier;
 use App\Models\User;
@@ -65,6 +66,64 @@ class QuotationTest extends TestCase
             "title" => $this->faker->title,
             "description" => $this->faker->text,
             "amount" => 3432434
+        ]);
+
+        $response->assertStatus(201);
+    }
+
+    public function test_user_can_create_products_quotation()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => rand(1, 999)
+        ]);
+        $wallet = Wallet::create([
+            "user_id" => $user->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => "23443234324"
+        ]);
+
+        $a1 = Activity::create([
+            "name" => $this->faker->name
+        ]);
+        $a2 = Activity::create([
+            "name" => $this->faker->name
+        ]);
+
+        $this->actingAs($user);
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+        $serviceProduct = ServiceProduct::create([
+            "service_id" => $service->id,
+            "name" => "text",
+            "quantity" => 3300,
+        ]);
+        $response = $this->post("/api/v1/user/services/$service->id/products/quotations", [
+            "products" => [
+                [
+                    "title" => "test",
+                    "unit_price" => 3344,
+                    "description" => "test",
+                    "service_product_id" => $serviceProduct->id
+                ]
+            ]
+
         ]);
 
         $response->assertStatus(201);

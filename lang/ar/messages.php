@@ -38,7 +38,9 @@ return [
     "name" => "الإسم",
     "quantity" => "الكمية",
     "description" => "الوصف",
-    "country" => "الدولة"
+    "country" => "الدولة",
+    "quotation sent successfully" => "تم إرسال عرض السعر بنجاح"
+
 
 
 
