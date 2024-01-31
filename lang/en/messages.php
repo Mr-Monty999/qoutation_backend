@@ -39,6 +39,8 @@ return [
     "quantity" => "quantity",
     "description" => "description",
     "country" => "country",
-    "quotation sent successfully" => "quotation sent successfully"
+    "quotation sent successfully" => "quotation sent successfully",
+    "unit price" => "unit price",
+    "please choose at least one product" => "please choose at least one product"
 
 ];

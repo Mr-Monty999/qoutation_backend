@@ -39,7 +39,9 @@ return [
     "quantity" => "الكمية",
     "description" => "الوصف",
     "country" => "الدولة",
-    "quotation sent successfully" => "تم إرسال عرض السعر بنجاح"
+    "quotation sent successfully" => "تم إرسال عرض السعر بنجاح",
+    "unit price" => "سعر الوحدة",
+    "please choose at least one product" => "يرجى اختيار منتج واحد على الأقل"
 
 
 

@@ -21,6 +21,17 @@ class ProductQuotationController extends Controller
     public function store(StoreProductQuotationRequest $request, $serviceId)
     {
 
+        $isAllNull = true;
+        foreach ($request->products as $product) {
+            if ($product["unit_price"] != null) {
+                $isAllNull = false;
+                break;
+            }
+        }
+
+        if ($isAllNull)
+            return response()->json(["message" => trans("messages.please choose at least one product")], 403);
+
         $user = auth()->user();
         $userWallet = $user->wallet;
 
@@ -50,13 +61,15 @@ class ProductQuotationController extends Controller
 
                 $serviceProduct = ServiceProduct::findOrFail($product["service_product_id"]);
 
-                if ($serviceProduct->service->id != $serviceId)
+                if ($serviceProduct->service_id != $serviceId)
                     return;
 
-                ProductQuotation::updateOrCreate([
-                    "user_id" => $user->id,
-                    "service_product_id" => $product["service_product_id"]
-                ], $product);
+                if ($product["unit_price"] > 0) {
+                    ProductQuotation::updateOrCreate([
+                        "user_id" => $user->id,
+                        "service_product_id" => $product["service_product_id"]
+                    ], $product);
+                }
             }
 
 

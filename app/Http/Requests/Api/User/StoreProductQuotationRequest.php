@@ -25,7 +25,7 @@ class StoreProductQuotationRequest extends FormRequest
     {
         return [
             "products" => "required|array",
-            "products.*.unit_price" => "required|numeric|integer",
+            "products.*.unit_price" => "nullable|numeric|min:1",
             "products.*.title" => "nullable|string",
             "products.*.description" => "nullable|string",
             "products.*.service_product_id" => "required|numeric|integer|exists:service_products,id",
@@ -36,7 +36,9 @@ class StoreProductQuotationRequest extends FormRequest
     public function attributes()
     {
         return [
-            // "amount" => trans("messages.price"),
+            "products.*.unit_price" => trans("messages.unit price"),
+            "products.*.title" => trans("messages.title"),
+            "products.*.description" => trans("messages.description")
         ];
     }
 }
