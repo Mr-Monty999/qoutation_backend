@@ -69,7 +69,8 @@ class ProductQuotationController extends Controller
                 if ($product["unit_price"] > 0) {
                     ProductQuotation::updateOrCreate([
                         "user_id" => $user->id,
-                        "service_product_id" => $product["service_product_id"]
+                        "service_product_id" => $product["service_product_id"],
+                        "service_id" => $product["service_id"]
                     ], $product);
                 }
             }
