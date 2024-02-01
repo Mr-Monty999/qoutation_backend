@@ -41,7 +41,8 @@ return [
     "country" => "الدولة",
     "quotation sent successfully" => "تم إرسال عرض السعر بنجاح",
     "unit price" => "سعر الوحدة",
-    "please choose at least one product" => "يرجى اختيار منتج واحد على الأقل"
+    "please choose at least one product" => "يرجى اختيار منتج واحد على الأقل",
+    "please price at least one product" => "الرجاء تسعيير منتج واحد على الأقل"
 
 
 

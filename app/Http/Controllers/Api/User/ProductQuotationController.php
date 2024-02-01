@@ -30,7 +30,7 @@ class ProductQuotationController extends Controller
         }
 
         if ($isAllNull)
-            return response()->json(["message" => trans("messages.please choose at least one product")], 403);
+            return response()->json(["message" => trans("messages.please price at least one product") . "!"], 403);
 
         $user = auth()->user();
         $userWallet = $user->wallet;
