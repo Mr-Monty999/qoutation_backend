@@ -12,6 +12,11 @@ class ProductQuotation extends Model
 
     protected $guarded = ["id"];
 
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, "service_id");
+    }
     public function serviceProduct()
     {
         return $this->belongsTo(ServiceProduct::class, "service_product_id");
