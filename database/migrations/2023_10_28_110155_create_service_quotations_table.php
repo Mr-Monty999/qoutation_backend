@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("service_id");
             $table->unsignedBigInteger("user_id");
-            $table->decimal("amount", 12, 2);
+            $table->decimal("amount", 20, 2);
             $table->string("title")->nullable();
             $table->string("description")->nullable();
             $table->timestamps();

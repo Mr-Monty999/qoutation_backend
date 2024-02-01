@@ -18,7 +18,7 @@ return new class extends Migration
             // $table->unsignedBigInteger("service_id");
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("service_product_id")->nullable();
-            $table->decimal("price");
+            $table->decimal("price", 20, 2);
             $table->string("description")->nullable();
             $table->timestamps();
             $table->softDeletes();

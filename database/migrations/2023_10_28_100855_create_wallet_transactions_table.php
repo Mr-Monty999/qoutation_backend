@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("wallet_id");
             $table->string("type")->nullable();
-            $table->decimal("amount", 12)->default(0);
+            $table->decimal("amount", 20)->default(0);
             $table->string("status")->default("pending");
             $table->string("number")->unique();
             $table->string("uuid")->unique();
