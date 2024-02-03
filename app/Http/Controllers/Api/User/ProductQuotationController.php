@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\StoreProductQuotationRequest;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Notification;
 use App\Models\ProductQuotation;
+use App\Models\QuotationInvoice;
 use App\Models\Service;
 use App\Models\ServiceProduct;
 use App\Models\ServiceQuotation;
@@ -22,10 +23,14 @@ class ProductQuotationController extends Controller
     {
 
         $isAllNull = true;
+        $totalWithoutTax = 0;
         foreach ($request->products as $product) {
+            $serviceProduct = ServiceProduct::findOrFail($product["service_product_id"]);
+
+            $totalWithoutTax += $product["unit_price"] * $serviceProduct->quantity;
+
             if ($product["unit_price"] != null) {
                 $isAllNull = false;
-                break;
             }
         }
 
@@ -55,9 +60,26 @@ class ProductQuotationController extends Controller
 
             $data = $request->validated();
 
+            $tax = 15;
+            $taxAmount = ($tax / 100) * $totalWithoutTax;
+            $totalIncTax = $taxAmount + $totalWithoutTax;
+
+            $invoice = QuotationInvoice::updateOrCreate([
+                "user_id" => $user->id,
+                "service_id" => $service->id,
+            ], [
+                "user_id" => $user->id,
+                "service_id" => $service->id,
+                "total_inc_tax" => $totalIncTax,
+                "total_without_tax" => $totalWithoutTax,
+                "tax_amount" => $taxAmount,
+                "tax_percentage" => $tax
+            ]);
+
             foreach ($data["products"] as $product) {
 
                 $product["user_id"] = $user->id;
+                $product["quotation_invoice_id"] = $invoice->id;
 
                 $serviceProduct = ServiceProduct::findOrFail($product["service_product_id"]);
 
@@ -65,12 +87,12 @@ class ProductQuotationController extends Controller
                     return;
 
                 $product["service_id"] = $serviceProduct->service_id;
-
                 if ($product["unit_price"] > 0) {
                     ProductQuotation::updateOrCreate([
                         "user_id" => $user->id,
                         "service_product_id" => $product["service_product_id"],
-                        "service_id" => $product["service_id"]
+                        "service_id" => $product["service_id"],
+                        "quotation_invoice_id" => $product["quotation_invoice_id"]
                     ], $product);
                 }
             }

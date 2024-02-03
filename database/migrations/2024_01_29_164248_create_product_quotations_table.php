@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('product_quotations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("quotation_invoice_id");
             $table->unsignedBigInteger("service_id");
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("service_product_id")->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->softDeletes();
 
 
+            $table->foreign("quotation_invoice_id")->references("id")->on("quotation_invoices")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("service_id")->references("id")->on("services")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("service_product_id")->references("id")->on("service_products")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
