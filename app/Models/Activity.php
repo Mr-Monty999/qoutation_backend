@@ -18,8 +18,8 @@ class Activity extends Model
     }
 
 
-    public function services()
+    public function quotations()
     {
-        return $this->belongsToMany(Service::class, "service_activity", "activity_id");
+        return $this->belongsToMany(Quotation::class, "quotation_activity", "activity_id");
     }
 }

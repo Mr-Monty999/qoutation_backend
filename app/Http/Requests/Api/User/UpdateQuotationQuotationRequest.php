@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateServiceQuotationRequest extends FormRequest
+class UpdateQuotationQuotationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

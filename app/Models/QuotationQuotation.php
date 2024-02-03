@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceQuotation extends Model
+class QuotationQuotation extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -21,8 +21,8 @@ class ServiceQuotation extends Model
     {
         return $this->belongsTo(User::class, "accepted_by");
     }
-    public function service()
+    public function quotation()
     {
-        return $this->belongsTo(Service::class, "service_id");
+        return $this->belongsTo(Quotation::class, "quotation_id");
     }
 }

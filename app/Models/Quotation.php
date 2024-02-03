@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Service extends Model
+class Quotation extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -18,17 +18,17 @@ class Service extends Model
         return $this->belongsTo(User::class, "user_id");
     }
 
-    public function serviceQuotations()
+    public function quotationQuotations()
     {
-        return $this->hasMany(ServiceQuotation::class, "service_id");
+        return $this->hasMany(QuotationQuotation::class, "quotation_id");
     }
     public function userQuotation()
     {
-        return $this->hasOne(ServiceQuotation::class, "service_id")->where("user_id", auth()->id());
+        return $this->hasOne(QuotationQuotation::class, "quotation_id")->where("user_id", auth()->id());
     }
     public function activities()
     {
-        return $this->belongsToMany(Activity::class, "service_activity", "service_id");
+        return $this->belongsToMany(Activity::class, "quotation_activity", "quotation_id");
     }
 
     public function getCreatedAtAttribute($value)
@@ -54,10 +54,10 @@ class Service extends Model
 
     public function products()
     {
-        return $this->hasMany(ServiceProduct::class, "service_id");
+        return $this->hasMany(QuotationProduct::class, "quotation_id");
     }
     public function productQuotations()
     {
-        return $this->hasMany(ProductQuotation::class, "service_id");
+        return $this->hasMany(ProductQuotation::class, "quotation_id");
     }
 }

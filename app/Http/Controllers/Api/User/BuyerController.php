@@ -10,7 +10,7 @@ use App\Models\Buyer;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
-use App\Models\Service;
+use App\Models\Quotation;
 use Illuminate\Support\Facades\DB;
 
 class BuyerController extends Controller

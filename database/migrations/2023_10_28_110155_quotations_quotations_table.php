@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_quotations', function (Blueprint $table) {
+        Schema::create('quotation_quotations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("service_id");
+            $table->unsignedBigInteger("quotation_id");
             $table->unsignedBigInteger("user_id");
             $table->decimal("amount", 20, 2);
             $table->string("title")->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
 
 
             $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign("service_id")->references("id")->on("services")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign("quotation_id")->references("id")->on("quotations")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_quotations');
+        Schema::dropIfExists('quotation_quotations');
     }
 };

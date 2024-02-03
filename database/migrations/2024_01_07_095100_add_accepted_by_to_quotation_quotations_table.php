@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('service_quotations', function (Blueprint $table) {
-            $table->text("description")->nullable()->change();
+        Schema::table('quotation_quotations', function (Blueprint $table) {
+            $table->unsignedBigInteger("accepted_by")->nullable()->after("user_id");
+
+
+
+            $table->foreign("accepted_by")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -25,8 +29,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('service_quotations', function (Blueprint $table) {
-            $table->string("description")->nullable()->change();
+        Schema::table('quotation_quotations', function (Blueprint $table) {
+            $table->dropConstrainedForeignId("accepted_by");
         });
     }
 };

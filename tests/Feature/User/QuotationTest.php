@@ -3,13 +3,14 @@
 namespace Tests\Feature\User;
 
 use App\Models\Activity;
-use App\Models\Service;
-use App\Models\ServiceProduct;
-use App\Models\ServiceQuotation;
+use App\Models\Buyer;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Neighbourhood;
+use App\Models\Quotation;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\UserPhone;
-use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -38,13 +39,8 @@ class QuotationTest extends TestCase
             "number" => rand(123456789, 999999999),
             "country_code" => rand(1, 999)
         ]);
-        $wallet = Wallet::create([
-            "user_id" => $user->id,
-            "balance" => env("SUPPLIER_QUOTATION_PRICE")
-        ]);
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
+        $buyer = Buyer::create([
+            "user_id" => $user->id
         ]);
 
         $a1 = Activity::create([
@@ -54,82 +50,47 @@ class QuotationTest extends TestCase
             "name" => $this->faker->name
         ]);
 
-        $this->actingAs($user);
-
-        $service = Service::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
+        $country = Country::create([
+            "name" => $this->faker->country,
+            "code" => "966"
         ]);
 
-        $response = $this->post("/api/v1/user/services/$service->id/quotations", [
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "amount" => 3432434
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
         ]);
-
-        $response->assertStatus(201);
-    }
-
-    public function test_user_can_create_products_quotation()
-    {
-
-
-        $user = User::create([
-            "name" => $this->faker->name,
-            "email" => $this->faker->email,
-            "email_verified_at" => now(),
-            "password" => Hash::make("password")
-        ]);
-        $phone = UserPhone::create([
-            "user_id" => $user->id,
-            "number" => rand(123456789, 999999999),
-            "country_code" => rand(1, 999)
-        ]);
-        $wallet = Wallet::create([
-            "user_id" => $user->id,
-            "balance" => env("SUPPLIER_QUOTATION_PRICE")
-        ]);
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
-        $a1 = Activity::create([
-            "name" => $this->faker->name
-        ]);
-        $a2 = Activity::create([
-            "name" => $this->faker->name
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetAddress
         ]);
 
         $this->actingAs($user);
 
-        $service = Service::create([
-            "user_id" => $user->id,
+        $response = $this->post('/api/v1/user/quotations', [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-        ]);
-        $serviceProduct = ServiceProduct::create([
-            "service_id" => $service->id,
-            "name" => "text",
-            "quantity" => 3300,
-        ]);
-        $response = $this->post("/api/v1/user/services/$service->id/products/quotations", [
+            "activity_ids" => Activity::pluck('id')->toArray(),
+            "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
             "products" => [
                 [
-                    "title" => "test",
-                    "unit_price" => 3344,
-                    "description" => "test",
-                    "service_product_id" => $serviceProduct->id
+                    "name" => "product1",
+                    "quantity" => 333,
+                    "description" => "test"
+                ],
+                [
+                    "name" => "product2",
+                    "quantity" => 1234,
+                    "description" => "test"
                 ]
             ]
-
         ]);
 
         $response->assertStatus(201);
     }
 
-    public function test_user_can_update_his_quotations()
+    public function test_user_can_update_his_quotation()
     {
 
 
@@ -144,24 +105,14 @@ class QuotationTest extends TestCase
             "number" => rand(123456789, 999999999),
             "country_code" => rand(1, 999)
         ]);
-
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
+        $buyer = Buyer::create([
+            "user_id" => $user->id
         ]);
 
-        $service = Service::create([
+        $quotation = Quotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
         ]);
 
         $a1 = Activity::create([
@@ -171,19 +122,36 @@ class QuotationTest extends TestCase
             "name" => "a2"
         ]);
 
-        $this->actingAs($user);
 
-        $response = $this->put("/api/v1/user/services/$service->id/quotations/$quotation->id", [
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "amount" => 3432434
+        $country = Country::create([
+            "name" => $this->faker->country,
+            "code" => "966"
         ]);
 
+        $city = City::create([
+            "name" => $this->faker->city,
+            "country_id" => $country->id
+        ]);
+        $neighbourhood = Neighbourhood::create([
+            "city_id" => $city->id,
+            "name" => $this->faker->streetAddress
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->put("/api/v1/user/quotations/$quotation->id", [
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+            "activity_ids" => Activity::pluck('id')->toArray(),
+            "country_id" => $country->id,
+            "city_id" => $city->id,
+            "neighbourhood_id" => $neighbourhood->id,
+        ]);
 
         $response->assertStatus(200);
     }
 
-    public function test_user_can_get_all_service_quotations()
+    public function test_user_can_get_all_quotations()
     {
 
 
@@ -196,81 +164,9 @@ class QuotationTest extends TestCase
         ]);
 
 
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
-        $service = Service::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
-        ]);
-
-        $a1 = Activity::create([
-            "name" => "a1"
-        ]);
-        $a2 = Activity::create([
-            "name" => "a2"
-        ]);
-
         $this->actingAs($user);
 
-        $response = $this->get("/api/v1/user/services/$service->id/quotations");
-
-        $response->assertStatus(200);
-    }
-
-    public function test_user_can_get_all_his_all_quotations()
-    {
-
-
-        $user = User::create([
-            "name" => "test",
-            "email" => "testtesttest@example.com",
-            "phone" => "96624241242",
-            "email_verified_at" => now(),
-            "password" => Hash::make("password")
-        ]);
-
-
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
-        $service = Service::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
-        ]);
-
-        $a1 = Activity::create([
-            "name" => "a1"
-        ]);
-        $a2 = Activity::create([
-            "name" => "a2"
-        ]);
-
-        $this->actingAs($user);
-
-        $response = $this->get("/api/v1/user/quotations/all");
+        $response = $this->get('/api/v1/user/quotations');
 
         $response->assertStatus(200);
     }
@@ -289,35 +185,9 @@ class QuotationTest extends TestCase
         ]);
 
 
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
-        $service = Service::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
-        ]);
-
-        $a1 = Activity::create([
-            "name" => "a1"
-        ]);
-        $a2 = Activity::create([
-            "name" => "a2"
-        ]);
-
         $this->actingAs($user);
 
-        $response = $this->get("/api/v1/user/services/$service->id/quotations?type=own");
+        $response = $this->get('/api/v1/user/buyer/quotations');
 
         $response->assertStatus(200);
     }
@@ -334,35 +204,22 @@ class QuotationTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
 
         $this->actingAs($user);
 
-        $service = Service::create([
+        $quotation = Quotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
         ]);
 
         $a1 = Activity::create([
             "name" => "a1"
         ]);
 
-        $user->activities()->attach($a1->id);
+        $quotation->activities()->attach($a1->id);
 
-        $response = $this->get("/api/v1/user/services/$service->id/quotations/$quotation->id");
+        $response = $this->get("/api/v1/user/quotations/$quotation->id");
 
         $response->assertStatus(200);
     }
@@ -382,38 +239,24 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $supplier = Supplier::create([
-            "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
-        ]);
-
-
-        $service = Service::create([
+        $quotation = Quotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
         ]);
 
         $a1 = Activity::create([
             "name" => "a1"
         ]);
 
-        $user->activities()->attach($a1->id);
+        $quotation->activities()->attach($a1->id);
 
-        $response = $this->delete("/api/v1/user/services/$service->id/quotations/$quotation->id");
+        $response = $this->delete("/api/v1/user/quotations/$quotation->id");
 
         $response->assertStatus(204);
     }
 
-    public function test_buyer_can_accept_any_quotation()
+    public function test_supplier_get_quotations()
     {
 
 
@@ -430,21 +273,39 @@ class QuotationTest extends TestCase
         ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => "23443234324"
+            "commercial_record_number" => $this->faker->creditCardNumber
         ]);
 
-        $service = Service::create([
+        $this->actingAs($user);
+
+        $response = $this->get('/api/v1/user/supplier/quotations');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user_can_mark_his_quotation_as_completed()
+    {
+
+
+        $user = User::create([
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => rand(123456789, 999999999),
+            "country_code" => rand(1, 999)
+        ]);
+        $buyer = Buyer::create([
+            "user_id" => $user->id
+        ]);
+
+        $quotation = Quotation::create([
             "user_id" => $user->id,
             "title" => $this->faker->title,
             "description" => $this->faker->text,
-        ]);
-
-        $quotation = ServiceQuotation::create([
-            "user_id" => $user->id,
-            "title" => $this->faker->title,
-            "description" => $this->faker->text,
-            "service_id" => $service->id,
-            "amount" => 344234
         ]);
 
         $a1 = Activity::create([
@@ -456,8 +317,7 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->put("/api/v1/user/services/$service->id/quotations/$quotation->id/accept", []);
-
+        $response = $this->put("/api/v1/user/quotations/$quotation->id/complete", []);
 
         $response->assertStatus(200);
     }

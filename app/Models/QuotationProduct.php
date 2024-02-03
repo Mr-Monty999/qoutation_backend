@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceProduct extends Model
+class QuotationProduct extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ["id"];
 
-    public function service()
+    public function quotation()
     {
-        return $this->belongsTo(Service::class, "service_id");
+        return $this->belongsTo(Quotation::class, "quotation_id");
     }
     public function product()
     {
@@ -22,6 +22,6 @@ class ServiceProduct extends Model
     }
     public function quotations()
     {
-        return $this->hasMany(ProductQuotation::class, "service_product_id");
+        return $this->hasMany(ProductQuotation::class, "quotation_product_id");
     }
 }

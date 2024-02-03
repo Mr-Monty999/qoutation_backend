@@ -67,7 +67,7 @@ class NotificationTest extends TestCase
         $this->actingAs($user);
 
         $user->notify(new SendQuotationNotification([
-            "service_id" =>  $user->id,
+            "quotation_id" =>  $user->id,
             "quotation_id" =>  $user->id,
             "sender_id" => $user->id
         ]));
@@ -102,7 +102,7 @@ class NotificationTest extends TestCase
         $this->actingAs($user);
 
         $user->notify(new SendQuotationNotification([
-            "service_id" =>  $user->id,
+            "quotation_id" =>  $user->id,
             "quotation_id" =>  $user->id,
             "sender_id" => $user->id
         ]));
@@ -137,7 +137,7 @@ class NotificationTest extends TestCase
         $this->actingAs($user);
 
         $user->notify(new SendQuotationNotification([
-            "service_id" =>  $user->id,
+            "quotation_id" =>  $user->id,
             "quotation_id" =>  $user->id,
             "sender_id" => $user->id
         ]));

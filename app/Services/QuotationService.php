@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
-use App\Models\Service;
+use App\Models\Quotation;
 
 /**
  * Class ServiceService.
  */
-class ServiceService
+class QuotationService
 {
 
     public static function store($data)
     {
 
-        $service = Service::create($data);
+        $quotation = Quotation::create($data);
 
-        return $service;
+        return $quotation;
     }
 }

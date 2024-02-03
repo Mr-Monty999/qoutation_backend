@@ -13,13 +13,13 @@ class ProductQuotation extends Model
     protected $guarded = ["id"];
 
 
-    public function service()
+    public function quotation()
     {
-        return $this->belongsTo(Service::class, "service_id");
+        return $this->belongsTo(Quotation::class, "quotation_id");
     }
-    public function serviceProduct()
+    public function quotationProduct()
     {
-        return $this->belongsTo(ServiceProduct::class, "service_product_id");
+        return $this->belongsTo(QuotationProduct::class, "quotation_product_id");
     }
     public function user()
     {

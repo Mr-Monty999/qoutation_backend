@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('quotation_invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("service_id");
+            $table->unsignedBigInteger("quotation_id");
             $table->decimal("total_inc_tax", 20);
             $table->decimal("total_without_tax", 20);
             $table->decimal("tax_amount", 20);
@@ -26,7 +26,7 @@ return new class extends Migration
 
 
             $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign("service_id")->references("id")->on("services")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign("quotation_id")->references("id")->on("quotations")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

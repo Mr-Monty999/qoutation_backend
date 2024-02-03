@@ -3,8 +3,8 @@
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\User\BuyerController;
 use App\Http\Controllers\Api\User\NotificationController;
-use App\Http\Controllers\Api\User\ServiceController;
-use App\Http\Controllers\Api\User\ServiceQuotationController;
+use App\Http\Controllers\Api\User\QuotationController;
+use App\Http\Controllers\Api\User\QuotationQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
@@ -33,21 +33,21 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
     Route::group(["middleware" => ["verified"]], function () {
 
-        /////////////// services /////////////
-        Route::apiResource("services", ServiceController::class, [
+        /////////////// quotations /////////////
+        Route::apiResource("quotations", QuotationController::class, [
             "as" => "user"
         ]);
 
-        Route::put("services/{service}/complete", [ServiceController::class, "markAsCompleted"]);
+        Route::put("quotations/{quotation}/complete", [QuotationController::class, "markAsCompleted"]);
 
 
-        //// get supplier services ////
+        //// get supplier quotations ////
 
-        Route::get("/supplier/services", [ServiceController::class, "supplierServices"]);
+        Route::get("/supplier/quotations", [QuotationController::class, "supplierQuotations"]);
 
 
-        //// get buyer services ////
-        Route::get("/buyer/services", [ServiceController::class, "buyerServices"]);
+        //// get buyer quotations ////
+        Route::get("/buyer/quotations", [QuotationController::class, "buyerQuotations"]);
 
 
 
@@ -58,16 +58,16 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
 
 
-        /////////////// services /////////////
-        Route::get("quotations/all", [ServiceQuotationController::class, "allUserQuotations"]);
+        /////////////// quotations /////////////
+        // Route::get("quotations/all", [QuotationQuotationController::class, "allUserQuotations"]);
 
-        Route::apiResource("services.quotations", ServiceQuotationController::class, [
-            "as" => "user"
-        ]);
+        // Route::apiResource("quotations.quotations", QuotationQuotationController::class, [
+        //     "as" => "user"
+        // ]);
 
-        Route::post("services/{service}/products/quotations", [ProductQuotationController::class, "store"]);
+        Route::post("quotations/{quotation}/products/quotations", [ProductQuotationController::class, "store"]);
 
-        Route::put("services/{service}/quotations/{serviceQuotation}/accept", [ServiceQuotationController::class, "acceptQuotation"]);
+        // Route::put("quotations/{quotation}/quotations/{quotationQuotation}/accept", [QuotationQuotationController::class, "acceptQuotation"]);
 
 
         ///// notifications /////

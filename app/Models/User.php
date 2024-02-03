@@ -62,9 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Admin::class, "user_id");
     }
 
-    public function services()
+    public function quotations()
     {
-        return $this->hasMany(Service::class, "user_id");
+        return $this->hasMany(Quotation::class, "user_id");
     }
 
     // public function otps()
@@ -72,9 +72,9 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->hasMany(UserOtp::class, "user_id");
     // }
 
-    public function serviceQuotations()
+    public function quotationQuotations()
     {
-        return $this->hasMany(ServiceQuotation::class, "user_id");
+        return $this->hasMany(QuotationQuotation::class, "user_id");
     }
 
     public function wallet()

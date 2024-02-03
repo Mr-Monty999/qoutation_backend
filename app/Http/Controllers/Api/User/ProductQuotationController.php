@@ -8,9 +8,9 @@ use App\Mail\SendQuotationNotificationMail;
 use App\Models\Notification;
 use App\Models\ProductQuotation;
 use App\Models\QuotationInvoice;
-use App\Models\Service;
-use App\Models\ServiceProduct;
-use App\Models\ServiceQuotation;
+use App\Models\Quotation;
+use App\Models\QuotationProduct;
+use App\Models\QuotationQuotation;
 use App\Models\Transaction;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
@@ -19,15 +19,15 @@ use Illuminate\Support\Facades\Mail;
 
 class ProductQuotationController extends Controller
 {
-    public function store(StoreProductQuotationRequest $request, $serviceId)
+    public function store(StoreProductQuotationRequest $request, $quotationId)
     {
 
         $isAllNull = true;
         $totalWithoutTax = 0;
         foreach ($request->products as $product) {
-            $serviceProduct = ServiceProduct::findOrFail($product["service_product_id"]);
+            $quotationProduct = QuotationProduct::findOrFail($product["quotation_product_id"]);
 
-            $totalWithoutTax += $product["unit_price"] * $serviceProduct->quantity;
+            $totalWithoutTax += $product["unit_price"] * $quotationProduct->quantity;
 
             if ($product["unit_price"] != null) {
                 $isAllNull = false;
@@ -40,13 +40,13 @@ class ProductQuotationController extends Controller
         $user = auth()->user();
         $userWallet = $user->wallet;
 
-        $service = Service::findOrFail($serviceId);
+        $quotation = Quotation::findOrFail($quotationId);
 
 
         if (!$user->supplier)
             return response()->json([], 403);
 
-        if ($service->status != "active")
+        if ($quotation->status != "active")
             return response()->json([], 403);
 
         if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
@@ -66,10 +66,10 @@ class ProductQuotationController extends Controller
 
             $invoice = QuotationInvoice::updateOrCreate([
                 "user_id" => $user->id,
-                "service_id" => $service->id,
+                "quotation_id" => $quotation->id,
             ], [
                 "user_id" => $user->id,
-                "service_id" => $service->id,
+                "quotation_id" => $quotation->id,
                 "total_inc_tax" => $totalIncTax,
                 "total_without_tax" => $totalWithoutTax,
                 "tax_amount" => $taxAmount,
@@ -81,17 +81,17 @@ class ProductQuotationController extends Controller
                 $product["user_id"] = $user->id;
                 $product["quotation_invoice_id"] = $invoice->id;
 
-                $serviceProduct = ServiceProduct::findOrFail($product["service_product_id"]);
+                $quotationProduct = QuotationProduct::findOrFail($product["quotation_product_id"]);
 
-                if ($serviceProduct->service_id != $serviceId)
+                if ($quotationProduct->quotation_id != $quotationId)
                     return;
 
-                $product["service_id"] = $serviceProduct->service_id;
+                $product["quotation_id"] = $quotationProduct->quotation_id;
                 if ($product["unit_price"] > 0) {
                     ProductQuotation::updateOrCreate([
                         "user_id" => $user->id,
-                        "service_product_id" => $product["service_product_id"],
-                        "service_id" => $product["service_id"],
+                        "quotation_product_id" => $product["quotation_product_id"],
+                        "quotation_id" => $product["quotation_id"],
                         "quotation_invoice_id" => $product["quotation_invoice_id"]
                     ], $product);
                 }
@@ -105,13 +105,13 @@ class ProductQuotationController extends Controller
                 "user_id" => $user->id,
                 "type" => "send_products_quotation",
                 "data" => [
-                    "service_id" => $serviceId,
+                    "quotation_id" => $quotationId,
                 ]
             ]);
 
-            // $serviceOwner = Service::find($serviceId)->user;
-            // Notification::send($serviceOwner, new SendQuotationNotification([
-            //     "service_id" => $serviceId,
+            // $quotationOwner = Quotation::find($quotationId)->user;
+            // Notification::send($quotationOwner, new SendQuotationNotification([
+            //     "quotation_id" => $quotationId,
             //     "quotation_id" => $quotation->id,
             //     "sender_id" => $user->id,
             // "messages" => [
@@ -120,14 +120,14 @@ class ProductQuotationController extends Controller
             // ]
             // ]));
 
-            // Mail::to($serviceOwner)->send(new SendQuotationNotificationMail([
+            // Mail::to($quotationOwner)->send(new SendQuotationNotificationMail([
             //     "supplier_name" => $user->name,
             //     "supplier_phone" => $user->phone->country_code . $user->phone->number,
             //     "supplier_email" => $user->email,
             //     "quotation_title" => $quotation->title,
             //     "quotation_price" => $quotation->amount,
             //     "quotation_description" => $quotation->description,
-            //     "service_id" => $serviceId,
+            //     "quotation_id" => $quotationId,
             //     "quotation_id" => $quotation->id
 
             // ]));

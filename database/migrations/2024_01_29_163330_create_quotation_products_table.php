@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_products', function (Blueprint $table) {
+        Schema::create('quotation_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("service_id");
+            $table->unsignedBigInteger("quotation_id");
             $table->unsignedBigInteger("product_id")->nullable();
             $table->string("name");
             $table->integer("quantity");
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->softDeletes();
 
 
-            $table->foreign("service_id")->references("id")->on("services")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign("quotation_id")->references("id")->on("quotations")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign("product_id")->references("id")->on("products")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_products');
+        Schema::dropIfExists('quotation_products');
     }
 };

@@ -28,7 +28,7 @@ class StoreProductQuotationRequest extends FormRequest
             "products.*.unit_price" => "nullable|numeric|min:1",
             "products.*.title" => "nullable|string",
             "products.*.description" => "nullable|string",
-            "products.*.service_product_id" => "required|numeric|integer|exists:service_products,id",
+            "products.*.quotation_product_id" => "required|numeric|integer|exists:quotation_products,id",
 
 
         ];

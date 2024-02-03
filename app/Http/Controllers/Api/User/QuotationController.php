@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\StoreServiceRequest;
-use App\Http\Requests\Api\User\UpdateServiceRequest;
+use App\Http\Requests\Api\User\StoreQuotationRequest;
+use App\Http\Requests\Api\User\UpdateQuotationRequest;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
-use App\Models\Service;
-use App\Models\ServiceProduct;
-use App\Services\ServiceProductService;
+use App\Models\Quotation;
+use App\Models\QuotationProduct;
+use App\Services\QuotationProductService;
 use App\Services\ServiceService;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ServiceController extends Controller
+class QuotationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::with(
+        $quotations = Quotation::with(
             "user.supplier",
             "user.buyer",
             "activities",
@@ -35,30 +35,30 @@ class ServiceController extends Controller
             "country",
             "neighbourhood"
         )
-            ->withCount("serviceQuotations")
+            ->withCount("quotationQuotations")
             ->where("status", "active")
             ->latest()->paginate(10);
 
-        return response()->json($services);
+        return response()->json($quotations);
     }
-    public function markAsCompleted(Request $request, Service $service)
+    public function markAsCompleted(Request $request, Quotation $quotation)
     {
         $user = auth()->user();
 
 
-        if ($service->status == "completed")
+        if ($quotation->status == "completed")
             return response()->json([], 403);
 
 
-        if ($service->user_id != $user->id)
+        if ($quotation->user_id != $user->id)
             return response()->json([], 403);
 
 
-        $service->update([
+        $quotation->update([
             "status" => "completed"
         ]);
 
-        $service->load(
+        $quotation->load(
             "activities",
             "user.buyer",
             "city",
@@ -66,13 +66,13 @@ class ServiceController extends Controller
             "neighbourhood"
         );
         return response()->json([
-            "data" => $service
+            "data" => $quotation
         ]);
     }
-    public function buyerServices()
+    public function buyerQuotations()
     {
         $user = Auth::user();
-        $services = $user->services()
+        $quotations = $user->quotations()
             ->with(
                 "user.supplier",
                 "user.buyer",
@@ -82,17 +82,17 @@ class ServiceController extends Controller
                 "country",
                 "neighbourhood"
             )
-            ->withCount("serviceQuotations")
+            ->withCount("quotationQuotations")
             ->latest()->paginate(10);
 
-        return response()->json($services);
+        return response()->json($quotations);
     }
 
-    public function supplierServices(Request $request)
+    public function supplierQuotations(Request $request)
     {
         $user = Auth::user();
         $userActivities = $user->activities->pluck("id");
-        $services = Service::with([
+        $quotations = Quotation::with([
             "user.supplier", "user.buyer",
             "activities",
             "userQuotation",
@@ -100,35 +100,35 @@ class ServiceController extends Controller
             "country",
             "neighbourhood"
         ])
-            ->withCount("serviceQuotations");
+            ->withCount("quotationQuotations");
 
 
 
 
         if ($request->type == "sent") {
-            $services->whereHas("serviceQuotations", function ($q) use ($user) {
+            $quotations->whereHas("quotationQuotations", function ($q) use ($user) {
                 $q->where("user_id", $user->id);
             });
         } else {
-            $services->whereHas("activities", function ($q) use ($userActivities) {
+            $quotations->whereHas("activities", function ($q) use ($userActivities) {
                 $q->whereIn("activity_id", $userActivities);
             });
-            $services->where("status", "active");
+            $quotations->where("status", "active");
         }
 
 
-        $services = $services->latest()->paginate(10);
+        $quotations = $quotations->latest()->paginate(10);
 
-        return response()->json($services);
+        return response()->json($quotations);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceRequest  $request
+     * @param  \App\Http\Requests\StoreQuotationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceRequest $request)
+    public function store(StoreQuotationRequest $request)
     {
 
 
@@ -151,16 +151,16 @@ class ServiceController extends Controller
             $data = $request->validated();
             $data["user_id"] = $user->id;
 
-            $serviceId = Service::create($data)->id;
+            $quotationId = Quotation::create($data)->id;
 
-            $service = Service::find($serviceId);
+            $quotation = Quotation::find($quotationId);
 
-            ServiceProductService::store($data["products"], $service);
+            QuotationProductService::store($data["products"], $quotation);
 
 
-            $service->activities()->attach($request->activity_ids);
+            $quotation->activities()->attach($request->activity_ids);
 
-            $service->load(
+            $quotation->load(
                 "activities",
                 "user.buyer",
                 "user.supplier",
@@ -168,11 +168,11 @@ class ServiceController extends Controller
                 "country",
                 "neighbourhood"
             );
-            $service->loadCount("serviceQuotations");
+            $quotation->loadCount("quotationQuotations");
 
 
             DB::commit();
-            return response()->json($service, 201);
+            return response()->json($quotation, 201);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
             return response()->json(["msg" => $e->__toString()], 400);
@@ -182,18 +182,18 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Quotation  $quotation
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show(Quotation $quotation)
     {
 
         $user = auth()->user();
 
-        // if ($service->user_id != $user->id)
+        // if ($quotation->user_id != $user->id)
         //     return response()->json([], 403);
 
-        $service->load([
+        $quotation->load([
             "user.buyer",
             "user.supplier",
             "activities",
@@ -202,26 +202,26 @@ class ServiceController extends Controller
             "neighbourhood",
             "products"
         ])
-            ->loadCount("serviceQuotations");
+            ->loadCount("quotationQuotations");
 
-        // $service["service_quotations"] = $service->serviceQuotations()->with("user.supplier", "acceptedBy")->orderBy("amount")
+        // $quotation["quotation_quotations"] = $quotation->quotationQuotations()->with("user.supplier", "acceptedBy")->orderBy("amount")
         //     ->paginate(10);
 
 
 
 
-        return response()->json($service);
+        return response()->json($quotation);
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceRequest  $request
-     * @param  \App\Models\Service  $service
+     * @param  \App\Http\Requests\UpdateQuotationRequest  $request
+     * @param  \App\Models\Quotation  $quotation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceRequest $request, Service $service)
+    public function update(UpdateQuotationRequest $request, Quotation $quotation)
     {
 
 
@@ -234,10 +234,10 @@ class ServiceController extends Controller
 
         $user = auth()->user();
 
-        if (!$user->buyer || $service->user_id != $user->id)
+        if (!$user->buyer || $quotation->user_id != $user->id)
             return response()->json([], 403);
 
-        if ($service->status != "active")
+        if ($quotation->status != "active")
             return response()->json([], 403);
 
         DB::beginTransaction();
@@ -245,12 +245,12 @@ class ServiceController extends Controller
 
             $data = $request->validated();
 
-            // $service->update($data);
+            // $quotation->update($data);
 
 
-            // $service->activities()->sync($request->activity_ids);
+            // $quotation->activities()->sync($request->activity_ids);
 
-            $service->load(
+            $quotation->load(
                 "activities",
                 "user.buyer",
                 "user.supplier",
@@ -258,13 +258,13 @@ class ServiceController extends Controller
                 "country",
                 "neighbourhood"
             );
-            $service->loadCount("serviceQuotations");
+            $quotation->loadCount("quotationQuotations");
 
 
 
 
             DB::commit();
-            return response()->json($service, 200);
+            return response()->json($quotation, 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
             return response()->json(["msg" => "error"], 400);
@@ -274,21 +274,21 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Quotation  $quotation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(Quotation $quotation)
     {
 
         $user = auth()->user();
 
-        if ($service->user_id != $user->id)
+        if ($quotation->user_id != $user->id)
             return response()->json([], 403);
 
-        if ($service->status != "active")
+        if ($quotation->status != "active")
             return response()->json([], 403);
 
-        $service->delete();
+        $quotation->delete();
 
 
         return response()->json([], 204);
