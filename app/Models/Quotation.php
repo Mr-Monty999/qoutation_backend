@@ -47,8 +47,8 @@ class Quotation extends Model
     {
         return $this->hasMany(QuotationProduct::class, "quotation_id");
     }
-    public function productQuotations()
+    public function replies()
     {
-        return $this->hasMany(ProductQuotation::class, "quotation_id");
+        return $this->hasMany(QuotationReply::class, "quotation_id");
     }
 }

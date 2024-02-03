@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\User\QuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
-use App\Http\Controllers\Api\User\ProductQuotationController;
+use App\Http\Controllers\Api\User\QuotationReplyController;
 use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,7 +58,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
 
-        Route::post("quotations/{quotation}/products/quotations", [ProductQuotationController::class, "store"]);
+        Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
 
 
         ///// notifications /////

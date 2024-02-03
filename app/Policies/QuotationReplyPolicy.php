@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\ProductQuotation;
+use App\Models\QuotationReply;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ProductQuotationPolicy
+class QuotationReplyPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class ProductQuotationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ProductQuotation  $productQuotation
+     * @param  \App\Models\QuotationReply  $quotationReply
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ProductQuotation $productQuotation)
+    public function view(User $user, QuotationReply $quotationReply)
     {
         //
     }
@@ -48,10 +48,10 @@ class ProductQuotationPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ProductQuotation  $productQuotation
+     * @param  \App\Models\QuotationReply  $quotationReply
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ProductQuotation $productQuotation)
+    public function update(User $user, QuotationReply $quotationReply)
     {
         //
     }
@@ -60,10 +60,10 @@ class ProductQuotationPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ProductQuotation  $productQuotation
+     * @param  \App\Models\QuotationReply  $quotationReply
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ProductQuotation $productQuotation)
+    public function delete(User $user, QuotationReply $quotationReply)
     {
         //
     }
@@ -72,10 +72,10 @@ class ProductQuotationPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ProductQuotation  $productQuotation
+     * @param  \App\Models\QuotationReply  $quotationReply
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ProductQuotation $productQuotation)
+    public function restore(User $user, QuotationReply $quotationReply)
     {
         //
     }
@@ -84,10 +84,10 @@ class ProductQuotationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ProductQuotation  $productQuotation
+     * @param  \App\Models\QuotationReply  $quotationReply
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ProductQuotation $productQuotation)
+    public function forceDelete(User $user, QuotationReply $quotationReply)
     {
         //
     }

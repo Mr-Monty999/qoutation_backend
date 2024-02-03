@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('product_quotations', function (Blueprint $table) {
+        Schema::table('quotation_replies', function (Blueprint $table) {
             $table->unsignedBigInteger("accepted_by")->nullable()->after("user_id");
             $table->string("title")->nullable()->after("price");
             $table->renameColumn("price", "unit_price");
@@ -30,7 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('product_quotations', function (Blueprint $table) {
+        Schema::table('quotation_replies', function (Blueprint $table) {
             $table->dropConstrainedForeignId("accepted_by");
             $table->dropColumn("title");
             $table->renameColumn("unit_price", "price");

@@ -20,8 +20,8 @@ class QuotationProduct extends Model
     {
         return $this->belongsTo(Product::class, "product_id");
     }
-    public function quotations()
+    public function replies()
     {
-        return $this->hasMany(ProductQuotation::class, "quotation_product_id");
+        return $this->hasMany(QuotationReply::class, "quotation_product_id");
     }
 }

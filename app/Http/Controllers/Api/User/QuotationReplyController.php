@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\StoreProductQuotationRequest;
+use App\Http\Requests\Api\User\StoreQuotationReplyRequest;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Notification;
-use App\Models\ProductQuotation;
+use App\Models\QuotationReply;
 use App\Models\QuotationInvoice;
 use App\Models\Quotation;
 use App\Models\QuotationProduct;
@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-class ProductQuotationController extends Controller
+class QuotationReplyController extends Controller
 {
-    public function store(StoreProductQuotationRequest $request, $quotationId)
+    public function store(StoreQuotationReplyRequest $request, $quotationId)
     {
 
         $isAllNull = true;
@@ -87,7 +87,7 @@ class ProductQuotationController extends Controller
 
                 $product["quotation_id"] = $quotationProduct->quotation_id;
                 if ($product["unit_price"] > 0) {
-                    ProductQuotation::updateOrCreate([
+                    QuotationReply::updateOrCreate([
                         "user_id" => $user->id,
                         "quotation_product_id" => $product["quotation_product_id"],
                         "quotation_id" => $product["quotation_id"],
