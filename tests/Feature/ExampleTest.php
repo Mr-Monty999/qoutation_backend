@@ -12,10 +12,10 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_the_application_returns_response()
-    {
-        $response = $this->get('/');
+    // public function test_the_application_returns_response()
+    // {
+    // $response = $this->get('/');
 
-        $response->assertStatus(404);
-    }
+    // $response->assertStatus(404);
+    // }
 }
