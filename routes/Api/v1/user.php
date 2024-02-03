@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\User\BuyerController;
 use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\QuotationController;
-use App\Http\Controllers\Api\User\QuotationQuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
@@ -58,16 +57,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
 
 
-        /////////////// quotations /////////////
-        // Route::get("quotations/all", [QuotationQuotationController::class, "allUserQuotations"]);
-
-        // Route::apiResource("quotations.quotations", QuotationQuotationController::class, [
-        //     "as" => "user"
-        // ]);
 
         Route::post("quotations/{quotation}/products/quotations", [ProductQuotationController::class, "store"]);
-
-        // Route::put("quotations/{quotation}/quotations/{quotationQuotation}/accept", [QuotationQuotationController::class, "acceptQuotation"]);
 
 
         ///// notifications /////

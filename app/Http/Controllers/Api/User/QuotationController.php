@@ -30,12 +30,10 @@ class QuotationController extends Controller
             "user.supplier",
             "user.buyer",
             "activities",
-            "userQuotation",
             "city",
             "country",
             "neighbourhood"
         )
-            ->withCount("quotationQuotations")
             ->where("status", "active")
             ->latest()->paginate(10);
 
@@ -77,12 +75,10 @@ class QuotationController extends Controller
                 "user.supplier",
                 "user.buyer",
                 "activities",
-                "userQuotation",
                 "city",
                 "country",
                 "neighbourhood"
             )
-            ->withCount("quotationQuotations")
             ->latest()->paginate(10);
 
         return response()->json($quotations);
@@ -95,26 +91,23 @@ class QuotationController extends Controller
         $quotations = Quotation::with([
             "user.supplier", "user.buyer",
             "activities",
-            "userQuotation",
             "city",
             "country",
             "neighbourhood"
-        ])
-            ->withCount("quotationQuotations");
+        ]);
 
 
 
-
-        if ($request->type == "sent") {
-            $quotations->whereHas("quotationQuotations", function ($q) use ($user) {
-                $q->where("user_id", $user->id);
-            });
-        } else {
-            $quotations->whereHas("activities", function ($q) use ($userActivities) {
-                $q->whereIn("activity_id", $userActivities);
-            });
-            $quotations->where("status", "active");
-        }
+        // if ($request->type == "sent") {
+        //     $quotations->whereHas("quotationQuotations", function ($q) use ($user) {
+        //         $q->where("user_id", $user->id);
+        //     });
+        // } else {
+        //     $quotations->whereHas("activities", function ($q) use ($userActivities) {
+        //         $q->whereIn("activity_id", $userActivities);
+        //     });
+        //     $quotations->where("status", "active");
+        // }
 
 
         $quotations = $quotations->latest()->paginate(10);
@@ -168,7 +161,6 @@ class QuotationController extends Controller
                 "country",
                 "neighbourhood"
             );
-            $quotation->loadCount("quotationQuotations");
 
 
             DB::commit();
@@ -190,8 +182,6 @@ class QuotationController extends Controller
 
         $user = auth()->user();
 
-        // if ($quotation->user_id != $user->id)
-        //     return response()->json([], 403);
 
         $quotation->load([
             "user.buyer",
@@ -201,11 +191,8 @@ class QuotationController extends Controller
             "country",
             "neighbourhood",
             "products"
-        ])
-            ->loadCount("quotationQuotations");
+        ]);
 
-        // $quotation["quotation_quotations"] = $quotation->quotationQuotations()->with("user.supplier", "acceptedBy")->orderBy("amount")
-        //     ->paginate(10);
 
 
 
@@ -258,7 +245,6 @@ class QuotationController extends Controller
                 "country",
                 "neighbourhood"
             );
-            $quotation->loadCount("quotationQuotations");
 
 
 

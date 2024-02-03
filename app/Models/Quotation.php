@@ -17,15 +17,6 @@ class Quotation extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
-
-    public function quotationQuotations()
-    {
-        return $this->hasMany(QuotationQuotation::class, "quotation_id");
-    }
-    public function userQuotation()
-    {
-        return $this->hasOne(QuotationQuotation::class, "quotation_id")->where("user_id", auth()->id());
-    }
     public function activities()
     {
         return $this->belongsToMany(Activity::class, "quotation_activity", "quotation_id");

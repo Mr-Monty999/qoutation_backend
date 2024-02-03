@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Quotation;
-use App\Models\QuotationQuotation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -23,7 +22,6 @@ class NotificationController extends Controller
                 $data["data"] = [
                     "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
                     "quotation" => Quotation::find($data["data"]["quotation_id"]),
-                    "quotation" => QuotationQuotation::find($data["data"]["quotation_id"]),
 
                 ];
                 return $data;

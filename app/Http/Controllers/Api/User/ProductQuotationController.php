@@ -10,7 +10,6 @@ use App\Models\ProductQuotation;
 use App\Models\QuotationInvoice;
 use App\Models\Quotation;
 use App\Models\QuotationProduct;
-use App\Models\QuotationQuotation;
 use App\Models\Transaction;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
