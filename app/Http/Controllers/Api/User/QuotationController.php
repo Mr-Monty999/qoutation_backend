@@ -32,6 +32,7 @@ class QuotationController extends Controller
             "activities",
             "city",
             "country",
+            "userReplyInvoice",
             "neighbourhood"
         )
             ->where("status", "active")
@@ -77,6 +78,7 @@ class QuotationController extends Controller
                 "activities",
                 "city",
                 "country",
+                "userReplyInvoice",
                 "neighbourhood"
             )
             ->latest()->paginate(10);
@@ -93,6 +95,7 @@ class QuotationController extends Controller
             "activities",
             "city",
             "country",
+            "userReplyInvoice",
             "neighbourhood"
         ]);
 

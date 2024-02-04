@@ -47,8 +47,8 @@ class Quotation extends Model
     {
         return $this->hasMany(QuotationProduct::class, "quotation_id");
     }
-    public function replies()
+    public function userReplyInvoice()
     {
-        return $this->hasMany(QuotationReply::class, "quotation_id");
+        return $this->hasOne(QuotationInvoice::class, "quotation_id")->where("user_id", auth()->id());
     }
 }
