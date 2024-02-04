@@ -101,16 +101,16 @@ class QuotationController extends Controller
 
 
 
-        // if ($request->type == "sent") {
-        //     $quotations->whereHas("quotationQuotations", function ($q) use ($user) {
-        //         $q->where("user_id", $user->id);
-        //     });
-        // } else {
-        //     $quotations->whereHas("activities", function ($q) use ($userActivities) {
-        //         $q->whereIn("activity_id", $userActivities);
-        //     });
-        //     $quotations->where("status", "active");
-        // }
+        if ($request->type == "sent") {
+            $quotations->whereHas("replies", function ($q) use ($user) {
+                $q->where("user_id", $user->id);
+            });
+        } else {
+            $quotations->whereHas("activities", function ($q) use ($userActivities) {
+                $q->whereIn("activity_id", $userActivities);
+            });
+            $quotations->where("status", "active");
+        }
 
 
         $quotations = $quotations->latest()->paginate(10);
@@ -193,6 +193,8 @@ class QuotationController extends Controller
             "city",
             "country",
             "neighbourhood",
+            "userReplyInvoice",
+            "authUserReplyProducts",
             "products"
         ]);
 
@@ -246,6 +248,7 @@ class QuotationController extends Controller
                 "user.supplier",
                 "city",
                 "country",
+                "userReplyInvoice",
                 "neighbourhood"
             );
 

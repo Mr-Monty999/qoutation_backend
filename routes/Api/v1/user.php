@@ -59,6 +59,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
         Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
+        Route::put("quotations/{quotation}/replies", [QuotationReplyController::class, "update"]);
+
 
 
         ///// notifications /////

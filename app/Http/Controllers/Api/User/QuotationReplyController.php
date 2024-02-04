@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreQuotationReplyRequest;
+use App\Http\Requests\Api\User\UpdateQuotationReplyRequest;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Notification;
 use App\Models\QuotationReply;
@@ -138,6 +139,108 @@ class QuotationReplyController extends Controller
                     "msg" => trans("messages.quotation sent successfully")
                 ]
             ], 201);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => $e->__toString()], 400);
+        }
+    }
+
+
+    public function update(UpdateQuotationReplyRequest $request, $quotationId)
+    {
+
+        $isAllNull = true;
+        $totalWithoutTax = 0;
+        foreach ($request->products as $product) {
+            $quotationProduct = QuotationProduct::findOrFail($product["quotation_product_id"]);
+
+            $totalWithoutTax += $product["unit_price"] * $quotationProduct->quantity;
+
+            if ($product["unit_price"] != null) {
+                $isAllNull = false;
+            }
+        }
+
+        if ($isAllNull)
+            return response()->json(["message" => trans("messages.please price at least one product") . "!"], 403);
+
+        $user = auth()->user();
+        $userWallet = $user->wallet;
+
+        $quotation = Quotation::findOrFail($quotationId);
+
+
+        if (!$user->supplier)
+            return response()->json([], 403);
+
+        if ($quotation->status != "active")
+            return response()->json([], 403);
+
+        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+            return response()->json([
+                "message" => trans("messages.you dont have enough money in your wallet !")
+            ], 403);
+
+        DB::beginTransaction();
+        try {
+
+
+            $data = $request->validated();
+
+            $tax = 15;
+            $taxAmount = ($tax / 100) * $totalWithoutTax;
+            $totalIncTax = $taxAmount + $totalWithoutTax;
+
+            $invoice = QuotationInvoice::updateOrCreate([
+                "user_id" => $user->id,
+                "quotation_id" => $quotation->id,
+            ], [
+                "user_id" => $user->id,
+                "quotation_id" => $quotation->id,
+                "total_inc_tax" => $totalIncTax,
+                "total_without_tax" => $totalWithoutTax,
+                "tax_amount" => $taxAmount,
+                "tax_percentage" => $tax
+            ]);
+
+            foreach ($data["products"] as $product) {
+
+                $product["user_id"] = $user->id;
+                $product["quotation_invoice_id"] = $invoice->id;
+
+                $quotationProduct = QuotationProduct::findOrFail($product["quotation_product_id"]);
+
+                if ($quotationProduct->quotation_id != $quotationId)
+                    return;
+
+                $product["quotation_id"] = $quotationProduct->quotation_id;
+                $product["unit_price"] = $product["unit_price"] ? $product["unit_price"] : 0;
+                QuotationReply::updateOrCreate([
+                    "user_id" => $user->id,
+                    "quotation_product_id" => $product["quotation_product_id"],
+                    "quotation_id" => $product["quotation_id"],
+                    "quotation_invoice_id" => $product["quotation_invoice_id"]
+                ], $product);
+            }
+
+
+            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+            $userWallet->save();
+
+            $transaction = Transaction::create([
+                "user_id" => $user->id,
+                "type" => "send_products_quotation",
+                "data" => [
+                    "quotation_id" => $quotationId,
+                ]
+            ]);
+            DB::commit();
+
+            return response()->json([
+                "data" => [
+                    "msg" => trans("messages.quotation updated successfully")
+                ]
+            ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // If an error occurs, rollback the transaction
             return response()->json(["msg" => $e->__toString()], 400);

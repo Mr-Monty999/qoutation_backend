@@ -42,6 +42,7 @@ return [
     "quotation sent successfully" => "quotation sent successfully",
     "unit price" => "unit price",
     "please choose at least one product" => "please choose at least one product",
-    "please price at least one product" => "please price at least one product"
+    "please price at least one product" => "please price at least one product",
+    "quotation updated successfully" => "quotation updated successfully"
 
 ];
