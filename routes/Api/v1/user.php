@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\User\QuotationController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
+use App\Http\Controllers\Api\User\QuotationProductController;
 use App\Http\Controllers\Api\User\QuotationReplyController;
 use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
@@ -39,6 +40,11 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         Route::put("quotations/{quotation}/complete", [QuotationController::class, "markAsCompleted"]);
 
+        Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
+        Route::put("quotations/{quotation}/replies", [QuotationReplyController::class, "update"]);
+        Route::get("quotations/{quotation}/products/{quotationProduct}", [QuotationProductController::class, "show"]);
+
+
 
         //// get supplier quotations ////
 
@@ -55,12 +61,6 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::post("wallet-recharge/success/{uuid}", [WalletController::class, "rechargeSuccess"])->name("user.wallet.recharge.success")->middleware("throttle:3,1");
         Route::post("wallet-recharge/cancelled/{uuid}", [WalletController::class, "rechargeCancelled"])->name("user.wallet.recharge.cancelled")->middleware("throttle:3,1");
         Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
-
-
-
-        Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
-        Route::put("quotations/{quotation}/replies", [QuotationReplyController::class, "update"]);
-
 
 
         ///// notifications /////
