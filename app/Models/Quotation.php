@@ -50,7 +50,7 @@ class Quotation extends Model
 
     public function replies()
     {
-        return $this->hasMany(QuotationReply::class, "quotation_id");
+        return $this->hasMany(QuotationReply::class, "quotation_id")->where("unit_price", ">", "0");
     }
     public function userReplyInvoice()
     {

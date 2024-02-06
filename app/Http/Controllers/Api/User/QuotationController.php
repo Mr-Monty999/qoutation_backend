@@ -197,7 +197,9 @@ class QuotationController extends Controller
             "authUserReplyProducts",
             "products" => function ($q) {
                 $q->withCount("replies");
-            }
+            },
+            "products.acceptedReply.user.phone",
+            "products.acceptedReply.user.supplier"
         ]);
 
 

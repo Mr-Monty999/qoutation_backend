@@ -22,6 +22,10 @@ class QuotationProduct extends Model
     }
     public function replies()
     {
-        return $this->hasMany(QuotationReply::class, "quotation_product_id");
+        return $this->hasMany(QuotationReply::class, "quotation_product_id")->where("unit_price", ">", "0");
+    }
+    public function acceptedReply()
+    {
+        return $this->hasOne(QuotationReply::class, "quotation_product_id")->whereNotNull("accepted_by");
     }
 }
