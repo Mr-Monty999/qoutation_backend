@@ -42,6 +42,8 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
         Route::put("quotations/{quotation}/replies", [QuotationReplyController::class, "update"]);
+        Route::put("quotations/{quotation}/replies/{reply}/accept", [QuotationReplyController::class, "accept"]);
+
         Route::get("quotations/{quotation}/products/{quotationProduct}", [QuotationProductController::class, "show"]);
 
 

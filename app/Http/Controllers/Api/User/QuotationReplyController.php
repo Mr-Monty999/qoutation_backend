@@ -19,6 +19,20 @@ use Illuminate\Support\Facades\Mail;
 
 class QuotationReplyController extends Controller
 {
+    public function accept(Quotation $quotation, QuotationReply $reply)
+    {
+        $user = auth()->user();
+
+        if ($quotation->user_id != $user->id || !$user->buyer)
+            return response()->json([], 403);
+
+
+        $reply->update([
+            "accepted_by" => $user->id
+        ]);
+
+        return response()->json();
+    }
     public function store(StoreQuotationReplyRequest $request, $quotationId)
     {
 
