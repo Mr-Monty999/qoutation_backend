@@ -22,7 +22,8 @@ class QuotationProductController extends Controller
 
         $quotationProduct->load([
             "product",
-        ]);
+        ])
+            ->loadCount(["replies"]);
 
         $quotationProduct["replies"] = $quotationProduct->replies()
             ->with("user.supplier", "user.buyer")

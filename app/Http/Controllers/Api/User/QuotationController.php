@@ -195,7 +195,9 @@ class QuotationController extends Controller
             "neighbourhood",
             "userReplyInvoice",
             "authUserReplyProducts",
-            "products"
+            "products" => function ($q) {
+                $q->withCount("replies");
+            }
         ]);
 
 
