@@ -199,7 +199,13 @@ class QuotationController extends Controller
                 $q->withCount("replies");
             },
             "products.acceptedReply.user.phone",
-            "products.acceptedReply.user.supplier"
+            "products.acceptedReply.user.supplier",
+            "products.replies.user.supplier",
+            "products.replies.user.phone",
+            "products.replies.invoice",
+            "products.replies" => function ($q) {
+                $q->orderBy("unit_price");
+            }
         ]);
 
 

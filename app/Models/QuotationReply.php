@@ -25,4 +25,9 @@ class QuotationReply extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(QuotationInvoice::class, "quotation_invoice_id");
+    }
 }

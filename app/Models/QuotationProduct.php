@@ -28,4 +28,8 @@ class QuotationProduct extends Model
     {
         return $this->hasOne(QuotationReply::class, "quotation_product_id")->whereNotNull("accepted_by");
     }
+    public function bestReply()
+    {
+        return $this->hasOne(QuotationReply::class, "quotation_product_id")->where("unit_price", ">", "0")->orderBy("unit_price");
+    }
 }
