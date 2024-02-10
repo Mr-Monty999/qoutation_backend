@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreQuotationReplyRequest;
 use App\Http\Requests\Api\User\UpdateQuotationReplyRequest;
+use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
 use App\Models\Notification;
 use App\Models\QuotationReply;
@@ -12,6 +13,7 @@ use App\Models\QuotationInvoice;
 use App\Models\Quotation;
 use App\Models\QuotationProduct;
 use App\Models\Transaction;
+use App\Notifications\AcceptQuotationNotification;
 use App\Notifications\SendQuotationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +48,31 @@ class QuotationReplyController extends Controller
         $reply->update([
             "accepted_by" => $user->id
         ]);
+
+
+        $supplier = $reply->user;
+        $invoice = $reply->invoice;
+        $supplier->notify(new AcceptQuotationNotification([
+            "quotation_id" => $quotation->id,
+            "invoice_id" => $invoice->id,
+            "sender_id" => $user->id,
+            "messages" => [
+                "ar" => "لقد قام " . $user->name . " قام بقبول عرض سعرك",
+                "en" => $user->name . " accept your quotation reply"
+            ]
+        ]));
+
+        Mail::to($supplier)->send(new AcceptQuotationMail([
+            "buyer_name" => $user->name,
+            "buyer_phone" => $user->phone->country_code . $user->phone->number,
+            "buyer_email" => $user->email,
+            // "quotation_reply_title" => $quotation->title,
+            // "quotation_reply_price" => $quotation->amount,
+            // "quotation_reply_description" => $quotation->description,
+            "quotation_id" => $quotation->id,
+            "invoice_id" => $invoice->id
+
+        ]));
 
         return response()->json([
             "data" => [
@@ -143,28 +170,28 @@ class QuotationReplyController extends Controller
                 ]
             ]);
 
-            // $quotationOwner = Quotation::find($quotationId)->user;
-            // Notification::send($quotationOwner, new SendQuotationNotification([
-            //     "quotation_id" => $quotationId,
-            //     "quotation_id" => $quotation->id,
-            //     "sender_id" => $user->id,
-            // "messages" => [
-            //     "ar" => "لقد قام " . $user->name . " بإرسال عرض سعر لطلبك",
-            //     "en" => $user->name . " has sent a quotes for your request"
-            // ]
-            // ]));
+            $quotationOwner = Quotation::find($quotationId)->user;
+            $quotationOwner->notify(new SendQuotationNotification([
+                "quotation_id" => $quotationId,
+                "invoice_id" => $invoice->id,
+                "sender_id" => $user->id,
+                "messages" => [
+                    "ar" => "لقد قام " . $user->name . " بإرسال عرض سعر لطلبك",
+                    "en" => $user->name . " has sent a quotes for your request"
+                ]
+            ]));
 
-            // Mail::to($quotationOwner)->send(new SendQuotationNotificationMail([
-            //     "supplier_name" => $user->name,
-            //     "supplier_phone" => $user->phone->country_code . $user->phone->number,
-            //     "supplier_email" => $user->email,
-            //     "quotation_title" => $quotation->title,
-            //     "quotation_price" => $quotation->amount,
-            //     "quotation_description" => $quotation->description,
-            //     "quotation_id" => $quotationId,
-            //     "quotation_id" => $quotation->id
+            Mail::to($quotationOwner)->send(new SendQuotationNotificationMail([
+                "supplier_name" => $user->name,
+                "supplier_phone" => $user->phone->country_code . $user->phone->number,
+                "supplier_email" => $user->email,
+                // "quotation_reply_title" => $quotation->title,
+                // "quotation_reply_price" => $quotation->amount,
+                // "quotation_reply_description" => $quotation->description,
+                "quotation_id" => $quotationId,
+                "invoice_id" => $invoice->id
 
-            // ]));
+            ]));
 
             DB::commit();
 
@@ -249,12 +276,19 @@ class QuotationReplyController extends Controller
 
                 $product["quotation_id"] = $quotationProduct->quotation_id;
                 $product["unit_price"] = $product["unit_price"] ? $product["unit_price"] : 0;
-                QuotationReply::updateOrCreate([
-                    "user_id" => $user->id,
-                    "quotation_product_id" => $product["quotation_product_id"],
-                    "quotation_id" => $product["quotation_id"],
-                    "quotation_invoice_id" => $product["quotation_invoice_id"]
-                ], $product);
+
+                $quotationReply = QuotationReply::where("user_id", $user->id)
+                    ->where("quotation_product_id", $product["quotation_product_id"])
+                    ->where("quotation_id", $product["quotation_id"])
+                    ->where("quotation_invoice_id", $product["quotation_invoice_id"])
+                    ->first();
+
+                if (!$quotationReply) {
+                    QuotationReply::create($product);
+                } else {
+                    if ($quotationReply->accepted_by == null)
+                        $quotationReply->update($product);
+                }
             }
 
 

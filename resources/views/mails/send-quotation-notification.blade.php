@@ -248,11 +248,11 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div>
+                                {{-- <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation title') }}:</div>
                                     <div style="margin: 0;font-weight: bold;font-size:20px;color:black">
-                                        {{ $data['quotation_title'] }}
+                                        {{ $data['quotation_reply_title'] }}
                                     </div>
                                 </div>
                                 <br>
@@ -260,22 +260,23 @@
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation price') }}:</div>
                                     <div style="font-weight: bold;font-size:20px;color:black">
-                                        {{ number_format($data['quotation_price'], 2) }}
+                                        {{ number_format($data['quotation_reply_price'], 2) }}
                                         {{ trans('messages.SAR') }}</div>
-                                </div>
-                                <br>
+                                </div> --}}
+                                {{-- <br>
                                 <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation description') }}:</div>
                                     <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
-                                        {{ $data['quotation_description'] }}</div>
+                                        {{ $data['quotation_reply_description'] }}</div>
                                 </div>
-                                <br>
+                                <br> --}}
                                 <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.url') }}:</div>
                                     <div style="margin: 0;font-weight:bold;font-size:20px;color:black">
-                                        {{ env('FRONTEND_URL') . '/user/services/' . $data['service_id'] }}</div>
+                                        {{ env('FRONTEND_URL') . '/user/quotations/' . $data['quotation_id'] . '/replies' }}
+                                    </div>
                                 </div>
                             </div>
                         </td>

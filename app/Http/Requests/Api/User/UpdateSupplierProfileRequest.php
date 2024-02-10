@@ -45,12 +45,12 @@ class UpdateSupplierProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string",
+            // "name" => "required|string",
             "phone" => "required|numeric|unique:user_phones,number," . auth()->user()->phone->id,
             "birthdate" => "nullable|date",
             "activity_description" => "nullable|string",
-            "commercial_record_number" => "required|numeric|unique:suppliers,commercial_record_number," . auth()->user()->supplier->id,
-            "commercial_record_image" => "nullable|image|max:2048",
+            // "commercial_record_number" => "required|numeric|unique:suppliers,commercial_record_number," . auth()->user()->supplier->id,
+            // "commercial_record_image" => "nullable|image|max:2048",
             "activity_ids" => "required|array",
             "image" => "nullable|image|max:2048",
             "country_id" => "required|numeric|exists:countries,id",
