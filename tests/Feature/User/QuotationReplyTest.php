@@ -10,6 +10,7 @@ use App\Models\QuotationProduct;
 use App\Models\QuotationReply;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\UserPhone;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -32,6 +33,13 @@ class QuotationReplyTest extends TestCase
             "phone" => "96624241242",
             "email_verified_at" => now(),
             "password" => Hash::make("password")
+        ]);
+
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => $this->faker->numberBetween(123456789, 999999999),
+            "country_code" => $this->faker->numberBetween(1, 300)
+
         ]);
 
 
@@ -188,6 +196,12 @@ class QuotationReplyTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => $this->faker->numberBetween(123456789, 999999999),
+            "country_code" => $this->faker->numberBetween(1, 300)
+
+        ]);
 
         $this->actingAs($user);
 
