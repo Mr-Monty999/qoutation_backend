@@ -33,6 +33,12 @@ class BuyerService
 
             $data["image"] = $request->file("image")->storeAs("images/buyers", $fileName, "public");
         }
+        if ($request->hasFile("commercial_record_image")) {
+            $fileName = time() . '-' . $request->file("commercial_record_image")->getClientOriginalName();
+
+            $data["commercial_record_image"] = $request->file("commercial_record_image")->storeAs("images/suppliers/commercial-records", $fileName, "public");
+        }
+
         $buyer = Buyer::create($data);
 
 
