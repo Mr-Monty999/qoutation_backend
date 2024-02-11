@@ -11,9 +11,12 @@ use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\UserPhone;
 use App\Services\UserOtpService;
+use Directory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UserAuthTest extends TestCase
@@ -82,6 +85,7 @@ class UserAuthTest extends TestCase
             "country_id" => $country->id,
             "city_id" => $city->id,
             "neighbourhood_id" => $neighbourhood->id,
+            "commercial_record_number" => $this->faker->numberBetween(12345678, 99999999),
             "phone" => rand(123456789, 99999999),
             "lat" => "134242442.2344",
             "lng" => "242424242.242",
@@ -113,6 +117,7 @@ class UserAuthTest extends TestCase
 
         $acitivties = Activity::pluck("id")->toArray();
 
+
         $response = $this->post('/api/v1/auth/register/supplier', [
             "email" => $this->faker->email,
             "password" => "password",
@@ -123,11 +128,13 @@ class UserAuthTest extends TestCase
             "neighbourhood_id" => $neighbourhood->id,
             "phone" => rand(123456789, 99999999),
             "activity_ids" => $acitivties,
-            "commercial_record_number" => "1432424",
+            "commercial_record_number" => $this->faker->numberBetween(12345678, 99999999),
+            "commercial_record_image" => UploadedFile::fake()->image(storage_path("app/images/tests/test.jpg")),
             "lat" => "134242442.2344",
             "lng" => "242424242.242",
             "activity_description" => "test test",
-            "address" => "riydh - street"
+            "address" => "riydh - street",
+            "image" => UploadedFile::fake()->image(storage_path("app/images/tests/test.jpg"))
         ]);
 
         $response->assertStatus(201);

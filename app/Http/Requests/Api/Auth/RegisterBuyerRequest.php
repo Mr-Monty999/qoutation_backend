@@ -48,6 +48,8 @@ class RegisterBuyerRequest extends FormRequest
             "phone" => "required|numeric|unique:user_phones,number",
             "password" => "required|string|min:8",
             "password_confirmation" => "required|string|same:password",
+            "commercial_record_number" => "nullable|numeric|unique:buyers,commercial_record_number",
+            "commercial_record_image" => "nullable|image|max:2048",
             "birthdate" => "nullable|date",
             "image" => "nullable|image|max:2048",
             "country_id" => "required|numeric|exists:countries,id",
