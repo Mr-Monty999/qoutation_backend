@@ -68,4 +68,11 @@ class RegisterSupplierRequest extends FormRequest
 
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            "image" => trans("messages.logo")
+        ];
+    }
 }

@@ -43,7 +43,9 @@ return [
     "unit price" => "سعر الوحدة",
     "please choose at least one product" => "يرجى اختيار منتج واحد على الأقل",
     "please price at least one product" => "الرجاء تسعيير منتج واحد على الأقل",
-    "quotation updated successfully" => "تم تحديث عرض السعر بنجاح"
+    "quotation updated successfully" => "تم تحديث عرض السعر بنجاح",
+    "logo" => "الشعار"
+
 
 
 
