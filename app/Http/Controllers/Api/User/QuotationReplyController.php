@@ -291,10 +291,6 @@ class QuotationReplyController extends Controller
                 }
             }
 
-
-            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
-            $userWallet->save();
-
             $transaction = Transaction::create([
                 "user_id" => $user->id,
                 "type" => "send_products_quotation",
