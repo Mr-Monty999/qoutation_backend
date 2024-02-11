@@ -94,7 +94,9 @@ class RegisterController extends Controller
             ]);
             $wallet = Wallet::create([
                 "user_id" => $user->id,
+                "balance" => env("WALLET_GIFT") ? env("WALLET_GIFT") : 0
             ]);
+
             $supplier = SupplierService::store($request, $user->id);
             $otp = UserOtpService::sendEmailOtp($user->email, "email_confirmation");
 
