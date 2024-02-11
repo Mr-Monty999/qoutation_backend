@@ -232,14 +232,14 @@
                   line-height: 24px;
                 ">
                             <div style="text-align: center">
-                                <div>
+                                {{-- <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.buyer phone') }}:</div>
                                     <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr;color:black">
                                         +{{ $data['buyer_phone'] }}
                                     </div>
                                 </div>
-                                <br>
+                                <br> --}}
                                 {{-- <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.buyer email') }}:</div>

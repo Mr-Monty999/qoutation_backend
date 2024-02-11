@@ -232,7 +232,7 @@
                   line-height: 24px;
                 ">
                             <div style="text-align: center">
-                                <div>
+                                {{-- <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.supplier phone') }}:</div>
                                     <div style="margin: 0;font-weight: bold;font-size:20px; direction: ltr;color:black">
@@ -247,7 +247,7 @@
                                         {{ $data['supplier_email'] }}
                                     </div>
                                 </div>
-                                <br>
+                                <br> --}}
                                 {{-- <div>
                                     <div style="margin: 0;font-weight: bold;font-size:25px;color:black">
                                         {{ trans('messages.quotation title') }}:</div>
