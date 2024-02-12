@@ -28,7 +28,7 @@ class StoreMessageRequest extends FormRequest
             "title" => "required|string",
             "body" => "required|string",
             "message_id" => "nullable|exists:messages,id",
-            "attachments.*" => "nullable|file|max:2048"
+            "attachments.*" => "nullable|file|max:2048|mimes:xlsx,pdf,jpg,png,jpeg,docx,doc"
 
         ];
     }

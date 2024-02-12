@@ -119,6 +119,13 @@ class QuotationReplyTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => $this->faker->numberBetween(123456789, 999999999),
+            "country_code" => $this->faker->numberBetween(1, 300)
+
+        ]);
+
 
         $this->actingAs($user);
 

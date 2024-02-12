@@ -44,6 +44,7 @@ return [
     "please choose at least one product" => "please choose at least one product",
     "please price at least one product" => "please price at least one product",
     "quotation updated successfully" => "quotation updated successfully",
-    "logo" => "logo"
+    "logo" => "logo",
+    "update_quotation_reply_notification" => ":name update his reply for your quotation"
 
 ];

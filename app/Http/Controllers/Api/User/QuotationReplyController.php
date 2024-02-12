@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\StoreQuotationReplyRequest;
 use App\Http\Requests\Api\User\UpdateQuotationReplyRequest;
 use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
+use App\Mail\UpdateQuotationReplyNotification;
 use App\Models\Notification;
 use App\Models\QuotationReply;
 use App\Models\QuotationInvoice;
@@ -298,7 +299,34 @@ class QuotationReplyController extends Controller
                     "quotation_id" => $quotationId,
                 ]
             ]);
+
+            $quotationOwner = Quotation::find($quotationId)->user;
+            $quotationOwner->notify(new SendQuotationNotification([
+                "quotation_id" => $quotationId,
+                "invoice_id" => $invoice->id,
+                "sender_id" => $user->id,
+                "messages" => [
+                    "ar" => "لقد قام " . $user->name . " بتعديل عرض سعره لطلبك",
+                    "en" => $user->name . " has sent a quotes for your request"
+                ]
+            ]));
+
+            Mail::to($quotationOwner)->send(new UpdateQuotationReplyNotification([
+                "supplier_name" => $user->name,
+                // "supplier_phone" => $user->phone->country_code . $user->phone->number,
+                // "supplier_email" => $user->email,
+                // "quotation_reply_title" => $quotation->title,
+                // "quotation_reply_price" => $quotation->amount,
+                // "quotation_reply_description" => $quotation->description,
+                "quotation_id" => $quotationId,
+                "invoice_id" => $invoice->id
+
+            ]));
+
+
             DB::commit();
+
+
 
             return response()->json([
                 "data" => [
