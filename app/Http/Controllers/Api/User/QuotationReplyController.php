@@ -338,4 +338,25 @@ class QuotationReplyController extends Controller
             return response()->json(["msg" => $e->__toString()], 400);
         }
     }
+
+    public function showInvoice(Quotation $quotation, QuotationInvoice $invoice)
+    {
+
+        $invoice->load("replies.quotationProduct");
+        $quotation->load([
+            "products",
+            "user.buyer",
+            "user.supplier",
+            "activities",
+            "city",
+            "country",
+            "neighbourhood",
+        ]);
+        return response()->json([
+            "data" => [
+                "invoice" => $invoice,
+                "quotation" => $quotation
+            ]
+        ]);
+    }
 }

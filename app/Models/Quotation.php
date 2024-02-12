@@ -52,6 +52,10 @@ class Quotation extends Model
     {
         return $this->hasMany(QuotationReply::class, "quotation_id")->where("unit_price", ">", "0");
     }
+    public function authUserReply()
+    {
+        return $this->hasOne(QuotationReply::class, "quotation_id")->where("unit_price", ">", "0")->where("user_id", auth()->id());
+    }
     public function userReplyInvoice()
     {
         return $this->hasOne(QuotationInvoice::class, "quotation_id")->where("user_id", auth()->id());

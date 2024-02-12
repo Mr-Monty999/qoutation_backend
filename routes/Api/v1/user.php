@@ -45,6 +45,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::put("quotations/{quotation}/replies/{reply}/accept", [QuotationReplyController::class, "accept"]);
 
         Route::get("quotations/{quotation}/products/{quotationProduct}", [QuotationProductController::class, "show"]);
+        Route::get("quotations/{quotation}/replies/invoices/{invoice}", [QuotationReplyController::class, "showInvoice"]);
 
 
 
