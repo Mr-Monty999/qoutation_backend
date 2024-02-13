@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Http\Requests\Api\User\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
+use App\Jobs\EmailJob;
 use App\Mail\SendNewMessageNotification;
 use App\Models\MessageRecipient;
 use App\Models\User;
@@ -109,12 +110,12 @@ class MessageController extends Controller
 
             $messageRecipient->Load("receiver.buyer", "receiver.supplier", "message");
 
-            Mail::to($receiver)->send(new SendNewMessageNotification([
-
+            EmailJob::dispatch([
+                "type" => "send_message",
+                "target_email" => $receiver->email,
                 "message_recipient_id" => $messageRecipient->id,
                 "sender_name" => $user->name
-
-            ]));
+            ]);
 
             DB::commit();
             return response()->json([

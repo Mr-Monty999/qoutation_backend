@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Mail\AcceptQuotationMail;
 use App\Mail\EmailConfirmationMail;
 use App\Mail\ResetPasswordMail;
+use App\Mail\SendNewMessageNotification;
 use App\Mail\SendQuotationNotificationMail;
 use App\Mail\UpdateQuotationReplyNotification;
 use Illuminate\Bus\Queueable;
@@ -78,6 +79,12 @@ class EmailJob implements ShouldQueue
             Mail::to($this->data["identifier"])->send(new EmailConfirmationMail($this->data["otp"]));
         } else if ($this->data["type"] == "reset_password_otp") {
             Mail::to($this->data["identifier"])->send(new ResetPasswordMail($this->data["otp"]));
+        } else if ($this->data["type"] == "send_message") {
+            Mail::to($this->data["target_email"])->send(new SendNewMessageNotification([
+                "message_recipient_id" => $this->data["message_recipient_id"],
+                "sender_name" => $this->data["sender_name"]
+
+            ]));
         }
     }
 }
