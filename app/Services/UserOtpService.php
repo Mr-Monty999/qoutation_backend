@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\EmailJob;
 use App\Mail\EmailConfirmationMail;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
@@ -27,10 +28,18 @@ class UserOtpService
     public static function sendEmailOtp($identifier, $otpType, $time = 5)
     {
         $otp = UserOtpService::store($identifier, $time);
-        if ($otpType == "email_confirmation" || $otpType == "update_email")
-            Mail::to($identifier)->send(new EmailConfirmationMail($otp));
-        elseif ($otpType == "reset_password")
-            Mail::to($identifier)->send(new ResetPasswordMail($otp));
+        if ($otpType == "email_confirmation" || $otpType == "update_email") {
+            EmailJob::dispatch([
+                "type" => "email_confirmation_otp",
+                "identifier" => $identifier,
+                "otp" => $otp
+            ]);
+        } elseif ($otpType == "reset_password")
+            EmailJob::dispatch([
+                "type" => "reset_password_otp",
+                "identifier" => $identifier,
+                "otp" => $otp
+            ]);
 
         return $otp;
     }

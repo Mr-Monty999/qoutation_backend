@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreQuotationReplyRequest;
 use App\Http\Requests\Api\User\UpdateQuotationReplyRequest;
+use App\Jobs\EmailJob;
 use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
 use App\Mail\UpdateQuotationReplyNotification;
@@ -63,7 +64,9 @@ class QuotationReplyController extends Controller
             ]
         ]));
 
-        Mail::to($supplier)->send(new AcceptQuotationMail([
+        EmailJob::dispatch([
+            "type" => "accept_quotation_reply",
+            "target_email" => $supplier->email,
             "buyer_name" => $user->name,
             "buyer_phone" => $user->phone->country_code . $user->phone->number,
             "buyer_email" => $user->email,
@@ -72,8 +75,7 @@ class QuotationReplyController extends Controller
             // "quotation_reply_description" => $quotation->description,
             "quotation_id" => $quotation->id,
             "invoice_id" => $invoice->id
-
-        ]));
+        ]);
 
         return response()->json([
             "data" => [
@@ -182,7 +184,9 @@ class QuotationReplyController extends Controller
                 ]
             ]));
 
-            Mail::to($quotationOwner)->send(new SendQuotationNotificationMail([
+            EmailJob::dispatch([
+                "type" => "send_quotation_reply",
+                "target_email" => $quotationOwner->email,
                 "supplier_name" => $user->name,
                 "supplier_phone" => $user->phone->country_code . $user->phone->number,
                 "supplier_email" => $user->email,
@@ -191,8 +195,7 @@ class QuotationReplyController extends Controller
                 // "quotation_reply_description" => $quotation->description,
                 "quotation_id" => $quotationId,
                 "invoice_id" => $invoice->id
-
-            ]));
+            ]);
 
             DB::commit();
 
@@ -311,7 +314,9 @@ class QuotationReplyController extends Controller
                 ]
             ]));
 
-            Mail::to($quotationOwner)->send(new UpdateQuotationReplyNotification([
+            EmailJob::dispatch([
+                "type" => "update_quotation_reply",
+                "target_email" => $quotationOwner->email,
                 "supplier_name" => $user->name,
                 // "supplier_phone" => $user->phone->country_code . $user->phone->number,
                 // "supplier_email" => $user->email,
@@ -320,9 +325,7 @@ class QuotationReplyController extends Controller
                 // "quotation_reply_description" => $quotation->description,
                 "quotation_id" => $quotationId,
                 "invoice_id" => $invoice->id
-
-            ]));
-
+            ]);
 
             DB::commit();
 
