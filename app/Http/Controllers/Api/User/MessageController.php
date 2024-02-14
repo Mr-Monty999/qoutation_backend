@@ -103,6 +103,13 @@ class MessageController extends Controller
             $message = Message::create($data);
 
 
+            $sendMessage = MessageRecipient::where("receiver_id", $receiver->id)
+                ->whereHas("message", function ($q) use ($user) {
+                    $q->where("sender_id", $user->id);
+                })
+                ->where("created_at", ">", now()->subMinutes(5))
+                ->exists();
+
             $messageRecipient = MessageRecipient::create([
                 "receiver_id" => $receiver->id,
                 "message_id" => $message->id
@@ -110,12 +117,13 @@ class MessageController extends Controller
 
             $messageRecipient->Load("receiver.buyer", "receiver.supplier", "message");
 
-            EmailJob::dispatch([
-                "type" => "send_message",
-                "target_email" => $receiver->email,
-                "message_recipient_id" => $messageRecipient->id,
-                "sender_name" => $user->name
-            ]);
+            if (!$sendMessage)
+                EmailJob::dispatch([
+                    "type" => "send_message",
+                    "target_email" => $receiver->email,
+                    "message_recipient_id" => $messageRecipient->id,
+                    "sender_name" => $user->name
+                ]);
 
             DB::commit();
             return response()->json([
