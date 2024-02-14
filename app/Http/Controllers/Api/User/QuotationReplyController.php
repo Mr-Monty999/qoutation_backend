@@ -8,7 +8,7 @@ use App\Http\Requests\Api\User\UpdateQuotationReplyRequest;
 use App\Jobs\EmailJob;
 use App\Mail\AcceptQuotationMail;
 use App\Mail\SendQuotationNotificationMail;
-use App\Mail\UpdateQuotationReplyNotification;
+use App\Notifications\UpdateQuotationReplyNotification;
 use App\Models\Notification;
 use App\Models\QuotationReply;
 use App\Models\QuotationInvoice;
@@ -17,6 +17,7 @@ use App\Models\QuotationProduct;
 use App\Models\Transaction;
 use App\Notifications\AcceptQuotationNotification;
 use App\Notifications\SendQuotationNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -297,35 +298,43 @@ class QuotationReplyController extends Controller
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
-                "type" => "send_products_quotation",
+                "type" => "update_products_quotation",
                 "data" => [
                     "quotation_id" => $quotationId,
                 ]
             ]);
 
             $quotationOwner = Quotation::find($quotationId)->user;
-            $quotationOwner->notify(new SendQuotationNotification([
-                "quotation_id" => $quotationId,
-                "invoice_id" => $invoice->id,
-                "sender_id" => $user->id,
-                "messages" => [
-                    "ar" => "لقد قام " . $user->name . " بتعديل عرض سعره لطلبك",
-                    "en" => $user->name . " has sent a quotes for your request"
-                ]
-            ]));
 
-            EmailJob::dispatch([
-                "type" => "update_quotation_reply",
-                "target_email" => $quotationOwner->email,
-                "supplier_name" => $user->name,
-                // "supplier_phone" => $user->phone->country_code . $user->phone->number,
-                // "supplier_email" => $user->email,
-                // "quotation_reply_title" => $quotation->title,
-                // "quotation_reply_price" => $quotation->amount,
-                // "quotation_reply_description" => $quotation->description,
-                "quotation_id" => $quotationId,
-                "invoice_id" => $invoice->id
-            ]);
+            $lastNotification = $quotationOwner
+                ->notifications()
+                ->where("type", UpdateQuotationReplyNotification::class)
+                ->whereJsonContains("data->sender_id", $user->id)
+                ->latest()
+                ->first();
+            if (!$lastNotification || Carbon::parse($lastNotification->created_at)->addMinutes(5) < now()) {
+                $quotationOwner->notify(new UpdateQuotationReplyNotification([
+                    "quotation_id" => $quotationId,
+                    "invoice_id" => $invoice->id,
+                    "sender_id" => $user->id,
+                    "messages" => [
+                        "ar" => "لقد قام " . $user->name . " بتعديل عرض سعره لطلبك",
+                        "en" => $user->name . " has sent a quotes for your request"
+                    ]
+                ]));
+                EmailJob::dispatch([
+                    "type" => "update_quotation_reply",
+                    "target_email" => $quotationOwner->email,
+                    "supplier_name" => $user->name,
+                    // "supplier_phone" => $user->phone->country_code . $user->phone->number,
+                    // "supplier_email" => $user->email,
+                    // "quotation_reply_title" => $quotation->title,
+                    // "quotation_reply_price" => $quotation->amount,
+                    // "quotation_reply_description" => $quotation->description,
+                    "quotation_id" => $quotationId,
+                    "invoice_id" => $invoice->id
+                ]);
+            }
 
             DB::commit();
 
