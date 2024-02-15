@@ -48,7 +48,7 @@ class MessageController extends Controller
                 ->latest()
                 ->paginate(10);
         } else if ($request->type == "received") {
-            $messages = MessageRecipient::with("message.sender.buyer", "message.sender.supplier")
+            $messages = MessageRecipient::with("message.sender.buyer", "message.sender.supplier", "message.parentMessage")
                 ->where("receiver_id", $user->id)
                 ->latest()
                 ->paginate(10);
@@ -82,6 +82,11 @@ class MessageController extends Controller
 
         $receiver = User::where("email", $data["receiver_email"])
             ->firstOrFail();
+
+        $parentMessage = Message::find($data["message_id"]);
+
+        if ($parentMessage && $parentMessage->sender_id == $user->id)
+            return response()->json([], 403);
 
 
         if ($receiver->id == $user->id)
@@ -142,7 +147,7 @@ class MessageController extends Controller
         if ($message->sender_id != $user->id)
             return response()->json([], 403);
 
-        $message->load("recipient.receiver.supplier", "recipient.receiver.buyer", "sender.buyer", "sender.supplier");
+        $message->load("recipient.receiver.supplier", "recipient.receiver.buyer", "sender.buyer", "sender.supplier", "parentMessage");
 
         return response()->json([
             "data" => $message
@@ -155,7 +160,7 @@ class MessageController extends Controller
         if ($messageRecipient->receiver_id != $user->id)
             return response()->json([], 403);
 
-        $messageRecipient->load("receiver.supplier", "receiver.buyer", "message.sender.buyer", "message.sender.supplier");
+        $messageRecipient->load("receiver.supplier", "receiver.buyer", "message.sender.buyer", "message.sender.supplier", "message.parentMessage");
 
 
         return response()->json([

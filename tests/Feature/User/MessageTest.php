@@ -54,7 +54,7 @@ class MessageTest extends TestCase
         ]);
 
         $message = Message::create([
-            "sender_id" => $user->id,
+            "sender_id" => $receiverUser->id,
             "title" => $this->faker->title,
             "body" => $this->faker->text,
 

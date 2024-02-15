@@ -25,11 +25,18 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             "receiver_email" => "required|email",
-            "title" => "required|string",
+            "title" => "nullable|string",
             "body" => "required|string",
             "message_id" => "nullable|exists:messages,id",
             "attachments.*" => "nullable|file|max:2048|mimes:xlsx,pdf,jpg,png,jpeg,docx,doc"
 
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "title.required_without" => trans("validation.required", ["attribute" => trans("validation.attributes.title")])
         ];
     }
 }
