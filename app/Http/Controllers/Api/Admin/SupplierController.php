@@ -23,12 +23,20 @@ class SupplierController extends Controller
         if ($request->perPage)
             $perPage = $request->perPage;
 
+        if ($request->type && $request->type == "unaccepted")
+            $suppliers->whereNull("accepted_at");
+
+        if ($request->type && $request->type == "accepted")
+            $suppliers->whereNotNull("accepted_at");
+
         if ($request->has("paginated") && $request->paginated == "true")
             $suppliers = $suppliers->paginate($perPage);
         else
             $suppliers = $suppliers->get();
 
-        return response()->json($suppliers);
+        return response()->json([
+            "data" => $suppliers
+        ]);
     }
 
     public function accept(Request $request, Supplier $supplier)
