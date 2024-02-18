@@ -19,5 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "v1/admin", "middleware" => ["auth:sanctum", "only-admin"]], function () {
 
+    //// suppliers ////
     Route::get("suppliers", [SupplierController::class, "index"]);
+    Route::put("suppliers/{supplier}/accept", [SupplierController::class, "accept"]);
 });

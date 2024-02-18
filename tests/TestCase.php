@@ -9,11 +9,11 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseTransactions;
 
-    protected function setUp(): void
-    {
+    // protected function setUp(): void
+    // {
 
-        parent::setUp();
+    //     parent::setUp();
 
-        $this->withoutExceptionHandling();
-    }
+    //     $this->withoutExceptionHandling();
+    // }
 }

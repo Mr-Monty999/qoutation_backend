@@ -30,4 +30,16 @@ class SupplierController extends Controller
 
         return response()->json($suppliers);
     }
+
+    public function accept(Request $request, Supplier $supplier)
+    {
+        $supplier->accepted_at = now();
+        $supplier->save();
+
+        return response()->json([
+            "data" => [
+                "message" => trans("messages.supplier accepted successfully"),
+            ]
+        ]);
+    }
 }

@@ -45,7 +45,8 @@ return [
     "please price at least one product" => "الرجاء تسعيير منتج واحد على الأقل",
     "quotation updated successfully" => "تم تحديث عرض السعر بنجاح",
     "logo" => "الشعار",
-    "update_quotation_reply_notification" => ":name عدل عرض سعره لطلبك"
+    "update_quotation_reply_notification" => ":name عدل عرض سعره لطلبك",
+    "supplier accepted successfully" => "تم قبول المورد بنجاح"
 
 
 
