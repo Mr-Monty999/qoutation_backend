@@ -18,7 +18,7 @@ class QuotationProductTest extends TestCase
 {
 
     use WithFaker;
-    public function test_user_can_show_quotation_product()
+    public function test_supplier_can_show_quotation_product()
     {
         $user = User::create([
             "name" => "test",
@@ -28,9 +28,6 @@ class QuotationProductTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
-
-        $this->actingAs($user);
-
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -38,8 +35,12 @@ class QuotationProductTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => rand(1234567, 99999999)
+            "commercial_record_number" => rand(1234567, 99999999),
+            "accepted_at" => now()
         ]);
+
+        $this->actingAs($user);
+
 
         $quotation = Quotation::create([
             "user_id" => $user->id,

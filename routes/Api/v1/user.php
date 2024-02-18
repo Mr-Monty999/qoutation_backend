@@ -31,7 +31,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
     Route::get("get-auth-user", [UserController::class, "getAuthUser"]);
 
-    Route::group(["middleware" => ["verified"]], function () {
+    Route::group(["middleware" => ["verified", "is-supplier-accepted"]], function () {
 
         /////////////// quotations /////////////
         Route::apiResource("quotations", QuotationController::class, [

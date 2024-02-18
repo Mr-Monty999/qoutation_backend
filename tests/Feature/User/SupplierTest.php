@@ -40,7 +40,9 @@ class SupplierTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => rand(1234567, 99999999)
+            "commercial_record_number" => rand(1234567, 99999999),
+            "accepted_at" => now()
+
         ]);
 
         $country = Country::create([

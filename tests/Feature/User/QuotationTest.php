@@ -273,7 +273,9 @@ class QuotationTest extends TestCase
         ]);
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => $this->faker->creditCardNumber
+            "commercial_record_number" => $this->faker->creditCardNumber,
+            "accepted_at" => now()
+
         ]);
 
         $this->actingAs($user);

@@ -25,7 +25,7 @@ class QuotationReplyTest extends TestCase
      *
      * @return void
      */
-    public function test_user_can_send_quotation_reply()
+    public function test_supplier_can_send_quotation_reply()
     {
         $user = User::create([
             "name" => "test",
@@ -42,9 +42,6 @@ class QuotationReplyTest extends TestCase
 
         ]);
 
-
-        $this->actingAs($user);
-
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -52,8 +49,14 @@ class QuotationReplyTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => rand(1234567, 99999999)
+            "commercial_record_number" => rand(1234567, 99999999),
+            "accepted_at" => now()
+
         ]);
+
+        $this->actingAs($user);
+
+
 
         $quotation = Quotation::create([
             "user_id" => $user->id,
@@ -109,7 +112,7 @@ class QuotationReplyTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function test_user_can_edit_quotation_reply()
+    public function test_supplier_can_edit_his_quotation_reply()
     {
         $user = User::create([
             "name" => "test",
@@ -126,9 +129,6 @@ class QuotationReplyTest extends TestCase
 
         ]);
 
-
-        $this->actingAs($user);
-
         $wallet = Wallet::create([
             "user_id" => $user->id,
             "balance" => env("SUPPLIER_QUOTATION_PRICE")
@@ -136,8 +136,14 @@ class QuotationReplyTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => rand(1234567, 99999999)
+            "commercial_record_number" => rand(1234567, 99999999),
+            "accepted_at" => now()
+
         ]);
+
+        $this->actingAs($user);
+
+
 
         $quotation = Quotation::create([
             "user_id" => $user->id,

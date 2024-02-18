@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckIfIsAdmin
+class CheckIfSupplierIsAccepted
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,8 @@ class CheckIfIsAdmin
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if (!$user->admin)
+        if ($user->supplier && $user->supplier->accepted_at == null)
             return response()->json([], 403);
-
 
         return $next($request);
     }

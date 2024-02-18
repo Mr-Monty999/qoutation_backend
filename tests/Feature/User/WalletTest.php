@@ -41,7 +41,9 @@ class WalletTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => "25234324244242423"
+            "commercial_record_number" => "25234324244242423",
+            "accepted_at" => now()
+
 
         ]);
 
@@ -75,7 +77,9 @@ class WalletTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => "25234324244242423"
+            "commercial_record_number" => "25234324244242423",
+            "accepted_at" => now()
+
 
         ]);
 
@@ -114,7 +118,9 @@ class WalletTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => "25234324244242423"
+            "commercial_record_number" => "25234324244242423",
+            "accepted_at" => now()
+
 
         ]);
 
@@ -155,7 +161,9 @@ class WalletTest extends TestCase
 
         $supplier = Supplier::create([
             "user_id" => $user->id,
-            "commercial_record_number" => "25234324244242423"
+            "commercial_record_number" => "25234324244242423",
+            "accepted_at" => now()
+
 
         ]);
 
