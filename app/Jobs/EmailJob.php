@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\AcceptQuotationMail;
+use App\Mail\AcceptSupplierNotificationMail;
 use App\Mail\EmailConfirmationMail;
 use App\Mail\ResetPasswordMail;
 use App\Mail\SendNewMessageNotification;
@@ -85,6 +86,8 @@ class EmailJob implements ShouldQueue
                 "sender_name" => $this->data["sender_name"]
 
             ]));
+        } else if ($this->data["type"] == "send_supplier_accept_notification") {
+            Mail::to($this->data["target_email"])->send(new AcceptSupplierNotificationMail([]));
         }
     }
 }

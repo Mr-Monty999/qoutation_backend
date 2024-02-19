@@ -46,6 +46,9 @@ return [
     "quotation updated successfully" => "quotation updated successfully",
     "logo" => "logo",
     "update_quotation_reply_notification" => ":name update his reply for your quotation",
-    "supplier accepted successfully" => "supplier accepted successfully"
+    "supplier accepted successfully" => "supplier accepted successfully",
+    "supplier_accepted_message" => "You have been accepted into :websiteName website",
+    "login url" => "login url",
+    "taseer" => "taseer",
 
 ];

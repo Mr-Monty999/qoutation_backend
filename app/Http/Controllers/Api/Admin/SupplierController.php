@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\EmailJob;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -41,8 +42,16 @@ class SupplierController extends Controller
 
     public function accept(Request $request, Supplier $supplier)
     {
-        $supplier->accepted_at = now();
-        $supplier->save();
+        if ($supplier->accepted_at == null) {
+            $supplier->update([
+                "accepted_at" => now()
+            ]);
+
+            EmailJob::dispatch([
+                "type" => "send_supplier_accept_notification",
+                "target_email" => $supplier->user->email,
+            ]);
+        }
 
         return response()->json([
             "data" => [

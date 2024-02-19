@@ -46,7 +46,11 @@ return [
     "quotation updated successfully" => "تم تحديث عرض السعر بنجاح",
     "logo" => "الشعار",
     "update_quotation_reply_notification" => ":name عدل عرض سعره لطلبك",
-    "supplier accepted successfully" => "تم قبول المورد بنجاح"
+    "supplier accepted successfully" => "تم قبول المورد بنجاح",
+    "supplier_accepted_message" => "لقد تم قبولك في موقع :websiteName",
+    "login url" => "رابط تسجيل الدخول",
+    "taseer" => "تسعير",
+
 
 
 
