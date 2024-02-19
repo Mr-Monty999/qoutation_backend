@@ -13,12 +13,16 @@ class SupplierController extends Controller
     {
 
         $suppliers = Supplier::with(
+            "user",
             "user.phone",
             "user.country",
             "user.city",
             "user.neighbourhood",
             "user.wallet"
-        );
+        )->whereHas("user", function ($q) {
+            $q->whereNotNull("email_verified_at");
+        });
+
         $perPage = 10;
 
         if ($request->perPage)
