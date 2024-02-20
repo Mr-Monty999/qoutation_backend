@@ -113,6 +113,10 @@ class ActivityController extends Controller
 
         $activity->delete();
 
-        return response()->json([], 204);
+        return response()->json([
+            "data" => [
+                "message" => trans("messages.activity deleted successfully"),
+            ]
+        ], 200);
     }
 }

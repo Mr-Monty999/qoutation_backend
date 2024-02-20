@@ -150,6 +150,6 @@ class ActivityTest extends TestCase
 
         $response = $this->delete("/api/v1/admin/activities/$activity->id");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 }

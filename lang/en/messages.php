@@ -50,5 +50,6 @@ return [
     "supplier_accepted_message" => "You have been accepted into :websiteName website",
     "login url" => "login url",
     "taseer" => "taseer",
+    "activity deleted successfully" => "activity deleted successfully"
 
 ];
