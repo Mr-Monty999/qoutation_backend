@@ -30,4 +30,10 @@ class StoreCountryRequest extends FormRequest
 
         ];
     }
+    public function attributes()
+    {
+        return [
+            "code" => trans("messages.country code")
+        ];
+    }
 }

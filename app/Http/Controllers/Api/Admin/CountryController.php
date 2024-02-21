@@ -22,6 +22,9 @@ class CountryController extends Controller
 
         $perPage = 10;
 
+        if ($request->perPage)
+            $perPage = $request->perPage;
+
 
         if ($request->has("paginated") && $request->paginated == "true")
             $countries = $countries->paginate($perPage);

@@ -51,6 +51,8 @@ return [
     "login url" => "login url",
     "taseer" => "taseer",
     "activity deleted successfully" => "activity deleted successfully",
-    "country deleted successfully" => "country deleted successfully"
+    "country deleted successfully" => "country deleted successfully",
+    "country code" => "country code"
+
 
 ];
