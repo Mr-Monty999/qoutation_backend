@@ -29,4 +29,11 @@ class UpdateCountryRequest extends FormRequest
             "description" => "nullable|string",
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            "code" => trans("messages.country code")
+        ];
+    }
 }
