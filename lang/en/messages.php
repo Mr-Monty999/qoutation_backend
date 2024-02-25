@@ -53,7 +53,8 @@ return [
     "activity deleted successfully" => "activity deleted successfully",
     "country deleted successfully" => "country deleted successfully",
     "country code" => "country code",
-    "city deleted successfully" => "city deleted successfully"
+    "city deleted successfully" => "city deleted successfully",
+    "neighbourhood deleted successfully" => "neighbourhood deleted successfully"
 
 
 ];
