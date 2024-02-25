@@ -54,7 +54,8 @@ return [
     "country deleted successfully" => "تم حذف الدولة بنجاح",
     "country code" => "مفتاح الدولة",
     "city deleted successfully" => "تم حذف المدينة بنجاح",
-    "neighbourhood deleted successfully" => "تم حذف الحي بنجاح"
+    "neighbourhood deleted successfully" => "تم حذف الحي بنجاح",
+    "city" => "المدينة"
 
 
 
