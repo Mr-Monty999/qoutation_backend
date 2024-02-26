@@ -23,6 +23,9 @@ class ActivityController extends Controller
 
         $perPage = 10;
 
+        if ($request->perPage)
+            $perPage = $request->perPage;
+
 
         if ($request->has("paginated") && $request->paginated == "true")
             $activities = $activities->paginate($perPage);

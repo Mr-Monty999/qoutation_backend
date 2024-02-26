@@ -50,7 +50,15 @@ return [
     "supplier_accepted_message" => "لقد تم قبولك في موقع :websiteName",
     "login url" => "رابط تسجيل الدخول",
     "taseer" => "تسعير",
-    "activity deleted successfully" => "تم حذف النشاط بنجاح"
+    "activity deleted successfully" => "تم حذف النشاط بنجاح",
+    "country deleted successfully" => "تم حذف الدولة بنجاح",
+    "country code" => "مفتاح الدولة",
+    "city deleted successfully" => "تم حذف المدينة بنجاح",
+    "neighbourhood deleted successfully" => "تم حذف الحي بنجاح",
+    "city" => "المدينة"
+
+
+
 
 
 

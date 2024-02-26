@@ -50,6 +50,13 @@ return [
     "supplier_accepted_message" => "You have been accepted into :websiteName website",
     "login url" => "login url",
     "taseer" => "taseer",
-    "activity deleted successfully" => "activity deleted successfully"
+    "activity deleted successfully" => "activity deleted successfully",
+    "country deleted successfully" => "country deleted successfully",
+    "country code" => "country code",
+    "city deleted successfully" => "city deleted successfully",
+    "neighbourhood deleted successfully" => "neighbourhood deleted successfully",
+    "city" => "city"
+
+
 
 ];

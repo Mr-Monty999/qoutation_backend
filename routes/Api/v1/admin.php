@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\ActivityController;
+use App\Http\Controllers\Api\Admin\CityController;
+use App\Http\Controllers\Api\Admin\CountryController;
+use App\Http\Controllers\Api\Admin\NeighbourhoodController;
 use App\Http\Controllers\Api\Admin\SupplierController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BuyerController;
@@ -27,4 +30,13 @@ Route::group(["prefix" => "v1/admin", "middleware" => ["auth:sanctum", "only-adm
 
     //// activities ///
     Route::apiResource("activities", ActivityController::class);
+
+    //// countries ///
+    Route::apiResource("countries", CountryController::class);
+
+    //// cities ///
+    Route::apiResource("cities", CityController::class);
+
+    //// neighbourhoods ///
+    Route::apiResource("neighbourhoods", NeighbourhoodController::class);
 });
