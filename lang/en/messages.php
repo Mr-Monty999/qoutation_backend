@@ -55,7 +55,8 @@ return [
     "country code" => "country code",
     "city deleted successfully" => "city deleted successfully",
     "neighbourhood deleted successfully" => "neighbourhood deleted successfully",
-    "city" => "city"
+    "city" => "city",
+    "settings updated successfully" => "settings updated successfully"
 
 
 
