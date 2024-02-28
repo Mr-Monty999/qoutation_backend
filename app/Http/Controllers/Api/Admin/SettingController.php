@@ -3,85 +3,51 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Admin\UpdateSettingRequest as AdminUpdateSettingRequest;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Models\Setting;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        $settings = Setting::with([]);
+        $perPage = 10;
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSettingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreSettingRequest $request)
-    {
-        //
-    }
+        if ($request->perPage)
+            $perPage = $request->perPage;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
-    }
+        if ($request->has("paginated") && $request->paginated == "true")
+            $settings = $settings->paginate($perPage);
+        else
+            $settings = $settings->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSettingRequest  $request
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateSettingRequest $request, Setting $setting)
-    {
-        //
+        return response()->json([
+            "data" => $settings
+        ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Setting $setting)
+    public function update(AdminUpdateSettingRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        foreach ($data["settings"] as $value) {
+            Setting::updateOrCreate([
+                "key" => $value["key"],
+            ], [
+                "key" => $value["key"],
+                "value" => isset($value["value"]) ? $value["value"] : null,
+                "description" => isset($value["description"]) ? isset($value["description"]) : null,
+            ]);
+        }
+
+        return response()->json([
+            "data" => [
+                "message" => trans("messages.settings updated successfully"),
+            ]
+        ]);
     }
 }
