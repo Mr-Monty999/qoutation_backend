@@ -34,14 +34,15 @@ class SettingController extends Controller
     {
         $data = $request->validated();
 
-        foreach ($data["settings"] as $value) {
-            Setting::updateOrCreate([
-                "key" => $value["key"],
-            ], [
-                "key" => $value["key"],
-                "value" => isset($value["value"]) ? $value["value"] : null,
-                "description" => isset($value["description"]) ? isset($value["description"]) : null,
-            ]);
+        foreach ($data as $key => $value) {
+            if ($value) {
+                Setting::updateOrCreate([
+                    "key" => $key,
+                ], [
+                    "key" => $key,
+                    "value" => $value
+                ]);
+            }
         }
 
         return response()->json([

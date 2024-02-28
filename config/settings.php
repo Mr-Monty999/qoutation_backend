@@ -16,11 +16,11 @@ return [
         "home_page_feature_1_text",
         "home_page_feature_2_text",
         "home_page_feature_3_text",
-        "home_page_feature_3_text",
+        "home_page_feature_4_text",
         "home_page_feature_1_icon",
         "home_page_feature_2_icon",
         "home_page_feature_3_icon",
-        "home_page_feature_3_icon",
+        "home_page_feature_4_icon",
         "footer_copyright_text",
     ]
 
