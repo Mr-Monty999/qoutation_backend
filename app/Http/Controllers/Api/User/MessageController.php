@@ -83,11 +83,11 @@ class MessageController extends Controller
         $receiver = User::where("email", $data["receiver_email"])
             ->firstOrFail();
 
-        $parentMessage = Message::find($data["message_id"]);
-
-        if ($parentMessage && $parentMessage->sender_id == $user->id)
-            return response()->json([], 403);
-
+        if (isset($data["message_id"])) {
+            $parentMessage = Message::find($data["message_id"]);
+            if ($parentMessage && $parentMessage->sender_id == $user->id)
+                return response()->json([], 403);
+        }
 
         if ($receiver->id == $user->id)
             return response()->json([], 403);
