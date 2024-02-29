@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -38,7 +39,23 @@ class SettingController extends Controller
             if ($value) {
                 $setting =  Setting::where("key", $key)->firstOrNew();
                 $setting->key = $key;
+
+                if ($request->hasFile($key)) {
+                    $fileName = time() . '-' . $request->file($key)->getClientOriginalName();
+
+                    $value = $request->file($key)->storeAs("images/settings", $fileName, "public");
+
+                    if ($setting->value)
+                        Storage::disk("public")->delete($setting->value);
+
+                    $value = [
+                        "en" => $value,
+                        "ar" => $value
+                    ];
+                }
+
                 $setting->value = $value;
+
                 $setting->save();
             }
         }
