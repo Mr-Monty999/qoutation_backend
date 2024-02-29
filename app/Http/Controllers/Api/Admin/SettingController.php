@@ -36,12 +36,10 @@ class SettingController extends Controller
 
         foreach ($data as $key => $value) {
             if ($value) {
-                Setting::updateOrCreate([
-                    "key" => $key,
-                ], [
-                    "key" => $key,
-                    "value" => $value
-                ]);
+                $setting =  Setting::where("key", $key)->firstOrNew();
+                $setting->key = $key;
+                $setting->value = $value;
+                $setting->save();
             }
         }
 
