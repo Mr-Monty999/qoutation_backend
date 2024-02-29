@@ -16,11 +16,8 @@ class UpdateSettingRequest extends FormRequest
     {
         return true;
     }
-    private $keys;
     public function __construct()
     {
-
-        $this->keys = implode(",", config("settings.website_settings_keys"));
     }
 
     /**
@@ -49,6 +46,7 @@ class UpdateSettingRequest extends FormRequest
             "home_page_feature_2_icon" => "nullable|image",
             "home_page_feature_3_icon" => "nullable|image",
             "home_page_feature_4_icon" => "nullable|image",
+            "about_page_text_1" => "nullable|string",
             "footer_copyright_text" => "nullable|string",
 
         ];
