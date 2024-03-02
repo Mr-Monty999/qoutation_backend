@@ -47,6 +47,16 @@ class UpdateSettingRequest extends FormRequest
             "home_page_feature_3_icon" => "nullable|image",
             "home_page_feature_4_icon" => "nullable|image",
             "about_page_text_1" => "nullable|string",
+            "contact_page_text_1" => "nullable|string",
+            "contact_page_text_2" => "nullable|string",
+            "contact_page_text_3" => "nullable|string",
+            "contact_page_text_4" => "nullable|string",
+            "contact_page_text_5" => "nullable|string",
+            "contact_page_text_6" => "nullable|string",
+            "contact_page_text_7" => "nullable|string",
+            "contact_page_text_8" => "nullable|string",
+            "contact_page_text_9" => "nullable|string",
+            "contact_page_image_1" => "nullable|image",
             "footer_copyright_text" => "nullable|string",
 
         ];
