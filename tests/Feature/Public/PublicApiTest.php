@@ -5,6 +5,7 @@ namespace Tests\Feature\Public;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
+use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -68,6 +69,23 @@ class PublicApiTest extends TestCase
         $response = $this->get("/api/v1/public/cities/$city->id/neighbourhoods");
 
 
+
+        $response->assertStatus(200);
+    }
+
+    public function test_anyone_can_get_all_settings()
+    {
+        Setting::create([
+            "key" => $this->faker->name,
+            "value" => $this->faker->name,
+            "description" => $this->faker->text
+        ]);
+
+        $response = $this->get('/api/v1/public/settings');
+
+        $response->assertStatus(200);
+
+        $response = $this->get('/api/v1/public/settings?paginated=true&perPage=10&page=1');
 
         $response->assertStatus(200);
     }
