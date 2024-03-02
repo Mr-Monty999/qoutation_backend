@@ -30,6 +30,8 @@ class UpdateSettingRequest extends FormRequest
         return [
             "website_name" => "nullable|string",
             "website_logo" => "nullable|image",
+            "supplier_quotation_price" => "nullable|numeric",
+            "supplier_wallet_signup_gift" => "nullable|numeric",
             "home_page_text_1" => "nullable|string",
             "home_page_text_2" => "nullable|string",
             "home_page_text_3" => "nullable|string",

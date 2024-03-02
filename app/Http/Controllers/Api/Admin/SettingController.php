@@ -35,6 +35,17 @@ class SettingController extends Controller
     {
         $data = $request->validated();
 
+        $untranslateableKeys = [
+            "supplier_quotation_price",
+            "supplier_wallet_signup_gift",
+            "website_logo",
+            "home_page_feature_1_icon",
+            "home_page_feature_2_icon",
+            "home_page_feature_3_icon",
+            "home_page_feature_4_icon",
+            "contact_page_image_1",
+        ];
+
         foreach ($data as $key => $value) {
             if ($value) {
                 $setting =  Setting::where("key", $key)->firstOrNew();
@@ -47,12 +58,13 @@ class SettingController extends Controller
 
                     if ($setting->value)
                         Storage::disk("public")->delete($setting->value);
+                }
 
+                if (in_array($key, $untranslateableKeys))
                     $value = [
                         "en" => $value,
                         "ar" => $value
                     ];
-                }
 
                 $setting->value = $value;
 
