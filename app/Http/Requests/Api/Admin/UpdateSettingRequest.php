@@ -32,6 +32,7 @@ class UpdateSettingRequest extends FormRequest
             "website_logo" => "nullable|image",
             "supplier_quotation_price" => "nullable|numeric",
             "supplier_wallet_signup_gift" => "nullable|numeric",
+            "home_page_image_1" => "nullable|image",
             "home_page_text_1" => "nullable|string",
             "home_page_text_2" => "nullable|string",
             "home_page_text_3" => "nullable|string",
@@ -59,7 +60,7 @@ class UpdateSettingRequest extends FormRequest
             "contact_page_text_8" => "nullable|string",
             "contact_page_text_9" => "nullable|string",
             "contact_page_image_1" => "nullable|image",
-            "footer_copyright_text" => "nullable|string",
+            "landing_page_footer_text_1" => "nullable|string",
 
         ];
     }

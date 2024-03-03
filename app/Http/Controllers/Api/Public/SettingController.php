@@ -21,7 +21,7 @@ class SettingController extends Controller
         if ($request->has("paginated") && $request->paginated == "true")
             $settings = $settings->paginate($perPage);
         else
-            $settings = $settings->get();
+            $settings = $settings->pluck("value", "key");
 
         return response()->json([
             "data" => $settings

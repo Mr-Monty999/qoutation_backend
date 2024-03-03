@@ -39,6 +39,7 @@ class SettingController extends Controller
             "supplier_quotation_price",
             "supplier_wallet_signup_gift",
             "website_logo",
+            "home_page_image_1",
             "home_page_feature_1_icon",
             "home_page_feature_2_icon",
             "home_page_feature_3_icon",

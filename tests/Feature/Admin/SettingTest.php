@@ -87,7 +87,7 @@ class SettingTest extends TestCase
             "home_page_feature_2_text" => $this->faker->name,
             "home_page_feature_3_text" => $this->faker->name,
             "home_page_feature_4_text" => $this->faker->name,
-            "footer_copyright_text" => $this->faker->name,
+            "landing_page_footer_text_1" => $this->faker->name,
 
         ]);
 
