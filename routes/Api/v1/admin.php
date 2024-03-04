@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Admin\ActivityController;
 use App\Http\Controllers\Api\Admin\CityController;
 use App\Http\Controllers\Api\Admin\CountryController;
 use App\Http\Controllers\Api\Admin\NeighbourhoodController;
+use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\Admin\SettingController;
 use App\Http\Controllers\Api\Admin\SupplierController;
 use App\Http\Controllers\Api\Auth\RegisterController;
@@ -44,4 +45,8 @@ Route::group(["prefix" => "v1/admin", "middleware" => ["auth:sanctum", "only-adm
     //// settings ////
     Route::get("settings", [SettingController::class, "index"]);
     Route::put("settings", [SettingController::class, "update"]);
+
+
+    //// profile ////
+    Route::put("profile", [ProfileController::class, "update"]);
 });
