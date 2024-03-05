@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -54,6 +55,9 @@ class AdminController extends Controller
             "password_confirmation" => "required|string|same:password"
         ]);
 
+        $data["password"] = Hash::make($data["password"]);
+
+
 
         if ($request->hasFile("image")) {
             $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
@@ -99,9 +103,12 @@ class AdminController extends Controller
             "email" => "required|email|unique:users,email," . $admin->user->id,
             // "phone" => "required|numeric",
             "password" => "nullable|string|min:8",
-            "password_confirmation" => "nullable|string|same:password"
+            "password_confirmation" => "required_with:password|string|same:password"
         ]);
 
+        if ($request->password) {
+            $data["password"] = Hash::make($data["password"]);
+        }
 
         if ($request->hasFile("image")) {
             $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
