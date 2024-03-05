@@ -56,7 +56,9 @@ return [
     "city deleted successfully" => "تم حذف المدينة بنجاح",
     "neighbourhood deleted successfully" => "تم حذف الحي بنجاح",
     "city" => "المدينة",
-    "settings updated successfully" => "تم تحديث الإعدادات بنجاح"
+    "settings updated successfully" => "تم تحديث الإعدادات بنجاح",
+    "admin deleted successfully" => "تم حذف المشرف بنجاح"
+
 
 
 

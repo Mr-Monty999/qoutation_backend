@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\ActivityController;
+use App\Http\Controllers\Api\Admin\AdminController;
 use App\Http\Controllers\Api\Admin\CityController;
 use App\Http\Controllers\Api\Admin\CountryController;
 use App\Http\Controllers\Api\Admin\NeighbourhoodController;
@@ -49,4 +50,7 @@ Route::group(["prefix" => "v1/admin", "middleware" => ["auth:sanctum", "only-adm
 
     //// profile ////
     Route::put("profile", [ProfileController::class, "update"]);
+
+    //// admins ///
+    Route::apiResource("admins", AdminController::class);
 });
