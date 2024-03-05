@@ -98,16 +98,22 @@ class AdminController extends Controller
      */
     public function update(Request $request, Admin $admin)
     {
+
         $data = $this->validate($request, [
             "name" => "required|string",
             "email" => "required|email|unique:users,email," . $admin->user->id,
             // "phone" => "required|numeric",
             "password" => "nullable|string|min:8",
-            "password_confirmation" => "required_with:password|string|same:password"
+            "password_confirmation" => "required_with:password|nullable|string|same:password"
         ]);
+
+        if ($admin->user->id ==  auth()->id())
+            return response()->json([], 403);
 
         if ($request->password) {
             $data["password"] = Hash::make($data["password"]);
+        } else {
+            unset($data["password"]);
         }
 
         if ($request->hasFile("image")) {
@@ -137,11 +143,16 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
 
+
+        if ($admin->user->id ==  auth()->id())
+            return response()->json([], 403);
+
+
         if ($admin->image)
             Storage::disk("public")->delete($admin->image);
 
-        $admin->user->delete();
-        $admin->delete();
+        $admin->user->forceDelete();
+        $admin->forceDelete();
 
         return response()->json([
             "data" => [
