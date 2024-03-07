@@ -37,16 +37,8 @@ class QuotationReplyController extends Controller
         if ($quotation->status != "active")
             return response()->json([], 403);
 
-        QuotationReply::where("quotation_product_id", "=", $reply->quotation_product_id)
-            ->where(
-                "quotation_id",
-                "=",
-                $reply->quotation_id
-            )
-            ->update([
-                "accepted_by" => null
-            ]);
-
+        if ($reply->accepted_by == null)
+            return response()->json([], 403);
 
         $reply->update([
             "accepted_by" => null

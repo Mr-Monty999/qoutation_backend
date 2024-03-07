@@ -333,7 +333,8 @@ class QuotationReplyTest extends TestCase
             "quotation_id" => $quotation->id,
             "user_id" => $user->id,
             "quotation_product_id" => $quotationProduct->id,
-            "unit_price" => $this->faker->numberBetween(1, 12342)
+            "unit_price" => $this->faker->numberBetween(1, 12342),
+            "accepted_by" => $user->id
         ]);
 
         $response = $this->put("/api/v1/user/quotations/$quotation->id/replies/$quotationReply->id/unaccept");
