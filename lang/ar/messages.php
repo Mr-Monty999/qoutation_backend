@@ -57,7 +57,8 @@ return [
     "neighbourhood deleted successfully" => "تم حذف الحي بنجاح",
     "city" => "المدينة",
     "settings updated successfully" => "تم تحديث الإعدادات بنجاح",
-    "admin deleted successfully" => "تم حذف المشرف بنجاح"
+    "admin deleted successfully" => "تم حذف المشرف بنجاح",
+    "reply undo accept successfully" => "تم التراجع عن قبول الرد بنجاح"
 
 
 

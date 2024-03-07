@@ -24,6 +24,42 @@ use Illuminate\Support\Facades\Mail;
 
 class QuotationReplyController extends Controller
 {
+    public function unAccept(Quotation $quotation, QuotationReply $reply)
+    {
+        $user = auth()->user();
+
+        if ($quotation->user_id != $user->id || !$user->buyer)
+            return response()->json([], 403);
+
+        if ($quotation->id != $reply->quotation_id)
+            return response()->json([], 403);
+
+        if ($quotation->status != "active")
+            return response()->json([], 403);
+
+        QuotationReply::where("quotation_product_id", "=", $reply->quotation_product_id)
+            ->where(
+                "quotation_id",
+                "=",
+                $reply->quotation_id
+            )
+            ->update([
+                "accepted_by" => null
+            ]);
+
+
+        $reply->update([
+            "accepted_by" => null
+        ]);
+
+
+        return response()->json([
+            "data" => [
+                "message" => trans("messages.reply undo accept successfully")
+            ]
+        ]);
+    }
+
     public function accept(Quotation $quotation, QuotationReply $reply)
     {
         $user = auth()->user();

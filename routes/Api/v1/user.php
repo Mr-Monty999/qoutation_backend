@@ -43,6 +43,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::post("quotations/{quotation}/replies", [QuotationReplyController::class, "store"]);
         Route::put("quotations/{quotation}/replies", [QuotationReplyController::class, "update"]);
         Route::put("quotations/{quotation}/replies/{reply}/accept", [QuotationReplyController::class, "accept"]);
+        Route::put("quotations/{quotation}/replies/{reply}/unaccept", [QuotationReplyController::class, "unAccept"]);
 
         Route::get("quotations/{quotation}/products/{quotationProduct}", [QuotationProductController::class, "show"]);
         Route::get("quotations/{quotation}/replies/invoices/{invoice}", [QuotationReplyController::class, "showInvoice"]);
