@@ -56,7 +56,9 @@ return [
     "city deleted successfully" => "city deleted successfully",
     "neighbourhood deleted successfully" => "neighbourhood deleted successfully",
     "city" => "city",
-    "settings updated successfully" => "settings updated successfully"
+    "settings updated successfully" => "settings updated successfully",
+    "admin deleted successfully" => "admin deleted successfully",
+    "reply undo accept successfully" => "reply undo accept successfully"
 
 
 

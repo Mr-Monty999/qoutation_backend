@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -34,14 +35,42 @@ class SettingController extends Controller
     {
         $data = $request->validated();
 
-        foreach ($data["settings"] as $value) {
-            Setting::updateOrCreate([
-                "key" => $value["key"],
-            ], [
-                "key" => $value["key"],
-                "value" => isset($value["value"]) ? $value["value"] : null,
-                "description" => isset($value["description"]) ? isset($value["description"]) : null,
-            ]);
+        $untranslateableKeys = [
+            "supplier_quotation_price",
+            "supplier_wallet_signup_gift",
+            "website_logo",
+            "home_page_image_1",
+            "home_page_feature_1_icon",
+            "home_page_feature_2_icon",
+            "home_page_feature_3_icon",
+            "home_page_feature_4_icon",
+            "contact_page_image_1",
+        ];
+
+        foreach ($data as $key => $value) {
+            if ($value) {
+                $setting =  Setting::where("key", $key)->firstOrNew();
+                $setting->key = $key;
+
+                if ($request->hasFile($key)) {
+                    $fileName = time() . '-' . $request->file($key)->getClientOriginalName();
+
+                    $value = $request->file($key)->storeAs("images/settings", $fileName, "public");
+
+                    if ($setting->value)
+                        Storage::disk("public")->delete($setting->value);
+                }
+
+                if (in_array($key, $untranslateableKeys))
+                    $value = [
+                        "en" => $value,
+                        "ar" => $value
+                    ];
+
+                $setting->value = $value;
+
+                $setting->save();
+            }
         }
 
         return response()->json([

@@ -74,18 +74,20 @@ class SettingTest extends TestCase
         ]);
 
         $response = $this->put("/api/v1/admin/settings", [
-            "settings" => [
-                [
-                    "key" => "website_name",
-                    "value" => $this->faker->name,
-                    "description" => $this->faker->text
-                ],
-                [
-                    "key" => "website_name",
-                    "value" => $this->faker->name,
-                    "description" => $this->faker->text
-                ],
-            ]
+            "website_name" => $this->faker->name,
+            "home_page_text_1" => $this->faker->name,
+            "home_page_text_2" => $this->faker->name,
+            "home_page_text_3" => $this->faker->name,
+            "home_page_text_4" => $this->faker->name,
+            "home_page_text_5" => $this->faker->name,
+            "home_page_text_6" => $this->faker->name,
+            "home_page_button_1_text" => $this->faker->name,
+            "home_page_button_1_url" => $this->faker->name,
+            "home_page_feature_1_text" => $this->faker->name,
+            "home_page_feature_2_text" => $this->faker->name,
+            "home_page_feature_3_text" => $this->faker->name,
+            "home_page_feature_4_text" => $this->faker->name,
+            "landing_page_footer_text_1" => $this->faker->name,
 
         ]);
 
