@@ -58,7 +58,8 @@ return [
     "city" => "city",
     "settings updated successfully" => "settings updated successfully",
     "admin deleted successfully" => "admin deleted successfully",
-    "reply undo accept successfully" => "reply undo accept successfully"
+    "reply undo accept successfully" => "reply undo accept successfully",
+    "clarification" => "clarification"
 
 
 

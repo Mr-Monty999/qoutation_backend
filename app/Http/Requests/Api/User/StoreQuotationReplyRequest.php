@@ -38,7 +38,7 @@ class StoreQuotationReplyRequest extends FormRequest
         return [
             "products.*.unit_price" => trans("messages.unit price"),
             "products.*.title" => trans("messages.title"),
-            "products.*.description" => trans("messages.description")
+            "products.*.description" => trans("messages.clarification")
         ];
     }
 }

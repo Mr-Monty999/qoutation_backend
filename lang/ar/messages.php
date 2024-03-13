@@ -58,7 +58,9 @@ return [
     "city" => "المدينة",
     "settings updated successfully" => "تم تحديث الإعدادات بنجاح",
     "admin deleted successfully" => "تم حذف المشرف بنجاح",
-    "reply undo accept successfully" => "تم التراجع عن قبول الرد بنجاح"
+    "reply undo accept successfully" => "تم التراجع عن قبول الرد بنجاح",
+    "clarification" => "توضيح"
+
 
 
 
