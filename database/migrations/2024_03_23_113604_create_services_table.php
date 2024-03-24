@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("city_id")->nullable();
             $table->unsignedBigInteger("neighbourhood_id")->nullable();
             $table->string("title")->nullable();
-            $table->string("description")->nullable();
+            $table->text("description")->nullable();
             $table->timestamps();
             $table->softDeletes();
 

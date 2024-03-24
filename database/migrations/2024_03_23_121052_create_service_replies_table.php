@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("accepted_by")->nullable();
             $table->decimal("price", 20, 2);
             $table->string("title")->nullable();
-            $table->string("description")->nullable();
+            $table->text("description")->nullable();
             $table->timestamps();
             $table->softDeletes();
 
