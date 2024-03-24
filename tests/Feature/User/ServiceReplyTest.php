@@ -117,6 +117,14 @@ class ServiceReplyTest extends TestCase
             "description" => $this->faker->text,
         ]);
 
+        $serviceReply = ServiceReply::create([
+            "user_id" => $user->id,
+            "service_id" => $service->id,
+            "price" => $this->faker->randomDigit(1, 3340),
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
         $a1 = Activity::create([
             "name" => "a1"
         ]);
@@ -124,7 +132,7 @@ class ServiceReplyTest extends TestCase
         $service->activities()->attach($a1->id);
 
 
-        $response = $this->put("/api/v1/user/services/$service->id/replies", [
+        $response = $this->put("/api/v1/user/services/$service->id/replies/$serviceReply->id", [
             "title" => $this->faker->title,
             "description" => $this->faker->text,
             "price" => $this->faker->randomNumber(1, 4300)

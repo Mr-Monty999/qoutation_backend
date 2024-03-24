@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger("country_id")->nullable();
             $table->unsignedBigInteger("city_id")->nullable();
             $table->unsignedBigInteger("neighbourhood_id")->nullable();
+            $table->string("status")->default("active");
             $table->string("title")->nullable();
             $table->text("description")->nullable();
             $table->timestamps();

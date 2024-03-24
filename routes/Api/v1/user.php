@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\User\WalletController;
 use App\Http\Controllers\Api\User\MessageController;
 use App\Http\Controllers\Api\User\QuotationProductController;
 use App\Http\Controllers\Api\User\QuotationReplyController;
+use App\Http\Controllers\Api\User\ServiceController;
+use App\Http\Controllers\Api\User\ServiceReplyController;
 use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -100,5 +102,27 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         ///// users /////
         Route::put("password/update", [UserController::class, "updatePassword"]);
         Route::put("email/update", [UserController::class, "updateEmail"]);
+
+
+        /////////////// services /////////////
+        Route::apiResource("services", ServiceController::class, [
+            "as" => "user"
+        ]);
+
+        /////////////// service replies /////////////
+        Route::put("services/{service}/status", [ServiceController::class, "updateStatus"]);
+
+        Route::post("services/{service}/replies", [ServiceReplyController::class, "store"]);
+        Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"]);
+        Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"]);
+        Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"]);
+
+
+        //// get supplier services ////
+        Route::get("/supplier/services", [ServiceController::class, "supplierServices"]);
+
+
+        //// get buyer services ////
+        Route::get("/buyer/services", [ServiceController::class, "buyerServices"]);
     });
 });
