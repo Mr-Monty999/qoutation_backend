@@ -59,7 +59,9 @@ return [
     "settings updated successfully" => "settings updated successfully",
     "admin deleted successfully" => "admin deleted successfully",
     "reply undo accept successfully" => "reply undo accept successfully",
-    "clarification" => "clarification"
+    "clarification" => "clarification",
+    "reply sent successfully" => "reply sent successfully",
+    "reply updated successfully" => "reply updated successfully"
 
 
 

@@ -84,7 +84,6 @@ class ServiceController extends Controller
             "activities",
             "city",
             "country",
-            "userReplyInvoice",
             "neighbourhood"
         ]);
 

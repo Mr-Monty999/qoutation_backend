@@ -93,7 +93,7 @@ class ServiceReplyController extends Controller
 
         return response()->json([
             "data" => [
-                "message" => "accepted successfully"
+                "message" => trans("messages.accepted successfully")
             ]
         ]);
     }
@@ -105,7 +105,7 @@ class ServiceReplyController extends Controller
             "title" => "required|string",
             "description" => "nullable|string",
         ], [], [
-            "title" => trans("messages.title"),
+            // "title" => trans("messages.title"),
             "description" => trans("messages.clarification")
         ]);
 
