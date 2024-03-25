@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
         'throttle' => \App\Http\Middleware\CustomThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "only-admin" => \App\Http\Middleware\CheckIfIsAdmin::class,
-        "is-supplier-accepted" => \App\Http\Middleware\CheckIfSupplierIsAccepted::class,
+        "only-accepted-supplier" => \App\Http\Middleware\CheckIfSupplierIsAccepted::class,
         "only-buyer" => \App\Http\Middleware\OnlyBuyer::class,
         "only-supplier" => \App\Http\Middleware\OnlySupplier::class
 
