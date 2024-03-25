@@ -110,19 +110,19 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         ]);
 
         /////////////// service replies /////////////
-        Route::put("services/{service}/status", [ServiceController::class, "updateStatus"]);
+        Route::put("services/{service}/status", [ServiceController::class, "updateStatus"])->middleware("only-buyer");
 
-        Route::post("services/{service}/replies", [ServiceReplyController::class, "store"]);
-        Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"]);
-        Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"]);
-        Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"]);
+        Route::post("services/{service}/replies", [ServiceReplyController::class, "store"])->middleware("only-supplier");
+        Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"])->middleware("only-supplier");
+        Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"])->middleware("only-buyer");
+        Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"])->middleware("only-buyer");
 
 
         //// get supplier services ////
-        Route::get("/supplier/services", [ServiceController::class, "supplierServices"]);
+        Route::get("/supplier/services", [ServiceController::class, "supplierServices"])->middleware("only-supplier");
 
 
         //// get buyer services ////
-        Route::get("/buyer/services", [ServiceController::class, "buyerServices"]);
+        Route::get("/buyer/services", [ServiceController::class, "buyerServices"])->middleware("only-buyer");
     });
 });

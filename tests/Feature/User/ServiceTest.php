@@ -184,6 +184,9 @@ class ServiceTest extends TestCase
             "password" => Hash::make("password")
         ]);
 
+        $buyer = Buyer::create([
+            "user_id" => $user->id
+        ]);
 
         $this->actingAs($user);
 
