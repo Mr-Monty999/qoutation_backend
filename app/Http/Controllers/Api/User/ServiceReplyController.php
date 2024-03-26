@@ -102,11 +102,11 @@ class ServiceReplyController extends Controller
 
         $data = $this->validate($request, [
             "price" => "required|numeric|min:1",
-            "title" => "required|string",
+            "title" => "nullable|string",
             "description" => "nullable|string",
         ], [], [
             // "title" => trans("messages.title"),
-            "description" => trans("messages.clarification")
+            "description" => trans("messages.description")
         ]);
 
         $user = auth()->user();
@@ -121,10 +121,10 @@ class ServiceReplyController extends Controller
         if ($service->status != "active")
             return response()->json([], 403);
 
-        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-            return response()->json([
-                "message" => trans("messages.you dont have enough money in your wallet !")
-            ], 403);
+        // if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+        //     return response()->json([
+        //         "message" => trans("messages.you dont have enough money in your wallet !")
+        //     ], 403);
 
         DB::beginTransaction();
         try {
@@ -134,8 +134,8 @@ class ServiceReplyController extends Controller
 
             $serviceReply =  ServiceReply::create($data);
 
-            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
-            $userWallet->save();
+            // $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+            // $userWallet->save();
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
@@ -189,11 +189,11 @@ class ServiceReplyController extends Controller
 
         $data = $this->validate($request, [
             "price" => "required|numeric|min:1",
-            "title" => "required|string",
+            "title" => "nullable|string",
             "description" => "nullable|string",
         ], [], [
             "title" => trans("messages.title"),
-            "description" => trans("messages.clarification")
+            "description" => trans("messages.description")
         ]);
 
         $user = auth()->user();
@@ -209,10 +209,10 @@ class ServiceReplyController extends Controller
         if ($service->status != "active")
             return response()->json([], 403);
 
-        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-            return response()->json([
-                "message" => trans("messages.you dont have enough money in your wallet !")
-            ], 403);
+        // if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+        //     return response()->json([
+        //         "message" => trans("messages.you dont have enough money in your wallet !")
+        //     ], 403);
 
         DB::beginTransaction();
         try {

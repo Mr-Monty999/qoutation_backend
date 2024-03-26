@@ -176,6 +176,7 @@ class ServiceController extends Controller
             "city",
             "country",
             "neighbourhood",
+            "replies"
         ]);
 
 
