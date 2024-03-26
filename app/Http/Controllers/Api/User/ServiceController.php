@@ -117,6 +117,8 @@ class ServiceController extends Controller
             "country_id" => "required|numeric|exists:countries,id",
             "city_id" => "required|numeric|exists:cities,id",
             "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",
+        ], [
+            "country_id" => trans("messages.country")
         ]);
 
 
@@ -192,6 +194,8 @@ class ServiceController extends Controller
             "country_id" => "required|numeric|exists:countries,id",
             "city_id" => "required|numeric|exists:cities,id",
             "neighbourhood_id" => "required|numeric|exists:neighbourhoods,id",
+        ], [
+            "country_id" => trans("messages.country")
         ]);
 
         $country = Country::findOrFail($request->country_id);
