@@ -55,7 +55,7 @@ class ServiceReplyController extends Controller
         if ($service->status != "active")
             return response()->json([], 403);
 
-        ServiceReply::where("service_id", "=", $reply->id)
+        ServiceReply::where("service_id", "=", $service->id)
             ->update([
                 "accepted_by" => null
             ]);

@@ -21,7 +21,8 @@ class ServiceController extends Controller
             "activities",
             "city",
             "country",
-            "neighbourhood"
+            "neighbourhood",
+            "authUserReply"
         )
             ->where("status", "active")
             ->latest()->paginate(10);
@@ -84,7 +85,8 @@ class ServiceController extends Controller
             "activities",
             "city",
             "country",
-            "neighbourhood"
+            "neighbourhood",
+            'authUserReply'
         ]);
 
 
@@ -176,7 +178,7 @@ class ServiceController extends Controller
             "city",
             "country",
             "neighbourhood",
-            "replies"
+            "replies.user.supplier"
         ]);
 
 
