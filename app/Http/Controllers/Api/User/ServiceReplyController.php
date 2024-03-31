@@ -206,7 +206,7 @@ class ServiceReplyController extends Controller
         if (!$user->supplier)
             return response()->json([], 403);
 
-        if ($service->status != "active")
+        if ($service->status != "active" || $reply->accepted_by != null)
             return response()->json([], 403);
 
         // if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
