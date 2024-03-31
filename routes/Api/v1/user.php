@@ -113,6 +113,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::put("services/{service}/status", [ServiceController::class, "updateStatus"])->middleware("only-buyer");
 
         Route::post("services/{service}/replies", [ServiceReplyController::class, "store"])->middleware("only-supplier");
+        Route::get("services/{service}/replies/{reply}", [ServiceReplyController::class, "show"])->middleware("only-supplier");
         Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"])->middleware("only-supplier");
         Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"])->middleware("only-buyer");
         Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"])->middleware("only-buyer");

@@ -274,4 +274,17 @@ class ServiceReplyController extends Controller
             return response()->json(["msg" => $e->__toString()], 400);
         }
     }
+
+    public function show(Request $request, Service $service, ServiceReply $reply)
+    {
+
+        $user = auth()->user();
+
+        if ($service->id != $reply->service_id || $reply->user_id != $user->id)
+            return response()->json([], 403);
+
+        return response()->json([
+            "data" => $reply
+        ]);
+    }
 }

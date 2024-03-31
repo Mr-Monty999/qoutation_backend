@@ -248,4 +248,63 @@ class ServiceReplyTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_supplier_can_show_his_service_reply()
+    {
+        $user = User::create([
+            "name" => "test",
+            "email" => "testtesttest@example.com",
+            "phone" => "96624241242",
+            "email_verified_at" => now(),
+            "password" => Hash::make("password")
+        ]);
+
+        $phone = UserPhone::create([
+            "user_id" => $user->id,
+            "number" => $this->faker->numberBetween(123456789, 999999999),
+            "country_code" => $this->faker->numberBetween(1, 300)
+
+        ]);
+
+        $wallet = Wallet::create([
+            "user_id" => $user->id,
+            "balance" => env("SUPPLIER_QUOTATION_PRICE")
+        ]);
+
+        $supplier = Supplier::create([
+            "user_id" => $user->id,
+            "commercial_record_number" => rand(1234567, 99999999),
+            "accepted_at" => now()
+
+        ]);
+
+        $this->actingAs($user);
+
+
+
+        $service = Service::create([
+            "user_id" => $user->id,
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $serviceReply = ServiceReply::create([
+            "user_id" => $user->id,
+            "service_id" => $service->id,
+            "price" => $this->faker->randomDigit(1, 3340),
+            "title" => $this->faker->title,
+            "description" => $this->faker->text,
+        ]);
+
+        $a1 = Activity::create([
+            "name" => "a1"
+        ]);
+
+        $service->activities()->attach($a1->id);
+
+
+        $response = $this->get("/api/v1/user/services/$service->id/replies/$serviceReply->id");
+
+        $response->assertStatus(200);
+    }
 }
