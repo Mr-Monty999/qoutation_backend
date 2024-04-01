@@ -170,6 +170,8 @@ class ServiceController extends Controller
 
         $user = auth()->user();
 
+        if ($service->user->id != $user->id)
+            return response()->json([], 403);
 
         $service->load([
             "user.buyer",
@@ -178,7 +180,10 @@ class ServiceController extends Controller
             "city",
             "country",
             "neighbourhood",
-            "replies.user.supplier"
+            "replies.user.supplier",
+            "replies" => function ($q) {
+                $q->orderBy("price");
+            }
         ]);
 
 
