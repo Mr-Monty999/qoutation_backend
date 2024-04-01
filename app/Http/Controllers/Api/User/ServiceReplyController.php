@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\EmailJob;
 use App\Models\Service;
 use App\Models\ServiceReply;
 use App\Models\Transaction;
+use App\Notifications\SendServiceNotification;
+use App\Notifications\SendServiceReplyNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -121,10 +124,10 @@ class ServiceReplyController extends Controller
         if ($service->status != "active")
             return response()->json([], 403);
 
-        // if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-        //     return response()->json([
-        //         "message" => trans("messages.you dont have enough money in your wallet !")
-        //     ], 403);
+        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+            return response()->json([
+                "message" => trans("messages.you dont have enough money in your wallet !")
+            ], 403);
 
         DB::beginTransaction();
         try {
@@ -134,8 +137,8 @@ class ServiceReplyController extends Controller
 
             $serviceReply =  ServiceReply::create($data);
 
-            // $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
-            // $userWallet->save();
+            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+            $userWallet->save();
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
@@ -145,29 +148,29 @@ class ServiceReplyController extends Controller
                 ]
             ]);
 
-            // $serviceOwner = Service::find($service->id)->user;
-            // $serviceOwner->notify(new SendServiceNotification([
-            //     "service_id" => $service->id,
-            //     "invoice_id" => $invoice->id,
-            //     "sender_id" => $user->id,
-            //     "messages" => [
-            //         "ar" => "لقد قام " . $user->name . " بإرسال عرض سعر لطلبك",
-            //         "en" => $user->name . " has sent a quotes for your request"
-            //     ]
-            // ]));
+            $serviceOwner = Service::find($service->id)->user;
+            $serviceOwner->notify(new SendServiceReplyNotification([
+                "service_id" => $service->id,
+                "sender_id" => $user->id,
+                "messages" => [
+                    "ar" => "لقد قام " . $user->name . " بإرسال رد على خدمتك المطلوبة",
+                    "en" => $user->name . " has sent a reply for your requested service"
+                ]
+            ]));
 
-            // EmailJob::dispatch([
-            //     "type" => "send_service_reply",
-            //     "target_email" => $serviceOwner->email,
-            //     "supplier_name" => $user->name,
-            //     "supplier_phone" => $user->phone->country_code . $user->phone->number,
-            //     "supplier_email" => $user->email,
-            //     // "service_reply_title" => $service->title,
-            //     // "service_reply_price" => $service->amount,
-            //     // "service_reply_description" => $service->description,
-            //     "service_id" => $service->id,
-            //     "invoice_id" => $invoice->id
-            // ]);
+            EmailJob::dispatch([
+                "type" => "send_service_reply",
+                "target_email" => $serviceOwner->email,
+                "supplier_name" => $user->name,
+                "supplier_phone" => $user->phone->country_code . $user->phone->number,
+                "supplier_email" => $user->email,
+                "service_reply_title" => $service->title,
+                "service_reply_price" => $service->price,
+                "service_reply_description" => $service->description,
+                "service_id" => $service->id,
+                "service_reply_id" => $serviceReply->id,
+
+            ]);
 
             DB::commit();
 

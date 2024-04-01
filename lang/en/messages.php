@@ -61,7 +61,8 @@ return [
     "reply undo accept successfully" => "reply undo accept successfully",
     "clarification" => "clarification",
     "reply sent successfully" => "reply sent successfully",
-    "reply updated successfully" => "reply updated successfully"
+    "reply updated successfully" => "reply updated successfully",
+    "send_service_reply_notification" => ":name sent a reply for your requested service",
 
 
 

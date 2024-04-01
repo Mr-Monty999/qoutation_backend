@@ -61,7 +61,9 @@ return [
     "reply undo accept successfully" => "تم التراجع عن قبول الرد بنجاح",
     "clarification" => "توضيح",
     "reply sent successfully" => "تم إرسال الرد بنجاح",
-    "reply updated successfully" => "تم تحديث الرد بنجاح"
+    "reply updated successfully" => "تم تحديث الرد بنجاح",
+    "send_service_reply_notification" => "أرسل :name إليك رد على خدمتك المطلوبة",
+
 
 
 

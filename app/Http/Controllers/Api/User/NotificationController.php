@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Quotation;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -19,11 +20,19 @@ class NotificationController extends Controller
         $notifications = $paginatedNotifications
             ->map(function ($notification) use ($user) {
                 $data = $notification->toArray();
-                $data["data"] = [
-                    "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
-                    "quotation" => Quotation::find($data["data"]["quotation_id"]),
 
-                ];
+                if (isset($data["data"]["quotation_id"]))
+                    $data["data"] = [
+                        "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
+                        "quotation" => Quotation::find($data["data"]["quotation_id"])
+                    ];
+
+                else if (isset($data["data"]["service_id"]))
+                    $data["data"] = [
+                        "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
+                        "service" => Service::find($data["data"]["service_id"])
+                    ];
+
                 return $data;
             });
 

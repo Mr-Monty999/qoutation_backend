@@ -8,6 +8,7 @@ use App\Mail\EmailConfirmationMail;
 use App\Mail\ResetPasswordMail;
 use App\Mail\SendNewMessageNotification;
 use App\Mail\SendQuotationNotificationMail;
+use App\Mail\SendServiceReplyNotificationMail;
 use App\Mail\UpdateQuotationReplyNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -39,7 +40,19 @@ class EmailJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->data["type"] == "send_quotation_reply") {
+        if ($this->data["type"] == "send_service_reply") {
+            Mail::to($this->data["target_email"])->send(new SendServiceReplyNotificationMail([
+                "supplier_name" => $this->data["supplier_name"],
+                // "supplier_phone" => $this->data["supplier_phone"],
+                // "supplier_email" =>  $this->data["supplier_email"],
+                "service_reply_title" => $this->data["service_reply_title"],
+                "service_reply_price" => $this->data["service_reply_price"],
+                "service_reply_description" => $this->data["service_reply_description"],
+                "service_id" => $this->data["service_id"],
+                "service_reply_id" => $this->data["service_reply_id"],
+
+            ]));
+        } else if ($this->data["type"] == "send_quotation_reply") {
             Mail::to($this->data["target_email"])->send(new SendQuotationNotificationMail([
                 "supplier_name" => $this->data["supplier_name"],
                 // "supplier_phone" => $this->data["supplier_phone"],

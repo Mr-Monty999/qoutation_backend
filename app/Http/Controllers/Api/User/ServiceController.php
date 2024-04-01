@@ -170,8 +170,8 @@ class ServiceController extends Controller
 
         $user = auth()->user();
 
-        if ($service->user->id != $user->id)
-            return response()->json([], 403);
+        // if ($service->user->id != $user->id)
+        //     return response()->json([], 403);
 
         $service->load([
             "user.buyer",
