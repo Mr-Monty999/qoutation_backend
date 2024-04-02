@@ -7,6 +7,7 @@ use App\Jobs\EmailJob;
 use App\Models\Service;
 use App\Models\ServiceReply;
 use App\Models\Transaction;
+use App\Notifications\AcceptServiceReplyNotification;
 use App\Notifications\SendServiceNotification;
 use App\Notifications\SendServiceReplyNotification;
 use Illuminate\Http\Request;
@@ -63,42 +64,50 @@ class ServiceReplyController extends Controller
                 "accepted_by" => null
             ]);
 
-
-        $reply->update([
-            "accepted_by" => $user->id
-        ]);
+        DB::beginTransaction();
+        try {
 
 
-        $supplier = $reply->user;
-        $invoice = $reply->invoice;
-        // $supplier->notify(new AcceptServiceNotification([
-        //     "service_id" => $service->id,
-        //     "invoice_id" => $invoice->id,
-        //     "sender_id" => $user->id,
-        //     "messages" => [
-        //         "ar" => "لقد قام " . $user->name . " قام بقبول عرض سعرك",
-        //         "en" => $user->name . " accept your service reply"
-        //     ]
-        // ]));
+            $reply->update([
+                "accepted_by" => $user->id
+            ]);
 
-        // EmailJob::dispatch([
-        //     "type" => "accept_service_reply",
-        //     "target_email" => $supplier->email,
-        //     "buyer_name" => $user->name,
-        //     "buyer_phone" => $user->phone->country_code . $user->phone->number,
-        //     "buyer_email" => $user->email,
-        //     // "service_reply_title" => $service->title,
-        //     // "service_reply_price" => $service->amount,
-        //     // "service_reply_description" => $service->description,
-        //     "service_id" => $service->id,
-        //     "invoice_id" => $invoice->id
-        // ]);
 
-        return response()->json([
-            "data" => [
-                "message" => trans("messages.accepted successfully")
-            ]
-        ]);
+            $supplier = $reply->user;
+            $supplier->notify(new AcceptServiceReplyNotification([
+                "service_id" => $service->id,
+                "service_reply_id" => $reply->id,
+                "sender_id" => $user->id,
+                "messages" => [
+                    "ar" => "لقد قام " . $user->name . "قام بقبول ردك للخدمة",
+                    "en" => $user->name . " accept your service reply"
+                ]
+            ]));
+
+            EmailJob::dispatch([
+                "type" => "accept_service_reply",
+                "target_email" => $supplier->email,
+                "buyer_name" => $user->name,
+                "buyer_phone" => $user->phone->country_code . $user->phone->number,
+                "buyer_email" => $user->email,
+                "service_reply_title" => $service->title,
+                "service_reply_price" => $service->price,
+                "service_reply_description" => $service->description,
+                "service_id" => $service->id,
+                "service_reply_id" => $reply->id,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                "data" => [
+                    "message" => trans("messages.accepted successfully")
+                ]
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback(); // If an error occurs, rollback the transaction
+            return response()->json(["msg" => $e->__toString()], 400);
+        }
     }
     public function store(Request $request, Service $service)
     {
@@ -135,7 +144,10 @@ class ServiceReplyController extends Controller
 
 
 
-            $serviceReply =  ServiceReply::create($data);
+            $serviceReply =  ServiceReply::updateOrCreate([
+                "service_id" => $service->id,
+                "user_id" => $user->id
+            ], $data);
 
             $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
             $userWallet->save();
@@ -151,6 +163,7 @@ class ServiceReplyController extends Controller
             $serviceOwner = Service::find($service->id)->user;
             $serviceOwner->notify(new SendServiceReplyNotification([
                 "service_id" => $service->id,
+                "service_reply_id" => $serviceReply->id,
                 "sender_id" => $user->id,
                 "messages" => [
                     "ar" => "لقد قام " . $user->name . " بإرسال رد على خدمتك المطلوبة",

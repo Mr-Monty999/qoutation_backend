@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\AcceptQuotationMail;
+use App\Mail\AcceptServiceReplyNotificationMail;
 use App\Mail\AcceptSupplierNotificationMail;
 use App\Mail\EmailConfirmationMail;
 use App\Mail\ResetPasswordMail;
@@ -40,7 +41,18 @@ class EmailJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->data["type"] == "send_service_reply") {
+        if ($this->data["type"] == "accept_service_reply") {
+            Mail::to($this->data["target_email"])->send(new AcceptServiceReplyNotificationMail([
+                "buyer_name" => $this->data["buyer_name"],
+                "buyer_phone" => $this->data["buyer_phone"],
+                "buyer_email" => $this->data["buyer_email"],
+                "service_reply_title" => $this->data["service_reply_title"],
+                "service_reply_price" => $this->data["service_reply_price"],
+                "service_reply_description" => $this->data["service_reply_description"],
+                "service_id" => $this->data["service_id"],
+                "service_reply_id" => $this->data["service_reply_id"],
+            ]));
+        } else if ($this->data["type"] == "send_service_reply") {
             Mail::to($this->data["target_email"])->send(new SendServiceReplyNotificationMail([
                 "supplier_name" => $this->data["supplier_name"],
                 // "supplier_phone" => $this->data["supplier_phone"],

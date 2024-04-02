@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Quotation;
 use App\Models\Service;
+use App\Models\ServiceReply;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -21,17 +22,20 @@ class NotificationController extends Controller
             ->map(function ($notification) use ($user) {
                 $data = $notification->toArray();
 
-                if (isset($data["data"]["quotation_id"]))
-                    $data["data"] = [
-                        "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
-                        "quotation" => Quotation::find($data["data"]["quotation_id"])
-                    ];
+                $newData = [
+                    "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer")
+                ];
 
-                else if (isset($data["data"]["service_id"]))
-                    $data["data"] = [
-                        "sender" => User::find($data["data"]["sender_id"])->load("supplier", "buyer"),
-                        "service" => Service::find($data["data"]["service_id"])
-                    ];
+                if (isset($data["data"]["quotation_id"]))
+                    $newData["quotation"] = Quotation::find($data["data"]["quotation_id"]);
+
+                if (isset($data["data"]["service_id"]))
+                    $newData["service"] = Service::find($data["data"]["service_id"]);
+
+                if (isset($data["data"]["service_reply_id"]))
+                    $newData["service_reply"] = ServiceReply::find($data["data"]["service_reply_id"]);
+
+                $data["data"] = $newData;
 
                 return $data;
             });
