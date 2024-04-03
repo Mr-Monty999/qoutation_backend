@@ -63,7 +63,8 @@ return [
     "reply sent successfully" => "reply sent successfully",
     "reply updated successfully" => "reply updated successfully",
     "send_service_reply_notification" => ":name sent a reply for your requested service",
-    "accept_service_reply_message" => ":name accept your reply"
+    "accept_service_reply_message" => ":name accept your reply",
+    "service_complete" => ":name updated his service request status to complete"
 
 
 

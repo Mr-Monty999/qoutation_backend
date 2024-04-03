@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\EmailJob;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Neighbourhood;
 use App\Models\Service;
+use App\Notifications\ServiceCompleteNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,6 +49,40 @@ class ServiceController extends Controller
         $service->update([
             "status" => $request->status
         ]);
+
+        if ($request->status == "complete") {
+            $serviceReplies = $service->replies()->with("user")->get();
+            $serviceOwner = $service->user;
+
+            foreach ($serviceReplies as $reply) {
+                $reply->user->notify(new ServiceCompleteNotification([
+                    "service_id" => $service->id,
+                    "service_reply_id" => $reply->id,
+                    "sender_id" => $user->id,
+                    "messages" => [
+                        "ar" => trans("messages.service_complete", [
+                            "name" => $user->name
+                        ], "ar"),
+                        "en" => trans("messages.service_complete", [
+                            "name" => $user->name
+                        ], "en")
+                    ]
+                ]));
+
+                EmailJob::dispatch([
+                    "type" => "service_complete",
+                    "target_email" => $reply->user->email,
+                    "buyer_name" => $serviceOwner->name,
+                    "buyer_phone" => $serviceOwner->phone->country_code . $serviceOwner->phone->number,
+                    "buyer_email" => $serviceOwner->email,
+                    "service_reply_title" => $service->title,
+                    "service_reply_price" => $service->price,
+                    "service_reply_description" => $service->description,
+                    "service_id" => $service->id,
+                    "service_reply_id" => $reply->id,
+                ]);
+            }
+        }
 
         $service->load(
             "activities",

@@ -10,6 +10,7 @@ use App\Mail\ResetPasswordMail;
 use App\Mail\SendNewMessageNotification;
 use App\Mail\SendQuotationNotificationMail;
 use App\Mail\SendServiceReplyNotificationMail;
+use App\Mail\ServiceCompleteNotificationMail;
 use App\Mail\UpdateQuotationReplyNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -41,7 +42,18 @@ class EmailJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->data["type"] == "accept_service_reply") {
+        if ($this->data["type"] == "service_complete") {
+            Mail::to($this->data["target_email"])->send(new ServiceCompleteNotificationMail([
+                "buyer_name" => $this->data["buyer_name"],
+                "buyer_phone" => $this->data["buyer_phone"],
+                "buyer_email" => $this->data["buyer_email"],
+                "service_reply_title" => $this->data["service_reply_title"],
+                "service_reply_price" => $this->data["service_reply_price"],
+                "service_reply_description" => $this->data["service_reply_description"],
+                "service_id" => $this->data["service_id"],
+                "service_reply_id" => $this->data["service_reply_id"],
+            ]));
+        } else if ($this->data["type"] == "accept_service_reply") {
             Mail::to($this->data["target_email"])->send(new AcceptServiceReplyNotificationMail([
                 "buyer_name" => $this->data["buyer_name"],
                 "buyer_phone" => $this->data["buyer_phone"],

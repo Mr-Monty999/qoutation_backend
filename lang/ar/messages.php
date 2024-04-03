@@ -63,7 +63,8 @@ return [
     "reply sent successfully" => "تم إرسال الرد بنجاح",
     "reply updated successfully" => "تم تحديث الرد بنجاح",
     "send_service_reply_notification" => "أرسل :name إليك رد على خدمتك المطلوبة",
-    "accept_service_reply_message" => ":name قبل ردك"
+    "accept_service_reply_message" => ":name قبل ردك",
+    "service_complete" => ":name قام بتحديث حالة خدمته الى معتمد"
 
 
 
