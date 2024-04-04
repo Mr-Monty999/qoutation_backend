@@ -51,7 +51,12 @@ class ServiceController extends Controller
         ]);
 
         if ($request->status == "complete") {
-            $serviceReplies = $service->replies()->with("user")->get();
+
+            $serviceReplies = $service->replies()
+                ->with("user")
+                ->whereNotNull("accepted_by")
+                ->get();
+
             $serviceOwner = $service->user;
 
             foreach ($serviceReplies as $reply) {
