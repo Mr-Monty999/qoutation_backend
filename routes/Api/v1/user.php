@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\User\QuotationProductController;
 use App\Http\Controllers\Api\User\QuotationReplyController;
 use App\Http\Controllers\Api\User\ServiceController;
 use App\Http\Controllers\Api\User\ServiceReplyController;
+use App\Http\Controllers\Api\User\SubscriptionController;
 use App\Http\Controllers\Api\User\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -125,5 +126,9 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         //// get buyer services ////
         Route::get("/buyer/services", [ServiceController::class, "buyerServices"])->middleware("only-buyer");
+
+
+        /// Subscribe In Pakcge
+        Route::post("supplier/packages/subscribe", [SubscriptionController::class, "subscribe"]);
     });
 });

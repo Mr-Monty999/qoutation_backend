@@ -31,7 +31,7 @@ class PackageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "package_code" => rand(1, 999)
+            "country_code" => rand(1, 999)
         ]);
         $admin = Admin::create([
             "user_id" => $user->id
@@ -59,7 +59,7 @@ class PackageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "package_code" => rand(1, 999)
+            "country_code" => rand(1, 999)
         ]);
         $admin = Admin::create([
             "user_id" => $user->id
@@ -87,7 +87,7 @@ class PackageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "package_code" => rand(1, 999)
+            "country_code" => rand(1, 999)
         ]);
         $admin = Admin::create([
             "user_id" => $user->id
@@ -120,7 +120,7 @@ class PackageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "package_code" => rand(1, 999)
+            "country_code" => rand(1, 999)
         ]);
         $admin = Admin::create([
             "user_id" => $user->id
@@ -149,7 +149,7 @@ class PackageTest extends TestCase
         $phone = UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
-            "package_code" => rand(1, 999)
+            "country_code" => rand(1, 999)
         ]);
         $admin = Admin::create([
             "user_id" => $user->id
