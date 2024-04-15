@@ -65,7 +65,8 @@ return [
     "send_service_reply_notification" => "أرسل :name إليك رد على خدمتك المطلوبة",
     "accept_service_reply_message" => ":name قبل ردك",
     "service_complete" => ":name قام بتحديث حالة خدمته الى معتمد",
-    "package deleted successfully" => "تم حذف الباقة بنجاح"
+    "package deleted successfully" => "تم حذف الباقة بنجاح",
+    "days number" => "عدد الأيام"
 
 
 

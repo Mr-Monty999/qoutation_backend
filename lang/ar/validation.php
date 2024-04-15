@@ -222,7 +222,9 @@ return [
         "neighbourhood_id" => "الحي",
         "old_password" => "كلمة السر القديمة",
         "new_password" => "كلمة السر الجديدة",
-        "new_password_confirmation" => "تأكيد كلمة السر الجديدة"
+        "new_password_confirmation" => "تأكيد كلمة السر الجديدة",
+        "days" => "الايام"
+
 
 
 

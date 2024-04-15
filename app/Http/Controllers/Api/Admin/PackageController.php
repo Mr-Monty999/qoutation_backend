@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PackageController extends Controller
 {
@@ -47,9 +48,19 @@ class PackageController extends Controller
             "description" => "nullable|string",
             "image" => "nullable|image|max:2048",
             "color" => "nullable|string"
+        ], [], [
+            "days" => trans('messages.days number')
         ]);
 
+        if ($request->hasFile("image")) {
+            $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
+
+            $data["image"] = $request->file("image")->storeAs("images/packages", $fileName, "public");
+        }
+
         $package = Package::create($data);
+
+
 
 
         return response()->json([
@@ -85,7 +96,18 @@ class PackageController extends Controller
             "description" => "nullable|string",
             "image" => "nullable|image|max:2048",
             "color" => "nullable|string"
+        ], [], [
+            "days" => trans('messages.days number')
         ]);
+
+        if ($request->hasFile("image")) {
+            $fileName = time() . '-' . $request->file("image")->getClientOriginalName();
+
+            $data["image"] = $request->file("image")->storeAs("images/packages", $fileName, "public");
+
+            if ($package->image)
+                Storage::disk("public")->delete($package->image);
+        }
 
         $package->update($data);
 
@@ -102,6 +124,9 @@ class PackageController extends Controller
      */
     public function destroy(Package $package)
     {
+
+        if ($package->image)
+            Storage::disk("public")->delete($package->image);
 
         $package->delete();
 

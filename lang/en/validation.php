@@ -222,7 +222,8 @@ return [
         "neighbourhood_id" => "neighbourhood",
         "old_password" => "old password",
         "new_password" => "new password",
-        "new_password_confirmation" => "new password confirmation"
+        "new_password_confirmation" => "new password confirmation",
+        "days" => "days"
 
     ],
 ];
