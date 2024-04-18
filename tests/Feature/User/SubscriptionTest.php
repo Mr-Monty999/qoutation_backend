@@ -40,6 +40,7 @@ class SubscriptionTest extends TestCase
         $package =  Package::create([
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 

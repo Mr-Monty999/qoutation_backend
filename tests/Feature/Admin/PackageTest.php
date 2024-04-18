@@ -41,6 +41,7 @@ class PackageTest extends TestCase
         Package::create([
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 
@@ -69,6 +70,7 @@ class PackageTest extends TestCase
         $response = $this->post('/api/v1/admin/packages', [
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
 
         ]);
@@ -97,12 +99,14 @@ class PackageTest extends TestCase
         $package = Package::create([
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 
         $response = $this->put("/api/v1/admin/packages/$package->id", [
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 
@@ -130,6 +134,7 @@ class PackageTest extends TestCase
         $package = Package::create([
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 
@@ -159,6 +164,7 @@ class PackageTest extends TestCase
         $package = Package::create([
             "name" => $this->faker->name,
             "days" => $this->faker->randomNumber(1, 999),
+            "price" => $this->faker->randomNumber(1, 999),
             "description" => $this->faker->text
         ]);
 

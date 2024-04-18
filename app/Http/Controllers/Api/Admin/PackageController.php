@@ -44,6 +44,7 @@ class PackageController extends Controller
     {
         $data = $this->validate($request, [
             "name" => "required|string",
+            "price" => "required|numeric",
             "days" => "required|integer",
             "description" => "nullable|string",
             "image" => "nullable|image|max:2048",
@@ -92,6 +93,7 @@ class PackageController extends Controller
     {
         $data = $this->validate($request, [
             "name" => "required|string",
+            "price" => "required|numeric",
             "days" => "required|integer",
             "description" => "nullable|string",
             "image" => "nullable|image|max:2048",
