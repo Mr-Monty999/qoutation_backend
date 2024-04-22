@@ -23,14 +23,15 @@ class ActivityController extends Controller
 
         $perPage = 10;
 
-        if ($request->perPage)
+        if ($request->perPage) {
             $perPage = $request->perPage;
+        }
 
-
-        if ($request->has("paginated") && $request->paginated == "true")
+        if ($request->has("paginated") && $request->paginated == "true") {
             $activities = $activities->paginate($perPage);
-        else
+        } else {
             $activities = $activities->get();
+        }
 
         return response()->json([
             "data" => $activities
@@ -91,8 +92,9 @@ class ActivityController extends Controller
 
             $data["image"] = $request->file("image")->storeAs("images/activities", $fileName, "public");
 
-            if ($activity->image)
+            if ($activity->image) {
                 Storage::disk("public")->delete($activity->image);
+            }
         }
 
         $activity->update($data);
@@ -111,8 +113,9 @@ class ActivityController extends Controller
     public function destroy(Activity $activity)
     {
 
-        if ($activity->image)
+        if ($activity->image) {
             Storage::disk("public")->delete($activity->image);
+        }
 
         $activity->delete();
 
