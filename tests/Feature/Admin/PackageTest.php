@@ -28,12 +28,12 @@ class PackageTest extends TestCase
             "email_verified_at" => now(),
             "password" => Hash::make("password")
         ]);
-        $phone = UserPhone::create([
+        UserPhone::create([
             "user_id" => $user->id,
             "number" => rand(123456789, 999999999),
             "country_code" => rand(1, 999)
         ]);
-        $admin = Admin::create([
+        Admin::create([
             "user_id" => $user->id
         ]);
         $this->actingAs($user);

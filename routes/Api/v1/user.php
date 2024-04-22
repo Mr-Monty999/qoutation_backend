@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\PackageController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\User\BuyerController;
 use App\Http\Controllers\Api\User\NotificationController;
@@ -148,6 +149,10 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         /// Subscribe In Pakcge
         Route::post("supplier/packages/subscribe", [SubscriptionController::class, "subscribe"])
+            ->middleware("only-supplier");
+
+        /// list packages
+        Route::get("packages", [PackageController::class, "index"])
             ->middleware("only-supplier");
     });
 });
