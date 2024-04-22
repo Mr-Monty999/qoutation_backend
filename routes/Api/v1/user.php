@@ -49,7 +49,11 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         Route::put("quotations/{quotation}/replies/{reply}/unaccept", [QuotationReplyController::class, "unAccept"]);
 
         Route::get("quotations/{quotation}/products/{quotationProduct}", [QuotationProductController::class, "show"]);
-        Route::get("quotations/{quotation}/replies/invoices/{invoice}", [QuotationReplyController::class, "showInvoice"]);
+
+        Route::get(
+            "quotations/{quotation}/replies/invoices/{invoice}",
+            [QuotationReplyController::class, "showInvoice"]
+        );
 
 
 
@@ -65,9 +69,14 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
         ///// wallets /////
         Route::post("wallet-recharge", [WalletController::class, "recharge"])->middleware("throttle:3,1");
-        Route::post("wallet-recharge/success/{uuid}", [WalletController::class, "rechargeSuccess"])->name("user.wallet.recharge.success")->middleware("throttle:3,1");
-        Route::post("wallet-recharge/cancelled/{uuid}", [WalletController::class, "rechargeCancelled"])->name("user.wallet.recharge.cancelled")->middleware("throttle:3,1");
-        Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
+        Route::post("wallet-recharge/success/{uuid}", [WalletController::class, "rechargeSuccess"])
+            ->name("user.wallet.recharge.success")->middleware("throttle:3,1");
+
+        Route::post("wallet-recharge/cancelled/{uuid}", [WalletController::class, "rechargeCancelled"])
+            ->name("user.wallet.recharge.cancelled")->middleware("throttle:3,1");
+
+        Route::post("wallet-recharge/declined/{uuid}", [WalletController::class, "rechargeDeclined"])
+            ->name("user.wallet.recharge.declined")->middleware("throttle:3,1");
 
 
         ///// notifications /////
@@ -113,11 +122,20 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
         /////////////// service replies /////////////
         Route::put("services/{service}/status", [ServiceController::class, "updateStatus"])->middleware("only-buyer");
 
-        Route::post("services/{service}/replies", [ServiceReplyController::class, "store"])->middleware("only-supplier");
-        Route::get("services/{service}/replies/{reply}", [ServiceReplyController::class, "show"])->middleware("only-supplier");
-        Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"])->middleware("only-supplier");
-        Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"])->middleware("only-buyer");
-        Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"])->middleware("only-buyer");
+        Route::post("services/{service}/replies", [ServiceReplyController::class, "store"])
+            ->middleware("only-supplier");
+
+        Route::get("services/{service}/replies/{reply}", [ServiceReplyController::class, "show"])
+            ->middleware("only-supplier");
+
+        Route::put("services/{service}/replies/{reply}", [ServiceReplyController::class, "update"])
+            ->middleware("only-supplier");
+
+        Route::put("services/{service}/replies/{reply}/accept", [ServiceReplyController::class, "accept"])
+            ->middleware("only-buyer");
+
+        Route::put("services/{service}/replies/{reply}/unaccept", [ServiceReplyController::class, "unAccept"])
+            ->middleware("only-buyer");
 
 
         //// get supplier services ////
@@ -129,6 +147,7 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
 
         /// Subscribe In Pakcge
-        Route::post("supplier/packages/subscribe", [SubscriptionController::class, "subscribe"]);
+        Route::post("supplier/packages/subscribe", [SubscriptionController::class, "subscribe"])
+            ->middleware("only-supplier");
     });
 });

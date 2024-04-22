@@ -5,6 +5,7 @@ namespace Tests\Feature\User;
 use App\Models\Package;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,7 @@ class SubscriptionTest extends TestCase
      *
      * @return void
      */
-    public function test_supplier_can_subscribe_in_a_package()
+    public function test_user_can_subscribe_in_a_package()
     {
 
         $user = User::create([
@@ -29,7 +30,12 @@ class SubscriptionTest extends TestCase
             "password" => Hash::make("password"),
         ]);
 
-        $supplier = Supplier::create([
+        Wallet::create([
+            "user_id" => $user->id,
+            "balance" => 123456789
+        ]);
+
+        Supplier::create([
             "user_id" => $user->id,
             "commercial_record_number" => $this->faker->numberBetween(12344, 1234567),
             "accepted_at" => now()
@@ -49,5 +55,11 @@ class SubscriptionTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+
+        $response = $this->post('/api/v1/user/supplier/packages/subscribe', [
+            "package_id" => $package->id
+        ]);
+
+        $response->assertStatus(403);
     }
 }

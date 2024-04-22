@@ -66,7 +66,12 @@ return [
     "accept_service_reply_message" => ":name accept your reply",
     "service_complete" => ":name updated his service request status to complete",
     "package deleted successfully" => "package deleted successfully",
-    "days number" => "days number"
+    "days number" => "days number",
+    "not_enough_credit" => "you dont have enough credit in your wallets,
+    please recharge your wallet",
+    "subscribed successfully" => "subscribed successfully",
+    "only supplier can do this action" => "only supplier can do this action",
+    "You are already subscribed to a package" => "You are already subscribed to a package"
 
 
 

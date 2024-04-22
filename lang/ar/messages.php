@@ -66,7 +66,12 @@ return [
     "accept_service_reply_message" => ":name قبل ردك",
     "service_complete" => ":name قام بتحديث حالة خدمته الى معتمد",
     "package deleted successfully" => "تم حذف الباقة بنجاح",
-    "days number" => "عدد الأيام"
+    "days number" => "عدد الأيام",
+    "not_enough_credit" => "ليس لديك رصيد كافي في محفظتك الرجاء إعادة شحن محفظتك",
+    "subscribed successfully" => "تم الإشتراك بنجاح",
+    "only supplier can do this action" => "فقط المورد يستطيع القيام بهذه العملية",
+    "You are already subscribed to a package" => "أنت مشترك في باقة مسبقا"
+
 
 
 

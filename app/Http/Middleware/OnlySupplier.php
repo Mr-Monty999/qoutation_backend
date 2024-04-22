@@ -17,8 +17,11 @@ class OnlySupplier
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if (!$user->supplier)
-            return response()->json([], 403);
+        if (!$user->supplier) {
+            return response()->json([
+                "message" => trans("messages.only supplier can do this action")
+            ], 403);
+        }
 
         return $next($request);
     }

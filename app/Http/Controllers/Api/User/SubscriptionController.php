@@ -17,19 +17,37 @@ class SubscriptionController extends Controller
         ]);
 
         $user = auth()->user();
+        $userWallet = $user->wallet;
         $package = Package::findOrFail($data["package_id"]);
 
-        $subscription = Subscription::create([
+        if (!$userWallet || $userWallet->balance < $package->price) {
+            return response()->json([
+                "message" => trans("messages.not_enough_credit")
+            ], 403);
+        }
+
+        $latestSubscription = Subscription::where("user_id", $user->id);
+
+        if ($latestSubscription->exists() && $latestSubscription->latest()->first()->expired_at > now()) {
+            return response()->json([
+                "message" => trans("messages.You are already subscribed to a package")
+            ], 403);
+        }
+
+        Subscription::create([
             "user_id" => $user->id,
             "package_id" => $package->id,
             "expired_at" => now()->addDays($package->days)
         ]);
 
+        $userWallet->balance -= $package->price;
+        $userWallet->save();
+
 
 
         return response()->json([
             "data" => [
-                "message" => "subscribed successfully"
+                "message" => trans("messages.subscribed successfully")
             ]
         ]);
     }
