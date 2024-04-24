@@ -273,11 +273,6 @@ class QuotationReplyController extends Controller
         if ($quotation->status != "active")
             return response()->json([], 403);
 
-        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-            return response()->json([
-                "message" => trans("messages.you dont have enough money in your wallet !")
-            ], 403);
-
         DB::beginTransaction();
         try {
 
