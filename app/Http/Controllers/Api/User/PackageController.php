@@ -18,6 +18,8 @@ class PackageController extends Controller
             $perPage = $request->perPage;
         }
 
+        $packages->orderBy("price");
+
         if ($request->has("paginated") && $request->paginated == "true") {
             $packages = $packages->paginate($perPage);
         } else {
