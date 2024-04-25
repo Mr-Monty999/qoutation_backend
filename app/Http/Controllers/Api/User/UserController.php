@@ -18,7 +18,7 @@ class UserController extends Controller
     public function getAuthUser()
     {
         $user = Auth::user();
-        $user->load(["supplier", "buyer", "admin", "wallet", "country", "city", "neighbourhood", "activities", "phone","currentSubscription"])
+        $user->load(["supplier", "buyer", "admin", "wallet", "country", "city", "neighbourhood", "activities", "phone","currentSubscription.package"])
             ->loadCount(
                 "notifications",
                 "unreadNotifications"

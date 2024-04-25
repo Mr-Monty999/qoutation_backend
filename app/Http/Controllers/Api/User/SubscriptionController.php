@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\Subscription;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
@@ -34,7 +35,7 @@ class SubscriptionController extends Controller
             ], 403);
         }
 
-        Subscription::create([
+        $subscription = Subscription::create([
             "user_id" => $user->id,
             "package_id" => $package->id,
             "expired_at" => now()->addDays($package->days)
@@ -43,6 +44,15 @@ class SubscriptionController extends Controller
         $userWallet->balance -= $package->price;
         $userWallet->save();
 
+
+        Transaction::create([
+            "user_id" => $user->id,
+            "type" => "package_subscription",
+            "data" => [
+                "package_id" => $package->id,
+                "subscription_id" => $subscription->id
+            ]
+        ]);
 
 
         return response()->json([
