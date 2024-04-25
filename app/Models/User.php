@@ -47,9 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function subscription()
+    public function currentSubscription()
     {
-        return $this->hasOne(Subscription::class, "user_id");
+        return $this->hasOne(Subscription::class, "user_id")
+        ->where("expired_at", ">", now())
+        ->latest();
     }
 
     public function supplier()

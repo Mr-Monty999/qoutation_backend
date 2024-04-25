@@ -133,10 +133,13 @@ class ServiceReplyController extends Controller
         if ($service->status != "active")
             return response()->json([], 403);
 
-        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+        $userCurrentSubscription = $user->currentSubscription;
+
+        if ((!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE")) && (!$userCurrentSubscription)) {
             return response()->json([
                 "message" => trans("messages.you dont have enough money in your wallet !")
             ], 403);
+        }
 
         DB::beginTransaction();
         try {
@@ -149,8 +152,10 @@ class ServiceReplyController extends Controller
                 "user_id" => $user->id
             ], $data);
 
-            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
-            $userWallet->save();
+            if (!$userCurrentSubscription) {
+                $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+                $userWallet->save();
+            }
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
@@ -224,11 +229,6 @@ class ServiceReplyController extends Controller
 
         if ($service->status != "active" || $reply->accepted_by != null)
             return response()->json([], 403);
-
-        // if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
-        //     return response()->json([
-        //         "message" => trans("messages.you dont have enough money in your wallet !")
-        //     ], 403);
 
         DB::beginTransaction();
         try {

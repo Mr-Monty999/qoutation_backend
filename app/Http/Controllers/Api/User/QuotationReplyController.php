@@ -145,10 +145,13 @@ class QuotationReplyController extends Controller
         if ($quotation->status != "active")
             return response()->json([], 403);
 
-        if (!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE"))
+        $userCurrentSubscription = $user->currentSubscription;
+
+        if ((!$userWallet || $userWallet->balance < env("SUPPLIER_QUOTATION_PRICE")) && (!$userCurrentSubscription)) {
             return response()->json([
                 "message" => trans("messages.you dont have enough money in your wallet !")
             ], 403);
+        }
 
         DB::beginTransaction();
         try {
@@ -193,9 +196,10 @@ class QuotationReplyController extends Controller
                 }
             }
 
-
-            $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
-            $userWallet->save();
+            if (!$userCurrentSubscription) {
+                $userWallet->balance -= env('SUPPLIER_QUOTATION_PRICE');
+                $userWallet->save();
+            }
 
             $transaction = Transaction::create([
                 "user_id" => $user->id,
