@@ -50,7 +50,8 @@ class SubscriptionController extends Controller
             "type" => "package_subscription",
             "data" => [
                 "package_id" => $package->id,
-                "subscription_id" => $subscription->id
+                "subscription_id" => $subscription->id,
+                "amount"=>$package->price
             ]
         ]);
 
