@@ -37,6 +37,15 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
 
     Route::group(["middleware" => ["verified", "only-accepted-supplier"]], function () {
 
+        //// get user sent quotations ////
+
+        Route::get("/quotations/sent-requests", [QuotationController::class, "userSentQuotationRequests"]);
+
+
+        //// get user sent quotation replies ////
+        Route::get("/quotations/sent-replies", [QuotationController::class, "userSentQuotationReplies"]);
+
+
         /////////////// quotations /////////////
         Route::apiResource("quotations", QuotationController::class, [
             "as" => "user"
@@ -55,16 +64,6 @@ Route::group(["prefix" => "v1/user", "middleware" => ["auth:sanctum"]], function
             "quotations/{quotation}/replies/invoices/{invoice}",
             [QuotationReplyController::class, "showInvoice"]
         );
-
-
-
-        //// get supplier quotations ////
-
-        Route::get("/supplier/quotations", [QuotationController::class, "supplierQuotations"]);
-
-
-        //// get buyer quotations ////
-        Route::get("/buyer/quotations", [QuotationController::class, "buyerQuotations"]);
 
 
 

@@ -26,6 +26,8 @@ class QuotationController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+
         $quotations = Quotation::with(
             "user.supplier",
             "user.buyer",
@@ -35,8 +37,16 @@ class QuotationController extends Controller
             "userReplyInvoice",
             "neighbourhood"
         )
-            ->where("status", "active")
-            ->latest()->paginate(10);
+            ->where("status", "active");
+
+        if ($user->supplier) {
+            $userActivities = $user->activities->pluck("id");
+            $quotations->whereHas("activities", function ($q) use ($userActivities) {
+                $q->whereIn("activity_id", $userActivities);
+            });
+        }
+
+        $quotations =  $quotations->latest()->paginate(10);
 
         return response()->json($quotations);
     }
@@ -68,7 +78,7 @@ class QuotationController extends Controller
             "data" => $quotation
         ]);
     }
-    public function buyerQuotations()
+    public function userSentQuotationRequests()
     {
         $user = Auth::user();
         $quotations = $user->quotations()
@@ -86,12 +96,12 @@ class QuotationController extends Controller
         return response()->json($quotations);
     }
 
-    public function supplierQuotations(Request $request)
+    public function userSentQuotationReplies(Request $request)
     {
         $user = Auth::user();
-        $userActivities = $user->activities->pluck("id");
         $quotations = Quotation::with([
-            "user.supplier", "user.buyer",
+            "user.supplier",
+            "user.buyer",
             "activities",
             "city",
             "country",
@@ -100,17 +110,10 @@ class QuotationController extends Controller
         ]);
 
 
+        $quotations->whereHas("replies", function ($q) use ($user) {
+            $q->where("user_id", $user->id);
+        });
 
-        if ($request->type == "sent") {
-            $quotations->whereHas("replies", function ($q) use ($user) {
-                $q->where("user_id", $user->id);
-            });
-        } else {
-            $quotations->whereHas("activities", function ($q) use ($userActivities) {
-                $q->whereIn("activity_id", $userActivities);
-            });
-            $quotations->where("status", "active");
-        }
 
 
         $quotations = $quotations->latest()->paginate(10);
@@ -138,8 +141,8 @@ class QuotationController extends Controller
 
         $user = auth()->user();
 
-        if (!$user->buyer)
-            return response()->json([], 403);
+        // if (!$user->buyer)
+        //     return response()->json([], 403);
 
         DB::beginTransaction();
         try {
@@ -237,7 +240,7 @@ class QuotationController extends Controller
 
         $user = auth()->user();
 
-        if (!$user->buyer || $quotation->user_id != $user->id)
+        if ($quotation->user_id != $user->id)
             return response()->json([], 403);
 
         if ($quotation->status != "active")

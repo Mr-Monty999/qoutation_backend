@@ -28,7 +28,7 @@ class QuotationReplyController extends Controller
     {
         $user = auth()->user();
 
-        if ($quotation->user_id != $user->id || !$user->buyer)
+        if ($quotation->user_id != $user->id)
             return response()->json([], 403);
 
         if ($quotation->id != $reply->quotation_id)
@@ -59,7 +59,7 @@ class QuotationReplyController extends Controller
         if ($reply->accepted_by != null)
             return response()->json([], 403);
 
-        if ($quotation->user_id != $user->id || !$user->buyer)
+        if ($quotation->user_id != $user->id)
             return response()->json([], 403);
 
         if ($quotation->id != $reply->quotation_id)

@@ -172,7 +172,7 @@ class QuotationTest extends TestCase
     }
 
 
-    public function test_buyer_can_get_his_own_quotations()
+    public function test_user_can_get_his_own_quotation_requests()
     {
 
 
@@ -187,7 +187,7 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/buyer/quotations');
+        $response = $this->get('/api/v1/user/quotations/sent-requests');
 
         $response->assertStatus(200);
     }
@@ -256,7 +256,7 @@ class QuotationTest extends TestCase
         $response->assertStatus(204);
     }
 
-    public function test_supplier_get_quotations()
+    public function test_user_can_get_sent_quotations_replies()
     {
 
 
@@ -280,7 +280,7 @@ class QuotationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/api/v1/user/supplier/quotations');
+        $response = $this->get('/api/v1/user/quotations/sent-replies');
 
         $response->assertStatus(200);
     }
