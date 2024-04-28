@@ -130,8 +130,9 @@ class QuotationReplyController extends Controller
             }
         }
 
-        if ($isAllNull)
+        if ($isAllNull){
             return response()->json(["message" => trans("messages.please price at least one product") . "!"], 403);
+        }
 
         $user = auth()->user();
         $userWallet = $user->wallet;
@@ -139,11 +140,17 @@ class QuotationReplyController extends Controller
         $quotation = Quotation::findOrFail($quotationId);
 
 
-        if (!$user->supplier)
+        if (!$user->supplier){
             return response()->json([], 403);
+        }
 
-        if ($quotation->status != "active")
+        if ($quotation->user_id == $user->id){
             return response()->json([], 403);
+        }
+
+        if ($quotation->status != "active"){
+            return response()->json([], 403);
+        }
 
         $userCurrentSubscription = $user->currentSubscription;
 
